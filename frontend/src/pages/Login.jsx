@@ -1,41 +1,116 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import React, { useEffect, useRef, useState } from 'react';
+// import React from 'react';
+import axios from 'axios';
+import { useFormik } from 'formik';
+
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import { Button, Form } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/index.jsx';
+import routes from '../utils/routes';
+
 
 const Login = () => {
+    const auth = useAuth();
+    const [authFailed, setAuthFailed] = useState(false);
+    const inputRef = useRef();
+    const location = useLocation();
+    const navigate = useNavigate();
+    useEffect(() => {
+      inputRef.current.focus();
+    }, []);
+  
+    const formik = useFormik({
+      initialValues: {
+        username: '',
+        password: '',
+      },
+      onSubmit: async (values) => {
+        setAuthFailed(false);
+  
+        try {
+          const res = await axios.post(routes.loginPath(), values);
+          localStorage.setItem('userId', JSON.stringify(res.data));
+          auth.logIn();
+          const { from } = location.state;
+          navigate(from);
+        } catch (err) {
+          formik.setSubmitting(false);
+          if (err.isAxiosError && err.response.status === 401) {
+            setAuthFailed(true);
+            inputRef.current.select();
+            return;
+          }
+          throw err;
+        }
+      },
+    });
+
 
     return (
-        <Container>
-        <Row className="justify-content-center">
-        <Col xs="12" md="8" xxl="6">
-        <Card className="shadow-sm">
-        <Formik
-        initialValues={{ nickname: "", password: "" }}
-        onSubmit={({ setSubmitting }) => {
-            console.log("Form is validated! Submitting the form...");
-            setSubmitting(false);
-        }}
-    >
-        <Form>
-            <div className="form-group">
-                <label htmlFor="nickname">Ваш ник</label>
-                <Field type="text" name="nickname" className="form-control" />
+        <div className="container-fluid h-100">
+          <div className="row justify-content-center align-content-center h-100">
+            <div className="col-12 col-md-8 col-xxl-6">
+                <Card className="shadow-sm">
+                    <div className="card-body row p-5">
+                        <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                            <div>Image</div>
+                        </div>
+                        <Form onSubmit={formik.handleSubmit}>
+                    <Form.Group>
+                        <Form.Label htmlFor="nickname">Ваш ник</Form.Label>
+                        <Form.Control
+                        onChange={formik.handleChange}
+                        value={formik.values.username}
+                        placeholder="username"
+                        name="username"
+                        id="username"
+                        autoComplete="username"
+                        isInvalid={authFailed}
+                        required
+                        ref={inputRef}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="password">Пароль</Form.Label>
+                        <Form.Control
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        placeholder="password"
+                        name="password"
+                        id="password"
+                        autoComplete="current-password"
+                        isInvalid={authFailed}
+                        required
+                        />
+                    <Form.Control.Feedback type="invalid">the username or password is incorrect</Form.Control.Feedback>
+                    </Form.Group>
+                    <Button type="submit" variant="outline-primary" >Войти</Button>
+                </Form>
+                    </div>
+
+                    <div className="card-footer p-4">
+                            <div className="text-center">
+                                <span>Нет аккаунта?</span>
+                                <a href="/">Регистрация</a>
+                            </div>
+                    </div>
+
+
+                </Card>
             </div>
-            <div className="form-group">
-                <label htmlFor="password">Пароль</label>
-                <Field type="password" name="password" className="form-control" />
-            </div>
-            <button>Войти</button>
-        </Form>
-    </Formik>
-    </Card>
-    </Col>
-    </Row>
-    </Container>
+          </div>
+        </div>
     )
   };
   
   export default Login;
+
+//   <Formik
+//   onSubmit={({ setSubmitting }) => {
+//       console.log("Form is validated! Submitting the form...");
+    //   setSubmitting(false);
+//   }}
