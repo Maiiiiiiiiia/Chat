@@ -12,9 +12,9 @@ import {
   Routes, 
   Link, 
   Navigate,
-  // useLocation,
 } from 'react-router-dom';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, Button } from 'react-bootstrap';
+
 import { ROUTES } from './utils/router';
 
 import Login from './pages/Login';
@@ -41,9 +41,19 @@ const AuthProvider = ({ children }) => {
 /* eslint-disable react/prop-types */
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();
-  // const location = useLocation();
 
   return auth.loggedIn ? <Route element={element} /> : <Navigate to="/login" />;
+};
+
+// кнопка выйти должна показываться только для авторизованных
+const AuthButton = () => {
+  const auth = useAuth();
+
+  return (
+    auth.loggedIn
+      ? <Button onClick={auth.logOut}>Выйти</Button>
+      :  null
+  );
 };
 
 // const AuthButton = () => {
@@ -52,7 +62,7 @@ const PrivateRoute = ({ element }) => {
 
 //   return (
 //     auth.loggedIn
-//       ? <Button onClick={auth.logOut}>Log out</Button>
+//       ? <Button onClick={auth.logOut}>Выйти</Button>
 //       : <Button as={Link} to="/login" state={{ from: location }}>Log in</Button>
 //   );
 // };
@@ -68,7 +78,8 @@ const App = () => {
             <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
               <div className="container">
                 <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-                <button type="button" className="btn btn-primary">Выйти</button>
+                {/* <button type="button" className="btn btn-primary">Выйти</button> */}
+              <AuthButton />
               </div>
             </nav>
             <Routes>
