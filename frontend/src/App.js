@@ -21,6 +21,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 
+/* eslint-disable react/prop-types */
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -37,15 +38,12 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+/* eslint-disable react/prop-types */
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();
   // const location = useLocation();
 
-  return (
-    <Route
-    element={auth.loggedIn ? element : <Navigate to="/login" />}
-    />
-  );
+  return auth.loggedIn ? <Route element={element} /> : <Navigate to="/login" />;
 };
 
 // const AuthButton = () => {
@@ -76,7 +74,9 @@ const App = () => {
             <Routes>
               <Route path="*"  element={<NotFound />} />
               <Route path={ROUTES.login} element={<Login />} />
-              <PrivateRoute path={ROUTES.home} element={<Home />} />
+              <Route element={<PrivateRoute element={<Home />} />} />
+
+
             </Routes>
           </div>
         </div>
