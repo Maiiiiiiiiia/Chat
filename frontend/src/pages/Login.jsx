@@ -3,26 +3,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
-
 // import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { Button, Form } from 'react-bootstrap';
 import { 
     // useLocation, 
-    useNavigate 
+    useNavigate,
 } from 'react-router-dom';
 import useAuth from '../hooks/index.jsx';
 import routes from '../utils/routes';
-import setUserData from '../slices/authSlice';
-
-// const axiosConfig = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Accept: 'application/json',
-//     },
-//   };
+import { setUserData } from '../slices/authSlice';
 
 const Login = () => {
     const auth = useAuth();
@@ -50,8 +40,7 @@ const Login = () => {
           localStorage.setItem('token', res.data.token);
           auth.logIn();
           dispatch(setUserData({ token: res.data.token, username: values.username }));
-          navigate('/SignUp');
-
+          navigate('/Home');
         } catch (err) {
             console.log(err);
           formik.setSubmitting(false);
