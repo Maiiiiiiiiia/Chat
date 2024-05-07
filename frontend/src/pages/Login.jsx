@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 // import React from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // import Container from 'react-bootstrap/Container';
 // import Row from 'react-bootstrap/Row';
@@ -15,7 +15,7 @@ import {
 } from 'react-router-dom';
 import useAuth from '../hooks/index.jsx';
 import routes from '../utils/routes';
-// import setUserData from '../slices/authSlice';
+import setUserData from '../slices/authSlice';
 
 // const axiosConfig = {
 //     headers: {
@@ -30,7 +30,7 @@ const Login = () => {
     const inputRef = useRef();
     // const location = useLocation();
     const navigate = useNavigate();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
       inputRef.current.focus();
@@ -48,11 +48,9 @@ const Login = () => {
           console.log('its work');
           const res = await axios.post(routes.loginPath(), values);
           localStorage.setItem('token', res.data.token);
-        //   dispatch(setUserData({ values, token: res.data.token }));
-        //   auth.logIn();
-        //   const { from } = location.state;
-        //   navigate(from);
-        navigate('/SignUp');
+          auth.logIn();
+          dispatch(setUserData({ token: res.data.token, username: values.username }));
+          navigate('/SignUp');
 
         } catch (err) {
             console.log(err);

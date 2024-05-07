@@ -1,6 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Provider } from 'react-redux';
+import store from './slices';
 // import useAuth from './hooks/index.jsx';
+// import AuthContext from '../contexts/index.jsx';
 
 // import './App.css';
 import { 
@@ -11,7 +14,6 @@ import {
   // Navigate,
   // useLocation,
 } from 'react-router-dom';
-// import { ToastContainer as Toaster } from 'react-toastify';
 import { Navbar } from 'react-bootstrap';
 import { ROUTES } from './utils/router';
 
@@ -25,7 +27,7 @@ import SignUp from './pages/SignUp'
 
 //   const logIn = () => setLoggedIn(true);
 //   const logOut = () => {
-//     localStorage.removeItem('userId');
+//     localStorage.removeItem('token');
 //     setLoggedIn(false);
 //   };
 
@@ -36,7 +38,7 @@ import SignUp from './pages/SignUp'
 //   );
 // };
 
-// const SignUpRoute = ({ children }) => {
+// const PrivateRoute = ({ children }) => {
 //   const auth = useAuth();
 //   const location = useLocation();
 
@@ -45,8 +47,20 @@ import SignUp from './pages/SignUp'
 //   );
 // };
 
+// const AuthButton = () => {
+//   const auth = useAuth();
+//   const location = useLocation();
+
+//   return (
+//     auth.loggedIn
+//       ? <Button onClick={auth.logOut}>Log out</Button>
+//       : <Button as={Link} to="/login" state={{ from: location }}>Log in</Button>
+//   );
+// };
+
 const App = () => {
   return (
+    <Provider store={store}>
     <BrowserRouter>
       <div className="h-100">
         <div className="h-100" id="chat">
@@ -68,16 +82,17 @@ const App = () => {
         </div>
       </div>
     </BrowserRouter>
+    </Provider>
   )
 }
 
 export default App;
 
-{/* <Route
-path="/login"
-element={(
-  <SignUpRoute>
-    {<SignUp />} 
-  </SignUpRoute>
-)}
-/> */}
+  {/* <Route
+    path="/login"
+    element={(
+      <PrivateRoute>
+        {<SignUp />} 
+      </PrivateRoute>
+    )}
+    /> */}
