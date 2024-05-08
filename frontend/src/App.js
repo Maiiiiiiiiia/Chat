@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
-import store from './slices';
+import store from './slices/store';
 import useAuth from './hooks/index.jsx';
 import AuthContext from './contexts/index.jsx';
 

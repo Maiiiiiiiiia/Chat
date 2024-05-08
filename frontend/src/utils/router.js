@@ -7,7 +7,7 @@ export const ROUTES = {
 
 export const API_ROUTES = {
     login: '/login',
-    signup: '/signup',
+    home: '/home',
     channels: '/data',
     base: '/api/v1',
 };
