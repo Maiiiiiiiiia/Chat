@@ -41,6 +41,7 @@ const Login = () => {
           auth.logIn();
           dispatch(setUserData({ token: res.data.token, username: values.username }));
           navigate('/Home');
+          console.log('its work Home');
         } catch (err) {
             console.log(err);
           formik.setSubmitting(false);
@@ -110,9 +111,3 @@ const Login = () => {
   };
   
   export default Login;
-
-//   <Formik
-//   onSubmit={({ setSubmitting }) => {
-//       console.log("Form is validated! Submitting the form...");
-    //   setSubmitting(false);
-//   }}

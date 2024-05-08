@@ -12,6 +12,7 @@ import {
   Routes, 
   Link, 
   Navigate,
+  useNavigate,
 } from 'react-router-dom';
 import { Navbar, Button } from 'react-bootstrap';
 
@@ -29,6 +30,7 @@ const AuthProvider = ({ children }) => {
   const logOut = () => {
     localStorage.removeItem('token');
     setLoggedIn(false);
+    console.log('log out')
   };
 
   return (
@@ -48,24 +50,19 @@ const PrivateRoute = ({ element }) => {
 // кнопка выйти должна показываться только для авторизованных
 const AuthButton = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    auth.logOut();
+    navigate('/login');
+  };
 
   return (
     auth.loggedIn
-      ? <Button onClick={auth.logOut}>Выйти</Button>
+      ? <Button onClick={handleLogout}>Выйти</Button>
       :  null
   );
 };
-
-// const AuthButton = () => {
-//   const auth = useAuth();
-//   const location = useLocation();
-
-//   return (
-//     auth.loggedIn
-//       ? <Button onClick={auth.logOut}>Выйти</Button>
-//       : <Button as={Link} to="/login" state={{ from: location }}>Log in</Button>
-//   );
-// };
 
 const App = () => {
   return (
@@ -78,16 +75,14 @@ const App = () => {
             <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
               <div className="container">
                 <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-                {/* <button type="button" className="btn btn-primary">Выйти</button> */}
               <AuthButton />
               </div>
             </nav>
             <Routes>
-              <Route path="*"  element={<NotFound />} />
+              <Route path="*"  element={<Home />} />
+              <Route path={ROUTES.notfound}  element={<NotFound />} />
               <Route path={ROUTES.login} element={<Login />} />
               <Route element={<PrivateRoute element={<Home />} />} />
-
-
             </Routes>
           </div>
         </div>
