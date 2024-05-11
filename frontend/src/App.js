@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, 
+{ 
+  // useState, useMemo, useCallback, 
+} 
+from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Provider } from 'react-redux';
-import store from './slices/store';
+// import { useNavigate } from 'react-router-dom';
 import useAuth from './hooks/index.jsx';
-import AuthContext from './contexts/index.jsx';
-
 // import './App.css';
 import { 
   BrowserRouter,
@@ -12,63 +13,30 @@ import {
   Routes, 
   Link, 
   Navigate,
-  useNavigate,
 } from 'react-router-dom';
-import { Navbar, Button } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 
 import { ROUTES } from './utils/router';
-
-import Login from './pages/Login';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-
-/* eslint-disable react/prop-types */
-const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const logIn = () => setLoggedIn(true);
-  const logOut = () => {
-    localStorage.removeItem('token');
-    setLoggedIn(false);
-    console.log('log out')
-  };
-
-  return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+import Login from './components/pages/Login'
+import Home from './components/pages/Home';
+import NotFound from './components/pages/NotFound';
+import Signup from './components/pages/Signup';
+// import routes from './utils/routes'
+import AuthProvider from './components/AuthProvider';
+import AuthButton from './components/AuthButton';
+// import AuthContext from './contexts/index.jsx'
 
 /* eslint-disable react/prop-types */
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();
-
   return auth.loggedIn ? <Route element={element} /> : <Navigate to="/login" />;
-};
-
-// кнопка выйти должна показываться только для авторизованных
-const AuthButton = () => {
-  const auth = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    auth.logOut();
-    navigate('/login');
-  };
-
-  return (
-    auth.loggedIn
-      ? <Button onClick={handleLogout}>Выйти</Button>
-      :  null
-  );
 };
 
 const App = () => {
   return (
-    <AuthProvider>
-    <Provider store={store}>
     <BrowserRouter>
+
+    <AuthProvider>
       <div className="h-100">
         <div className="h-100" id="chat">
           <div className="d-flex flex-column h-100">
@@ -79,17 +47,25 @@ const App = () => {
               </div>
             </nav>
             <Routes>
-              <Route path="*"  element={<Home />} />
+              <Route path="*" element={<Home />} />
+              <Route path={ROUTES.signup} element={<Signup />} />
               <Route path={ROUTES.notfound}  element={<NotFound />} />
               <Route path={ROUTES.login} element={<Login />} />
-              <Route element={<PrivateRoute element={<Home />} />} />
+              {/* <Route element={<PrivateRoute element={<Home />} />} /> */}
+              <Route path="/login" element={(
+                <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+              )}/>
             </Routes>
+
+
           </div>
         </div>
       </div>
-    </BrowserRouter>
-    </Provider>
     </AuthProvider>
+        </BrowserRouter>
+
   )
 }
 

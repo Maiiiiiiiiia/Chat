@@ -9,3 +9,28 @@
 //         failbackLng: 'ru',
 //     });
 // };
+import { io } from 'socket.io-client';
+
+const init = async () => {
+    const socket = io();
+
+      // locals
+//   const i18n = i18next
+//   .createInstance();
+// await i18n
+//   .use(initReactI18next)
+//   .use(LanguageDetector)
+//   .init({
+//     resources,
+//     fallBackLng: 'ru',
+//     interpolation: {
+//       escapeValue: false,
+//     },
+//   });
+
+    return {
+        socket,
+    };
+};
+
+export default init;

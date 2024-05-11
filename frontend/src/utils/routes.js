@@ -1,11 +1,12 @@
 const apiPath = '/api/v1';
 
-// http://localhost:3000/api/v1/login 
-
 export default {
   loginPath: () => [apiPath, 'login'].join('/'),
-  channels: () => [apiPath, 'channels'].join('/'),
-  messages: () => [apiPath, 'messages'].join('/'),
+  loginPathWithoutToken: () => ['login'].join('/'),
+  homePagePath: () => [apiPath, 'home'].join('/'),
+  channelsPath: () => [apiPath, 'channels'].join('/'),
+  messagesPath: () => [apiPath, 'messages'].join('/'),
 
+  signup: () => [apiPath, 'signup'].join('/'),
   usersPath: () => [apiPath, 'data'].join('/'),
 };

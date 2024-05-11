@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
-// import React from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
-// import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import { Button, Form } from 'react-bootstrap';
 import { 
     // useLocation, 
+    Link,
     useNavigate,
 } from 'react-router-dom';
-import useAuth from '../hooks/index.jsx';
-import routes from '../utils/routes';
-import { setUserData } from '../slices/authSlice';
+// import useAuth from '../hooks/index.jsx';
+import useAuth from '../../hooks/index';
+import routes from '../../utils/routes';
+import { setUserData } from '../../slices/authSlice';
+import { ROUTES } from '../../utils/router';
 
 const Login = () => {
     const auth = useAuth();
@@ -33,17 +34,20 @@ const Login = () => {
       },
       onSubmit: async (values) => {
         setAuthFailed(false);
-  
+        console.log(authFailed, 'authFailed');
         try {
           console.log('its work');
           const res = await axios.post(routes.loginPath(), values);
-          localStorage.setItem('token', res.data.token);
-          auth.logIn();
+          // console.log(res, 'res');
+          // console.log(res.data, 'res.data');
+          localStorage.setItem('userId', JSON.stringify(res.data));
+          auth.logIn(res);
+          // console.log(location, 'location');
           dispatch(setUserData({ token: res.data.token, username: values.username }));
-          navigate('/Home');
+          navigate('/');
           console.log('its work Home');
         } catch (err) {
-            console.log(err);
+          console.log(err);
           formik.setSubmitting(false);
           if (err.isAxiosError && err.response.status === 401) {
             setAuthFailed(true);
@@ -59,13 +63,11 @@ const Login = () => {
     return (
         <div className="container-fluid h-100">
           <div className="row justify-content-center align-content-center h-100">
-            <div className="col-12 col-md-8 col-xxl-6">
-                <Card className="shadow-sm">
+          <div className="col-12 col-md-8 col-xxl-6">
+
+            <Card className="shadow-sm">
                     <div className="card-body row p-5">
-                        <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                            <div>Image</div>
-                        </div>
-                        <Form onSubmit={formik.handleSubmit}>
+                        <Form onSubmit={formik.handleSubmit} className="p-3">
                             <Form.Group>
                                 <Form.Label htmlFor="nickname">Ваш ник</Form.Label>
                                 <Form.Control
@@ -83,6 +85,7 @@ const Login = () => {
                             <Form.Group>
                                 <Form.Label htmlFor="password">Пароль</Form.Label>
                                 <Form.Control
+                                type="password"
                                 onChange={formik.handleChange}
                                 value={formik.values.password}
                                 placeholder="password"
@@ -100,13 +103,15 @@ const Login = () => {
                         <div className="card-footer p-4">
                             <div className="text-center">
                                 <span>Нет аккаунта?</span>
-                                <a href="/">Регистрация</a>
+                                <Link to={ROUTES.signup}>Регистрация</Link>
+
                             </div>
                         </div>
-                </Card>
-            </div>
+              
+            </Card>
           </div>
-        </div>
+          </div>
+          </div>
     )
   };
   
