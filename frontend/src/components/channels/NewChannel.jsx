@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Plus } from 'react-bootstrap-icons';
+import { Plus } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
 
 const NewChannel = () => {
@@ -7,9 +7,10 @@ const NewChannel = () => {
     return (
         <div>
             <Button size="sm" variant="outline-primary" >
-            <span>+</span>
+            <Plus />
             </Button>
         </div>
     )
 };
+
 export default NewChannel;

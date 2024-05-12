@@ -9,17 +9,11 @@ const AuthButton = () => {
     const auth = useAuth();
     const location = useLocation();
 
-    if (!auth.token) {
-      return null;
-  }
-
     return (
-      <Button onClick={auth.logOut} state={{ from: location }} >Выйти</Button>
+      auth.token
+      ? <Button onClick={auth.logOut} state={{ from: location }} >Выйти</Button>
+      : null
     );
-    // return (
-    //   <Button onClick={auth.logOut} as={Link} to={routes.loginPathWithoutToken()} state={{ from: location }} >Выйти</Button>
-    // );
-
   };
 
   export default AuthButton;

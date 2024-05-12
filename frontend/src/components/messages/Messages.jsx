@@ -1,119 +1,134 @@
-import React, { 
-    // useEffect
- } from 'react';
-// import useAuth from '../../hooks';
-// import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
-// import { setMessages } from '../../slices/messagesSlice';
-// import routes from '../../utils/routes';
 import Col from 'react-bootstrap/esm/Col';
-// import { Formik } from 'formik';
-// import InputGroup from 'react-bootstrap/InputGroup';
-// import Form from 'react-bootstrap/Form';
-// import { Send } from 'react-bootstrap-icons';
-// import Button from 'react-bootstrap/esm/Button';
-
-
-import { 
-    // useNavigate,
-  } from 'react-router-dom';
+import { Send } from 'react-bootstrap-icons';
+import { useDispatch } from 'react-redux';
+import { setMessages } from '../../slices/messagesSlice';
+import { Button, Form } from 'react-bootstrap';
+import io from 'socket.io-client';
+// import useAuth from '../../hooks';
+// import { setMessages } from '../../slices/messagesSlice';
+import routes from '../../utils/routes';
+// import { addMessages } from '../../slices/messagesSlice';
 
   const Messages = () => {
-    const messages = useSelector((state) => state.messagesreducer) || { messages: [] };
+    const [message, setMessage] = useState('');
     // console.log(messages);
 //     const auth = useAuth();
-//     const dispatch = useDispatch();
-//     // const username = useSelector((state) => state.app.username);
-// //     const currentChannelId = useSelector((state) => state.app.currentChannelId);
-//     // const currentChannelName = useSelector((state) => state.app.currentChannelName);
-// // console.log(username);
-// // console.log(currentChannelId);
-// // console.log(currentChannelName);
-//     // const navigate = useNavigate();
-//     // let messages = []; 
-//     // const [messages, setmessagesss] = useState([]);
-//     // const currentChannelName = useSelector((state) => state.app.currentChannelName);
+    const dispatch = useDispatch();
+    const { token } = JSON.parse(localStorage.getItem('userId'));
+    // const socket = io();
+    const allChannels = useSelector((state) => state.channelsReducer.channels) || [];
+    // console.log(allChannels, 'allChannels');
+    const channelIdActive = useSelector((state) => state.channelsReducer.channelId);
+    // console.log(channelIdActive, 'channelidActive');
 
-//     const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
-//         // const data = {};
-//         const { message } = values;
-//         // const newMessage = { text: message, sender: 'user' };
-//         // setmessagesss([...messages, newMessage]);
-//         // console.log(messages);
-//         resetForm();
-//         setSubmitting(false);
-//       };
+    const [socket, setSocket] = useState(null);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //       try {
-    //         const token = localStorage.getItem('token');
-    //         const headers = {
-    //             Authorization: `Bearer ${token}`
-    //           };
+    const allMessages = useSelector((state) => state.messagesReducer.messages) || [];
+    // console.log(allMessages, 'allmessages');
 
-    //         // const messagesResponse = await axios.get(routes.messages(), { headers }); // Получение данных о сообщениях 
-    //         // const fetchedMessages = messagesResponse.data;
-    //         // const channelsResponse = await axios.get(routes.channels(), { headers }); // Получение данных о каналах ?
-    //         // const fetchedChannels = channelsResponse.data;
-    //         // console.log(fetchedChannels);
+    const inputRef = useRef();
+    useEffect(() => {
+      inputRef.current.focus();
+      inputRef.value = null;
+      const newSocket = io('ws://localhost:3000');
 
-    //         // setmessagesss(fetchedMessages);
-    //         // dispatch(setMessages(fetchedMessages));
-    //       } catch (error) {
-    //         console.error('Ошибка при получении данных:', error);
-    //       }
-    //     };
-    
-    //     fetchData();
-    //   }, [auth.loggedIn, dispatch]);
+      newSocket.on('connect', () => {
+        console.log('WebSocket соединение установлено.');
+    });
+
+    newSocket.on('message', (newMessage) => {
+      console.log('Новое сообщение получено:', newMessage);
+      // Обновление списка сообщений в Redux store
+      dispatch(setMessages(newMessage));
+  });
+  setSocket(newSocket);
+  console.log(socket);
+
+  return () => {
+    newSocket.disconnect(); // Отключение от сервера WebSocket при размонтировании компонента
+};
+    }, []);
+
+    const channelMessages = allMessages.filter((mes) => mes.channelid === channelIdActive);
+    const messagesBox = allMessages.map(({ username, id, body }) => {
+      // console.log(username);
+      return (
+        <div className="text-break mb-2" key={id}>
+          <b>{username}</b>
+          :
+          {' '}
+          {body}
+        </div>
+      );
+    });
+
+    const activeChannelId = (channelItem) => {
+      const filter = channelItem.find((channel) => channel.id === channelIdActive);
+      return filter ? filter.name : 'channels not found';
+    };
+
+    const sendMessage = async (e) => {
+        e.preventDefault();
+        // console.log(localStorage.getItem('userId'), 'localStorage.getItem(userId)');
+        const currentName = JSON.parse(localStorage.getItem('userId')).username;
+        // console.log(token, 'token');
+        // console.log(currentName, 'currentname');
+        const newMessage = { body: message, channelid: '1', username: currentName };
+        // console.log(newMessage, 'newMessage');
+        try {
+          await axios.post(routes.messagesPath(), newMessage, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const response = await axios.get(routes.messagesPath(), {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          // console.log(response.data, 'response.data in sendMessage');
+          dispatch(setMessages(response.data));
+          setMessage('');
+        } catch (error) {
+          console.error('Error sending or fetching messages:', error);
+        }
+      };
 
 return (
     <Col className='col p-0 h-100'>
         <div className='d-flex flex-column h-100'>
             <div className="bg-light mb-4 p-3 shadow-sm small">
                 <p className="mb-0">
-                    {/* <b>{`# ${currentChannelName}`}</b> */}
+                    <b> {activeChannelId(allChannels)} </b>
                 </p>
-                {/* <span className='text-muted'>
-                    кол-во сообщeний
-                </span> */}
+                <span className='text-muted'>
+                {channelMessages.length} сообщений 
+                </span>
             </div>
 
             <div id="message-box" className="chat-messages overflow-auto px-5 ">
-                {/* {messages.map((msg, index) => {
-                    <div key={index}>{msg.text}</div>
-                })} */}
-                     {messages.messages.length > 0 ? (
-                        messages.messages.data.map((message) => (
-                        <div key={message.id}>
-                            #
-                            {message.id}
-                            {' '}
-                            {message.name}
-                        </div>
-                        ))
-                    ) : (
-                        <div>
-                        No messages
-                        </div>
-                    )}
+              {messagesBox}
             </div>
             <div className="mt-auto px-5 py-3">
-                {/* <Formik initialValues={{ message: '' }} onSubmit={handleFormSubmit}> */}
-                {/* <Formik initialValues={{ message: '' }} >
+                <Form noValidate="" className="py-1 border rounded-2" onSubmit={sendMessage}>
+                    <div className="input-group has-validation">
+                    <Form.Control
+                        name="body"
+                        className="border-0 p-0 ps-2 form-control"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        ref={inputRef}
+                    />
+                    <Button type="submit" className="btn btn-group-vertical" disabled={!message} >
+                        <Send />
+                    </Button>
+                    </div>
+                </Form>
 
-                    {({ handleSubmit, handleChange, values }) => (
-                    <Form onSubmit={handleSubmit}>
-                        <InputGroup>
-                        <Form.Control value={values.message} onChange={handleChange} type="text" name="message" />
-                        <Button type="submit">
-                            <Send />
-                        </Button>
-                        </InputGroup>
-                    </Form>
-                    )}
-                </Formik> */}
+
             </div>
         </div>
     </Col>
@@ -121,17 +136,3 @@ return (
 };
 
 export default Messages;
-
-// {/* <div className='col p-0 h-100'>
-// <div className="d-flex flex-column h-100">
-//     <div className='bg-light mb-4 p-3 shadow-sm small'>
-//       <p className='m-0'><b>#название канала</b></p>
-//       <span> 0 сообщений</span>
-//     </div>
-//     <div id="message-box" className="chat-messages overflow-auto px-5 ">
-//         {messages.map(message => {
-//             message.name
-//         })}
-//     </div>
-//     <div className='mt-auto px-5 py-3'><form></form></div>
-// </div> */}

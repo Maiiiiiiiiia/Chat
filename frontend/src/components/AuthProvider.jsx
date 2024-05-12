@@ -20,9 +20,11 @@ const AuthProvider = ({ children }) => {
     
     const logOut = useCallback(() => {
       localStorage.removeItem('userInfo');
+      setToken(null);
+
       navigate(routes.loginPathWithoutToken());
       console.log('logOut')
-    }, [navigate]);
+    }, []);
   
   const context = useMemo(() => ({
     token,

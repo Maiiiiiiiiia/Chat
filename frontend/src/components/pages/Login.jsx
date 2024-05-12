@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import { Button, Form } from 'react-bootstrap';
 import { 
@@ -12,7 +12,7 @@ import {
 // import useAuth from '../hooks/index.jsx';
 import useAuth from '../../hooks/index';
 import routes from '../../utils/routes';
-import { setUserData } from '../../slices/authSlice';
+// import { setUserData } from '../../slices/authSlice';
 import { ROUTES } from '../../utils/router';
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
     const inputRef = useRef();
     // const location = useLocation();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     useEffect(() => {
       inputRef.current.focus();
@@ -36,14 +36,14 @@ const Login = () => {
         setAuthFailed(false);
         console.log(authFailed, 'authFailed');
         try {
-          console.log('its work');
+          // console.log('its work');
           const res = await axios.post(routes.loginPath(), values);
           // console.log(res, 'res');
           // console.log(res.data, 'res.data');
           localStorage.setItem('userId', JSON.stringify(res.data));
           auth.logIn(res);
           // console.log(location, 'location');
-          dispatch(setUserData({ token: res.data.token, username: values.username }));
+          // dispatch(setUserData({ token: res.data.token, username: values.username }));
           navigate('/');
           console.log('its work Home');
         } catch (err) {
