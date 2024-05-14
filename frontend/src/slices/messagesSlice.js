@@ -1,21 +1,67 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import routes from '../utils/routes';
 
-const initialState = {
-    messages: [],
+const useSetHeaders = (headers) => {
+  const token = localStorage.getItem('token');
+  headers.set('Authorization', `Bearer ${token}`);
+  return headers;
 };
 
-const messageSlice = createSlice({
-    name: 'messages',
-    initialState,
-    reducers: {
-        setMessages: (state, { payload }) => {
-            state.messages = payload;
-        },
-        addMessages: (state, { payload }) => {
-            state.messages.push(payload);
-        }
-    },
+export const messagesApi = createApi({
+  reducerPath: 'messages',
+  baseQuery: fetchBaseQuery(
+    { baseUrl: routes.messagesPath(), prepareHeaders: useSetHeaders, tagTypes: ['Messages'] }
+    ),
+  endpoints: (builder) => ({
+    getMessages: builder.query({
+      query: () => '',
+    }),
+    addMessage: builder.mutation({
+      query: (newMessage) => ({
+        method: 'POST',
+        body: newMessage,
+      }),
+      removeMessage: builder.mutation({
+        query: (id) => ({
+            method: 'DELETE',
+            url: id,
+        })
+      })
+    }),
+  }),
 });
 
-export const { setMessages, addMessages } = messageSlice.actions;
-export default messageSlice.reducer;
+export const { 
+    useGetMessagesQuery, 
+    useAddMessageMutation
+//     useRemoveMessageMutation,
+ } = messagesApi;
+
+
+
+
+
+
+// import { createSlice } from '@reduxjs/toolkit';
+
+// const initialState = {
+//     messages: [],
+// };
+
+// const messageSlice = createSlice({
+//     name: 'messages',
+//     initialState,
+//     reducers: {
+//         setMessages: (state, { payload }) => {
+//             state.messages = payload;
+//         },
+//         addMessages: (state, { payload }) => {
+//             state.messages.push(payload);
+//         }
+//     },
+// });
+
+// export const { setMessages, addMessages } = messageSlice.actions;
+// export default messageSlice.reducer;
+
+

@@ -1,6 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import { useFormik } from 'formik';
+import React, { 
+  // useEffect, 
+  // useRef, 
+  // useState 
+} from 'react';
+import { useDispatch } from 'react-redux';
+// import axios from 'axios';
+// import { useFormik } from 'formik';
 // import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import { Button, Form } from 'react-bootstrap';
@@ -10,54 +15,73 @@ import {
     useNavigate,
 } from 'react-router-dom';
 // import useAuth from '../hooks/index.jsx';
-import useAuth from '../../hooks/index';
-import routes from '../../utils/routes';
+// import routes from '../../utils/routes';
 // import { setUserData } from '../../slices/authSlice';
 import { ROUTES } from '../../utils/router';
+import { Formik } from 'formik';
+import { useLoginMutation } from '../../slices/authSlice';
+import { setUserData } from '../../slices/appSlice';
 
 const Login = () => {
-    const auth = useAuth();
-    const [authFailed, setAuthFailed] = useState(false);
-    const inputRef = useRef();
-    // const location = useLocation();
-    const navigate = useNavigate();
-    // const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login] = useLoginMutation();
 
-    useEffect(() => {
-      inputRef.current.focus();
-    }, []);
+    // useEffect(() => {
+    //   inputRef.current.focus();
+    // }, []);
+
+    const handleFormSubmit = async (values) => {
+      const { nickname, password } = values;
+      const user = {
+        username: nickname,
+        password,
+      };
+      const { data, error } = await login(user);
+      console.log(data);
+      if (data) {
+        dispatch(setUserData({ nickname, token: data.token }));
+        localStorage.setItem('token', data.token);
+        console.log(data.token);
+        return navigate('/Home');
+      }
+      if (error) {
+        console.log(error);
+      }
+      return null;
+    };
   
-    const formik = useFormik({
-      initialValues: {
-        username: '',
-        password: '',
-      },
-      onSubmit: async (values) => {
-        setAuthFailed(false);
-        console.log(authFailed, 'authFailed');
-        try {
-          // console.log('its work');
-          const res = await axios.post(routes.loginPath(), values);
-          // console.log(res, 'res');
-          // console.log(res.data, 'res.data');
-          localStorage.setItem('userId', JSON.stringify(res.data));
-          auth.logIn(res);
-          // console.log(location, 'location');
-          // dispatch(setUserData({ token: res.data.token, username: values.username }));
-          navigate('/');
-          console.log('its work Home');
-        } catch (err) {
-          console.log(err);
-          formik.setSubmitting(false);
-          if (err.isAxiosError && err.response.status === 401) {
-            setAuthFailed(true);
-            inputRef.current.select();
-            return;
-          }
-          throw err;
-        }
-      },
-    });
+    // const formik = useFormik({
+    //   initialValues: {
+    //     username: '',
+    //     password: '',
+    //   },
+    //   onSubmit: async (values) => {
+    //     setAuthFailed(false);
+    //     console.log(authFailed, 'authFailed');
+    //     try {
+    //       // console.log('its work');
+    //       const res = await axios.post(routes.loginPath(), values);
+    //       // console.log(res, 'res');
+    //       // console.log(res.data, 'res.data');
+    //       localStorage.setItem('userId', JSON.stringify(res.data));
+    //       auth.logIn(res);
+    //       // console.log(location, 'location');
+    //       // dispatch(setUserData({ token: res.data.token, username: values.username }));
+    //       navigate('/');
+    //       console.log('its work Home');
+    //     } catch (err) {
+    //       console.log(err);
+    //       formik.setSubmitting(false);
+    //       if (err.isAxiosError && err.response.status === 401) {
+    //         setAuthFailed(true);
+    //         inputRef.current.select();
+    //         return;
+    //       }
+    //       throw err;
+    //     }
+    //   },
+    // });
 
 
     return (
@@ -67,38 +91,28 @@ const Login = () => {
 
             <Card className="shadow-sm">
                     <div className="card-body row p-5">
-                        <Form onSubmit={formik.handleSubmit} className="p-3">
-                            <Form.Group>
-                                <Form.Label htmlFor="nickname">Ваш ник</Form.Label>
-                                <Form.Control
-                                onChange={formik.handleChange}
-                                value={formik.values.username}
-                                placeholder="username"
-                                name="username"
-                                id="username"
-                                autoComplete="username"
-                                isInvalid={authFailed}
-                                required
-                                ref={inputRef}
-                                />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label htmlFor="password">Пароль</Form.Label>
-                                <Form.Control
-                                type="password"
-                                onChange={formik.handleChange}
-                                value={formik.values.password}
-                                placeholder="password"
-                                name="password"
-                                id="password"
-                                autoComplete="current-password"
-                                isInvalid={authFailed}
-                                required
-                                />
-                            <Form.Control.Feedback type="invalid">the username or password is incorrect</Form.Control.Feedback>
-                            </Form.Group>
-                            <Button type="submit" variant="outline-primary" >Войти</Button>
-                        </Form>
+                    <Formik
+                    initialValues={{ nickname: '', password: '' }}
+                    onSubmit={handleFormSubmit}
+                  >
+                    {({
+                      handleSubmit, handleChange, values, errors,
+                    }) => (
+                      <Form onSubmit={handleSubmit} className="form">
+                        <h1>Войти</h1>
+                        <Form.Group className="mb-3">
+                          <Form.Label htmlFor="nickname">Никнейм</Form.Label>
+                          <Form.Control id="nickname" required value={values.nickname} onChange={handleChange} type="text" name="nickname" isInvalid={!!errors.password} autoFocus />
+                        </Form.Group>
+                        <Form.Group className="mb-3 position-relative">
+                          <Form.Label htmlFor="password">Пароль</Form.Label>
+                          <Form.Control id="password" required value={values.password} onChange={handleChange} type="password" name="password" isInvalid={!!errors.password} />
+                          <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
+                        </Form.Group>
+                        <Button type="submit" className="w-100" variant="outline-primary">Войти</Button>
+                      </Form>
+                    )}
+                  </Formik>
                     </div>
                         <div className="card-footer p-4">
                             <div className="text-center">
