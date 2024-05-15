@@ -2,6 +2,7 @@ import React, {
   // useEffect, 
   // useState
   } from 'react';
+  // import { useSelector } from 'react-redux';
 
 // import { useSelector } from 'react-redux';
 // import useAuth from '../hooks/index.jsx';
@@ -18,7 +19,10 @@ import {
   } from 'react-router-dom';
   
   const Channels = () => {
-    // const channels = useSelector((state) => state.channelsReducer) || [];
+    // const { data: channels = [], refetch: refetchChannels } = useGetChannelsQuery();
+    // // const channels = useSelector((state) => state.getChannels);
+    // // const channelsNames = channels.map((channel) => channel.name);
+    // console.log(channels, 'allChannels');
 
 
 return (

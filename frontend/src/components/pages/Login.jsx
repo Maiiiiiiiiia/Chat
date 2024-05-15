@@ -1,26 +1,13 @@
-import React, { 
-  // useEffect, 
-  // useRef, 
-  // useState 
-} from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-// import axios from 'axios';
-// import { useFormik } from 'formik';
-// import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import { Button, Form } from 'react-bootstrap';
-import { 
-    // useLocation, 
-    Link,
-    useNavigate,
-} from 'react-router-dom';
-// import useAuth from '../hooks/index.jsx';
-// import routes from '../../utils/routes';
-// import { setUserData } from '../../slices/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/router';
 import { Formik } from 'formik';
 import { useLoginMutation } from '../../slices/authSlice';
 import { setUserData } from '../../slices/appSlice';
+// import routes from '../../utils/routes';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,58 +18,23 @@ const Login = () => {
     //   inputRef.current.focus();
     // }, []);
 
-    const handleFormSubmit = async (values) => {
+    const handleFormSubmit = async (values, { setErrors }) => {
       const { nickname, password } = values;
       const user = {
         username: nickname,
         password,
       };
       const { data, error } = await login(user);
-      console.log(data);
-      if (data) {
-        dispatch(setUserData({ nickname, token: data.token }));
-        localStorage.setItem('token', data.token);
-        console.log(data.token);
-        return navigate('/Home');
+      // console.log(data);
+        if (data) {
+          dispatch(setUserData({ nickname, token: data.token }));
+          localStorage.setItem('token', data.token);
+          // return navigate('/Home');
+          return navigate(ROUTES.home);
+        } if (error) {
+        setErrors({ password: 'Неверные имя пользователя или пароль' });
       }
-      if (error) {
-        console.log(error);
-      }
-      return null;
     };
-  
-    // const formik = useFormik({
-    //   initialValues: {
-    //     username: '',
-    //     password: '',
-    //   },
-    //   onSubmit: async (values) => {
-    //     setAuthFailed(false);
-    //     console.log(authFailed, 'authFailed');
-    //     try {
-    //       // console.log('its work');
-    //       const res = await axios.post(routes.loginPath(), values);
-    //       // console.log(res, 'res');
-    //       // console.log(res.data, 'res.data');
-    //       localStorage.setItem('userId', JSON.stringify(res.data));
-    //       auth.logIn(res);
-    //       // console.log(location, 'location');
-    //       // dispatch(setUserData({ token: res.data.token, username: values.username }));
-    //       navigate('/');
-    //       console.log('its work Home');
-    //     } catch (err) {
-    //       console.log(err);
-    //       formik.setSubmitting(false);
-    //       if (err.isAxiosError && err.response.status === 401) {
-    //         setAuthFailed(true);
-    //         inputRef.current.select();
-    //         return;
-    //       }
-    //       throw err;
-    //     }
-    //   },
-    // });
-
 
     return (
         <div className="container-fluid h-100">
@@ -107,7 +59,9 @@ const Login = () => {
                         <Form.Group className="mb-3 position-relative">
                           <Form.Label htmlFor="password">Пароль</Form.Label>
                           <Form.Control id="password" required value={values.password} onChange={handleChange} type="password" name="password" isInvalid={!!errors.password} />
-                          <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
+                          <Form.Control.Feedback type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
+                          {/* <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback> */}
+
                         </Form.Group>
                         <Button type="submit" className="w-100" variant="outline-primary">Войти</Button>
                       </Form>
@@ -130,3 +84,17 @@ const Login = () => {
   };
   
   export default Login;
+
+          // switch (error.status) {
+          //   case 401: {
+          //     setErrors({ password: "неверный пароль"});
+          //     break;
+          //   }
+          //   case 'FETCH_ERROR': {
+          //     toast.error("ошибка");
+          //     break;
+          //   }
+          //   default: {
+          //     setErrors({ password: "неверн парол "});
+          //   }
+          // }

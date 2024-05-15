@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 // import './index.css';
-import { Init } from './Init';
+import Init from './Init';
 // import reportWebVitals from './reportWebVitals';
 // reportWebVitals();
 
