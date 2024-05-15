@@ -2,11 +2,11 @@ import React from 'react';
 import App from './App'
 import { Provider } from 'react-redux';
 import store from './slices';
-// import { useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { useGetMessagesQuery } from './slices/messagesSlice';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useGetMessagesQuery } from './slices/messagesSlice';
 // import { useGetChannelsQuery } from './slices/channelsSlice';
-// import socket from './socket';
+import socket from './socket';
 
 
 // Если для запросов вы используете rtk query (что очень рекомендуется), 
@@ -29,21 +29,21 @@ import store from './slices';
 
 
 const Init = async () => {
-  // const { refetch: refetchMessages } = useGetMessagesQuery();
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   const handleNewMessage = (newMessage) => {
-  //     console.log('socket')
-  //     dispatch({ type: 'addMessage', payload: newMessage });
-  //     refetchMessages();
-  //   };
-  //   socket.on('newMessage', handleNewMessage);
+  const { refetch: refetchMessages } = useGetMessagesQuery();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const handleNewMessage = (newMessage) => {
+      console.log('socket')
+      dispatch({ type: 'addMessage', payload: newMessage });
+      refetchMessages();
+    };
+    socket.on('newMessage', handleNewMessage);
 
-  //   return () => {
-  //     socket.off('newMessage');
-  //     // socket.off('newChannel');
-  //   };
-  // }, [refetchMessages, dispatch]);
+    return () => {
+      socket.off('newMessage');
+      // socket.off('newChannel');
+    };
+  }, [refetchMessages, dispatch]);
 
 
   // const socket = io();
