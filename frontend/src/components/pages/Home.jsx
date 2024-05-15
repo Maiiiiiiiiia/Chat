@@ -8,21 +8,23 @@ import React, {
 import Row from 'react-bootstrap/esm/Row';
 import Container from 'react-bootstrap/Container';
 import Channels from '../channels/Channels'
-// import Messages from '../messages/Messages';
-// import { useSelector } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
-
-  // const getAuthHeader = () => {
-  //   const userId = JSON.parse(localStorage.getItem('userId'));
-  //   // console.log(userId, 'userId getAuthHeader');
-  //   if (userId && userId.token) {
-  //     return { Authorization: `Bearer ${userId.token}` };
-  //   }
-  //   return {};
-  // };
+import Messages from '../messages/Messages';
 
 const Home = () => {
-  // const { token } = useSelector((state) => state.app);
+
+    return (
+        <Container className="rounded shadow h-100 mb-2 overflow-hidden">
+        <Row className="bg-white flex-md-row h-100">
+            <Channels />
+            <Messages />
+        </Row>
+        </Container>
+    )
+  };
+  
+  export default Home;
+
+    // const { token } = useSelector((state) => state.app);
   // console.log(token);
   // const navigate = useNavigate();
     // const auth = useAuth();
@@ -52,15 +54,3 @@ const Home = () => {
     //     }
     //     fetchData();
       // }, [token, navigate]);
-
-    return (
-        <Container className="rounded shadow h-100 mb-2 overflow-hidden">
-        <Row className="bg-white flex-md-row h-100">
-            <Channels />
-            {/* <Messages /> */}
-        </Row>
-        </Container>
-    )
-  };
-  
-  export default Home;

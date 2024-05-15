@@ -29,6 +29,8 @@ const Login = () => {
         if (data) {
           dispatch(setUserData({ nickname, token: data.token }));
           localStorage.setItem('token', data.token);
+          localStorage.setItem('nickname', nickname);
+
           // return navigate('/Home');
           return navigate(ROUTES.home);
         } if (error) {

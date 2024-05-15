@@ -2,12 +2,12 @@ import React from 'react';
 import App from './App'
 import { Provider } from 'react-redux';
 import store from './slices';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useGetMessagesQuery } from './slices/messagesSlice';
+// import { useEffect } from 'react';
+// import { useDispatch } from 'react-redux';
+// import { useGetMessagesQuery } from './slices/messagesSlice';
 // import { useGetChannelsQuery } from './slices/channelsSlice';
-import socket from './socket';
-
+// import socket from './socket';
+// import { io } from 'socket.io-client';
 
 // Если для запросов вы используете rtk query (что очень рекомендуется), 
 // то при срабатывании события лучше делать это не через отдельный экшен, а через updateQueryData (https://redux-toolkit.js.org/rtk-query/usage/manual-cache-updates)
@@ -27,23 +27,26 @@ import socket from './socket';
 //   slices.dispatch(channelsActions.renameChannel(payload));
 // });
 
+// export const SocketContext = React.createContext();
 
 const Init = async () => {
-  const { refetch: refetchMessages } = useGetMessagesQuery();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const handleNewMessage = (newMessage) => {
-      console.log('socket')
-      dispatch({ type: 'addMessage', payload: newMessage });
-      refetchMessages();
-    };
-    socket.on('newMessage', handleNewMessage);
+  // const socket = io()
 
-    return () => {
-      socket.off('newMessage');
-      // socket.off('newChannel');
-    };
-  }, [refetchMessages, dispatch]);
+  // const { refetch: refetchMessages } = useGetMessagesQuery();
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   const handleNewMessage = (newMessage) => {
+  //     console.log('socket')
+  //     dispatch({ type: 'addMessage', payload: newMessage });
+  //     refetchMessages();
+  //   };
+  //   socket.on('newMessage', handleNewMessage);
+
+  //   return () => {
+  //     socket.off('newMessage');
+  //     // socket.off('newChannel');
+  //   };
+  // }, [refetchMessages, dispatch]);
 
 
   // const socket = io();
@@ -57,7 +60,7 @@ const Init = async () => {
 return (
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+        <App />
     </Provider>
   </React.StrictMode>
 )
