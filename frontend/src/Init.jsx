@@ -8,11 +8,12 @@ import store from './slices';
 // import { useGetChannelsQuery } from './slices/channelsSlice';
 // import socket from './socket';
 // import { io } from 'socket.io-client';
+// import AuthProvider from './components/AuthProvider';
 
 // Если для запросов вы используете rtk query (что очень рекомендуется), 
 // то при срабатывании события лучше делать это не через отдельный экшен, а через updateQueryData (https://redux-toolkit.js.org/rtk-query/usage/manual-cache-updates)
 
-// В файле инита нужно инициализировать экземпляр сокета, в подключение к событиям уже делать в нужных компонентах 
+// В файле инита нужно инициализировать экземпляр сокета, а подключение к событиям уже делать в нужных компонентах 
 
 // socket.on('newMessage', (payload) => {
 //   slices.dispatch(messagesActions.addMessage(payload));

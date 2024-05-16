@@ -2,7 +2,6 @@ const apiPath = '/api/v1';
 
 export default {
   loginPath: () => [apiPath, 'login'].join('/'),
-  loginPathWithoutToken: () => ['login'].join('/'),
   homePagePath: () => [apiPath, 'home'].join('/'),
   channelsPath: () => [apiPath, 'channels'].join('/'),
   messagesPath: () => [apiPath, 'messages'].join('/'),

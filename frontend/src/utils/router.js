@@ -4,10 +4,3 @@ export const ROUTES = {
     home: '/home',
     notfound: '/notfound',
 };
-
-export const API_ROUTES = {
-    login: '/login',
-    home: '/home',
-    channels: '/data',
-    base: '/api/v1',
-};

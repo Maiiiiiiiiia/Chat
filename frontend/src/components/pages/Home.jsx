@@ -1,24 +1,25 @@
-import React, { 
-  // useEffect
- } from 'react';
-// import axios from 'axios';
-// import routes from '../../utils/routes.js';
-// import useAuth from '../../hooks/index.jsx';
-// import { useDispatch } from 'react-redux';
+import React from 'react';
 import Row from 'react-bootstrap/esm/Row';
 import Container from 'react-bootstrap/Container';
 import Channels from '../channels/Channels'
 import Messages from '../messages/Messages';
+import AuthProvider from '../AuthProvider';
+
 
 const Home = () => {
 
     return (
-        <Container className="rounded shadow h-100 mb-2 overflow-hidden">
-        <Row className="bg-white flex-md-row h-100">
-            <Channels />
-            <Messages />
-        </Row>
-        </Container>
+      <div className="h-100" id="chat">
+        <div className='d-flex flex-column h-100'>
+          <AuthProvider />
+            <Container className='h-100 my-4 overflow-hidden rounded shadow'>
+              <Row className="bg-white flex-md-row h-100">
+                <Channels />
+                <Messages />
+              </Row>
+            </Container>
+        </div>
+      </div>
     )
   };
   

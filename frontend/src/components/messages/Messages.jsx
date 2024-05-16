@@ -19,8 +19,9 @@ const Messages = () => {
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   // console.log(currentChannelId); // 1
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
-  const filtredMessages = messages.filter((message) => message.channelId === currentChannelId);
-  console.log(filtredMessages);
+  const filterMessages = messages.filter((message) => message.channelId === currentChannelId);
+
+  console.log(filterMessages);
   const [addMessage] = useAddMessageMutation();
   const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
     const data = {};
@@ -28,19 +29,19 @@ const Messages = () => {
     data.message = filter.clean(message);
     data.channelId = currentChannelId;
     data.username = username;
+    console.log(username);
     await addMessage(data);
     resetForm();
     setSubmitting(false);
   };
   useEffect(() => {
     // refetch();
-    const handleNewMessage = (newMessage) => {
-      dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
-        draft.push(newMessage);
-        console.log('socket');
-      }));
-    };
-    socket.on('newMessage', handleNewMessage);
+      socket.on('newMessage', (newMessage) => {
+              dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
+                draft.push(newMessage);
+        }));
+      });
+
     return () => {
       socket.off('newMessage');
     };
@@ -56,13 +57,13 @@ const Messages = () => {
             </b>
           </p>
           <span className="text-muted">
-            {filtredMessages.length}
+            {filterMessages.length}
             {' '}
             сообщений
           </span>
         </div>
-        <div className="overflow-auto px-5">
-          {filtredMessages.map((message) => (
+        <div id="message-box" className="chat-messages overflow-auto px-5">
+          {filterMessages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b>
               :
@@ -75,8 +76,10 @@ const Messages = () => {
             {({ handleSubmit, handleChange, values }) => (
               <Form onSubmit={handleSubmit}>
                 <InputGroup>
-                  <Form.Label htmlFor="new-message" hidden>сообщ</Form.Label>
-                  <Form.Control placeholder="тут" autoFocus id="new-message" aria-label="f" value={values.message} onChange={handleChange} type="text" name="message" />
+                  <Form.Label htmlFor="new-message" hidden>
+                    {username}
+                  </Form.Label>
+                  <Form.Control placeholder="Введите сообщение..." autoFocus id="new-message" aria-label="f" value={values.message} onChange={handleChange} type="text" name="message" />
                   <Button type="submit">
                     <Send />
                   </Button>
