@@ -21,7 +21,7 @@ const Messages = () => {
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filterMessages = messages.filter((message) => message.channelId === currentChannelId);
 
-  console.log(filterMessages);
+  // console.log(filterMessages);
   const [addMessage] = useAddMessageMutation();
   const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
     const data = {};

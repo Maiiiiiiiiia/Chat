@@ -3,48 +3,60 @@ import React, {
   // useState
   } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import useAuth from '../hooks/index.jsx';
-// import useAuth from '../../hooks';
-// import axios from 'axios';
-// import { setChannels } from '../channelsSlice';
 import { useGetChannelsQuery } from '../../slices/channelsSlice';
-// import routes from '../utils/routes';
-// import routes from '../../utils/routes';
 import { changeChannel } from '../../slices/appSlice';
-import NewChannel from './NewChannel'
-// import { 
-//     // useNavigate,
-//   } from 'react-router-dom';
-  
+import { Button } from 'react-bootstrap';
+import { Plus } from 'react-bootstrap-icons';
+// import Modal from 'react-bootstrap/Modal';
+import { showModal } from '../../slices/modalSlice';
+// import getModal from '../../components/modal/index';
+// import modalReducer from '../../slices/index';
+import RenderModal from '../modal/RenderModal';
+
+
+// const RenderModal = () => {
+//   const typeModal = useSelector((state) => state.modal.type);
+//   const itemModal = useSelector((state) => state.modal.item);
+// //   const { type, item } = useSelector((state) => state.modalReducer);
+//   if (typeModal === null) {
+//     return null;
+//   }
+
+//   const Component = getModal(typeModal);
+//   return <Component item={itemModal} />;
+// };
+
   const Channels = () => {
     const { data: channels = [], refetch } = useGetChannelsQuery();
-    // refetch;
     const dispatch = useDispatch();
-    // const channels = useSelector((state) => {
-    //   console.log(state.channel);
-    // });
-    // // const channelsNames = channels.map((channel) => channel.name);
-    // console.log(channels, 'allChannels');
     const currentChannelId = useSelector((state) => state.app.currentChannelId);
     const switchChannel = ({ id, name }) => {
       // console.log(currentChannelId);
       if (id !== currentChannelId) {
         dispatch(changeChannel({ id, name }));
-        // console.log('Current Channel ID before dispatch:', currentChannelId);
       }
-      // console.log('Current Channel ID after dispatch:', currentChannelId);
     };
 
+    const setShowModal = (type, item = null) => {
+      console.log('Dispatching showModal', { type, item });
+      dispatch(showModal({ type, item }));
+    };
+
+
     useEffect(() => {
-      console.log('Current Channel ID changed, refetching messages:', currentChannelId);
+      // console.log('Current Channel ID changed, refetching messages:', currentChannelId);
       refetch();
     }, [currentChannelId, refetch]);
 
 return (
+  <>
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
-        <NewChannel />
+            <Button size="sm" variant="outline-primary" onClick={() => setShowModal('adding')} >
+              <Plus />
+            </Button>
+
       </div>
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
                 {channels.map((channel) => (
@@ -62,6 +74,8 @@ return (
                 ))}
       </ul>
     </div>
+    <RenderModal />
+  </>
 )
 };
 
