@@ -13,19 +13,6 @@ import { showModal } from '../../slices/modalSlice';
 // import modalReducer from '../../slices/index';
 import RenderModal from '../modal/RenderModal';
 
-
-// const RenderModal = () => {
-//   const typeModal = useSelector((state) => state.modal.type);
-//   const itemModal = useSelector((state) => state.modal.item);
-// //   const { type, item } = useSelector((state) => state.modalReducer);
-//   if (typeModal === null) {
-//     return null;
-//   }
-
-//   const Component = getModal(typeModal);
-//   return <Component item={itemModal} />;
-// };
-
   const Channels = () => {
     const { data: channels = [], refetch } = useGetChannelsQuery();
     const dispatch = useDispatch();
@@ -38,7 +25,7 @@ import RenderModal from '../modal/RenderModal';
     };
 
     const setShowModal = (type, item = null) => {
-      console.log('Dispatching showModal', { type, item });
+      // console.log('Dispatching showModal', { type, item });
       dispatch(showModal({ type, item }));
     };
 
