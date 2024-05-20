@@ -17,6 +17,7 @@ import { Button } from 'react-bootstrap';
 import { closeModal } from '../../slices/modalSlice';
 import { useAddChannelMutation, useGetChannelsQuery} from '../../slices/channelsSlice';
 import * as yup from 'yup';
+import { changeChannel } from '../../slices/appSlice';
 
 // BEGIN (write your solution here)
 // const generateOnSubmit = ({ setItems, onHide }) => (values) => {
@@ -39,24 +40,24 @@ const Add = () => {
     //     const newChannel = { name: values.name, removable: true, author: user.username };
 
     //   });
-    const validateSchema = yup.object().shape({
+    const validationSchema = yup.object().shape({
         channelName: yup.string().trim()
         .min(3, 'Имя канала должно содержать от 3 до 20 символов')
         .max(20, 'Имя канала должно содержать от 3 до 20 символов')
         .required('Имя канала обязательно')
-        .notOneOf(channels.map((channel) => channel.name))
-
+        .notOneOf(channels.map((channel) => channel.name), 'Канал с таким именем уже существует')
     })
 
     // const inputRef = useRef();
     const handleFormSubmit = async (values, {setSubmitting, resetForm}) => {
         try {
-            await addChannel({ name: values.channelName }).unwrap();
+            const newChannel = await addChannel({ name: values.channelName }).unwrap();
             refetch();  // Обновляем список каналов после добавления
             resetForm();
             onHide();
+            dispatch(changeChannel({ id: newChannel.id, name: newChannel.name })); 
         } catch (error) {
-            console.error("ОШибка при добавлении канала: ", error);
+            console.error("Ошибка при добавлении канала: ", error);
         } finally {
             setSubmitting(false);
         }
@@ -71,7 +72,7 @@ const Add = () => {
                 <Formik 
                     initialValues={{channelName: ''}}
                     onSubmit={handleFormSubmit}
-                    validateSchema={validateSchema}
+                    validationSchema={validationSchema}
                     >
                      {({ handleSubmit, handleChange, values, isSubmitting, errors, touched }) => (
                     <Form onSubmit={handleSubmit}>
@@ -85,10 +86,7 @@ const Add = () => {
                             isInvalid={touched.channelName && !!errors.channelName}
                             required
                             />
-                    <FormControl.Feedback type="invalid">
-                        Пожалуйста, введите имя канала
-                        {errors.channelName}
-                        </FormControl.Feedback>
+                    <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
                     <div className="d-flex justify-content-end mt-2">
                     <Button variant="secondary" onClick={onHide} disabled={isSubmitting}>Отменить</Button>
                     <Button variant="primary" type="submit" disabled={isSubmitting}>Отправить</Button>
@@ -103,59 +101,3 @@ const Add = () => {
 };
 
 export default Add;
-
-
-{/* <form>
-<FormGroup>
-<FormLabel htmlFor="name" visuallyHidden>Имя канала</FormLabel>
-    <FormControl
-    required
-    ref={inputRef}
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.name}
-    name="name"
-    />
-    {formik.touched.name && formik.errors.name && (
-    <div className="error text-danger">{formik.errors.name}</div>
-    )}
-</FormGroup>
-<Button variant="secondary" onClick={onHide}>Отменить</Button>
-<Button variant="primary">Отправить</Button>
-</form> */}
-
-// <Modal>
-
-// <Modal.Body>
-//     <p>Add Modal</p>
-//         <Formik 
-//             initialValues={{ channelName: "" }}
-//             >
-//             <Form >
-//             <Modal.Footer>
-//             <Button variant="secondary">
-//                 Отменить
-//             </Button>
-//             <Button variant="primary">
-//                 Отправить
-//             </Button>
-//             </Modal.Footer>
-//             </Form>
-//         </Formik>
-//     <form onSubmit={f.handleSubmit}>
-//       <FormGroup>
-//         <FormControl
-//           required
-//           ref={inputRef}
-//           onChange={f.handleChange}
-//           onBlur={f.handleBlur}
-//           value={f.values.body}
-//           data-testid="input-body"
-//           name="body"
-//         />
-//       </FormGroup>
-//       <input type="submit" className="btn btn-primary mt-2" value="submit" />
-//     </form>
-//   </Modal.Body>
-// </Modal>
-

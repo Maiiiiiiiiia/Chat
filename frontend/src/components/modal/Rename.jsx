@@ -2,13 +2,17 @@ import React, {
     //  useEffect, useRef
  } from 'react';
 // import { useFormik } from 'formik';
-import { 
-    Modal, 
-    // FormGroup, 
-    // FormControl
- } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { closeModal } from '../../slices/modalSlice';
+
 
 const Rename = () => {
+    const dispatch = useDispatch();
+
+    const handleCloseModal = () => {
+    dispatch(closeModal());
+}
     return (
         <Modal show>
           <Modal.Header closeButton>
@@ -16,20 +20,11 @@ const Rename = () => {
           </Modal.Header>
           <p>Rename Modal</p>
            <Modal.Body>
-           {/*  <form onSubmit={f.handleSubmit}>
-               <FormGroup>
-                 <FormControl
-                   required
-                  ref={inputRef}
-                  onChange={f.handleChange}
-                  onBlur={f.handleBlur}
-                  value={f.values.body}
-                  data-testid="input-body"
-                  name="body"
-                />
-              </FormGroup>
-              <input type="submit" className="btn btn-primary mt-2" value="submit" />
-            </form> */}
+              <p>Уверены?</p>
+                <div className="d-flex justify-content-end mt-2">
+                <Button type="button" variant="secondary" onClick={handleCloseModal} >Отменить</Button>
+                <Button type="button" variant="primary">Удалить</Button>
+                </div>
             </Modal.Body>
 
         </Modal>
