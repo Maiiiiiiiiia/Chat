@@ -4,7 +4,7 @@ import React, {
   } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetChannelsQuery } from '../../slices/channelsSlice';
-import { changeChannel } from '../../slices/appSlice';
+import { changeChannel, setChannelModal } from '../../slices/appSlice';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 // import Modal from 'react-bootstrap/Modal';
@@ -19,17 +19,17 @@ import RenderModal from '../modal/RenderModal';
     const currentChannelId = useSelector((state) => state.app.currentChannelId);
 
     const switchChannel = ({ id, name }) => {
-      // console.log(currentChannelId);
       if (id !== currentChannelId) {
         dispatch(changeChannel({ id, name }));
       }
     };
 
     const setShowModal = (type, item = null) => {
-      // console.log('Dispatching showModal', { type, item });
-      dispatch(showModal({ type, item }));
+      if(type === 'renaming' || type === 'removing') {
+        dispatch(setChannelModal({ id: item.id, name: item.name }))
+      }
+      dispatch(showModal({ type }));
     };
-
 
     useEffect(() => {
       // console.log('Current Channel ID changed, refetching messages:', currentChannelId);
@@ -66,17 +66,10 @@ return (
                     <span className="visually-hidden">Управление каналами</span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item id={channel.id} onClick={(e) => setShowModal('removing', e.target.id)}>Удалить</Dropdown.Item>
-                    <Dropdown.Item id={channel.id} name={channel.name} onClick={(e) => setShowModal('renaming', e.target)}>Переименовать</Dropdown.Item>
+                    <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>Удалить</Dropdown.Item>
+                    <Dropdown.Item id={channel.id} name={channel.name} onClick={() => setShowModal('renaming', { id: channel.id, name: channel.name })}>Переименовать</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-
-
-                // <DropdownButton id={`dropdown-${channel.id}`} variant="secondary" title="" className="flex-grow-0 dropdown-toggle dropdown-toggle-split btn btn-secondary">
-            //    //   <Dropdown.Item onClick={() => setShowModal('removing', channel)}>Удалить</Dropdown.Item>
-            //    //   <Dropdown.Item onClick={() => setShowModal('renaming', channel)}>Переименовать</Dropdown.Item>
-                // </DropdownButton>
-
               )}
             </div>
 

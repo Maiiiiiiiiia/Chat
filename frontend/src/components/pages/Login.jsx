@@ -62,8 +62,6 @@ const Login = () => {
                           <Form.Label htmlFor="password">Пароль</Form.Label>
                           <Form.Control id="password" required value={values.password} onChange={handleChange} type="password" name="password" isInvalid={!!errors.password} />
                           <Form.Control.Feedback type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
-                          {/* <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback> */}
-
                         </Form.Group>
                         <Button type="submit" className="w-100" variant="outline-primary">Войти</Button>
                       </Form>

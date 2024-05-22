@@ -30,7 +30,7 @@ import { changeChannel } from '../../slices/appSlice';
 
 const Add = () => {
     const dispatch = useDispatch();
-    const onHide = () => dispatch(closeModal());
+    const handleCloseModal = () => dispatch(closeModal());
     const { isOpened } = useSelector((state) => state.modal); // Подключаем состояние модального окна
     const { data: channels = [], refetch } = useGetChannelsQuery(); // allChannels
     const [addChannel] = useAddChannelMutation();
@@ -54,7 +54,7 @@ const Add = () => {
             const newChannel = await addChannel({ name: values.channelName }).unwrap();
             refetch();  // Обновляем список каналов после добавления
             resetForm();
-            onHide();
+            handleCloseModal();
             dispatch(changeChannel({ id: newChannel.id, name: newChannel.name })); 
         } catch (error) {
             console.error("Ошибка при добавлении канала: ", error);
@@ -64,7 +64,7 @@ const Add = () => {
     }
 
   return (
-        <Modal show={isOpened} onHide={onHide}>
+        <Modal show={isOpened} handleCloseModal={handleCloseModal}>
             <Modal.Header closeButton>
                 <Modal.Title>Добавить канал</Modal.Title>
             </Modal.Header>
@@ -88,7 +88,7 @@ const Add = () => {
                             />
                     <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
                     <div className="d-flex justify-content-end mt-2">
-                    <Button variant="secondary" onClick={onHide} disabled={isSubmitting}>Отменить</Button>
+                    <Button variant="secondary" onClick={handleCloseModal} disabled={isSubmitting}>Отменить</Button>
                     <Button variant="primary" type="submit" disabled={isSubmitting}>Отправить</Button>
                     </div>
                     </Form>
