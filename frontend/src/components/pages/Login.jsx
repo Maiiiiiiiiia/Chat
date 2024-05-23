@@ -7,9 +7,10 @@ import { ROUTES } from '../../utils/router';
 import { Formik } from 'formik';
 import { useLoginMutation } from '../../slices/authSlice';
 import { setUserData } from '../../slices/appSlice';
-// import routes from '../../utils/routes';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
@@ -24,7 +25,6 @@ const Login = () => {
         password,
       };
       const { data, error } = await login(user);
-      // console.log(data);
         if (data) {
           dispatch(setUserData({ nickname, token: data.token }));
           localStorage.setItem('token', data.token);
@@ -32,7 +32,7 @@ const Login = () => {
           // return navigate('/Home');
           return navigate(ROUTES.home);
         } if (error) {
-        setErrors({ password: 'Неверные имя пользователя или пароль' });
+        setErrors({ password: t('loginPage.error') });
       }
     };
 
@@ -40,10 +40,9 @@ const Login = () => {
         <div className="container-fluid h-100">
           <div className="row justify-content-center align-content-center h-100">
           <div className="col-12 col-md-8 col-xxl-6">
-
             <Card className="shadow-sm">
-                    <div className="card-body row p-5">
-                    <Formik
+                <div className="card-body row p-5">
+                  <Formik
                     initialValues={{ nickname: '', password: '' }}
                     onSubmit={handleFormSubmit}
                   >
@@ -51,29 +50,27 @@ const Login = () => {
                       handleSubmit, handleChange, values, errors,
                     }) => (
                       <Form onSubmit={handleSubmit} className="form">
-                        <h1>Войти</h1>
+                        <h1>{t('loginPage.logIn')}</h1>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="nickname">Никнейм</Form.Label>
+                          <Form.Label htmlFor="nickname">{t('loginPage.nickname')}</Form.Label>
                           <Form.Control id="nickname" required value={values.nickname} onChange={handleChange} type="text" name="nickname" isInvalid={!!errors.password} autoFocus />
                         </Form.Group>
                         <Form.Group className="mb-3 position-relative">
-                          <Form.Label htmlFor="password">Пароль</Form.Label>
+                          <Form.Label htmlFor="password">{t('loginPage.password')}</Form.Label>
                           <Form.Control id="password" required value={values.password} onChange={handleChange} type="password" name="password" isInvalid={!!errors.password} />
-                          <Form.Control.Feedback type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
+                          <Form.Control.Feedback type="invalid">{t('loginPage.errorNickname')}</Form.Control.Feedback>
                         </Form.Group>
-                        <Button type="submit" className="w-100" variant="outline-primary">Войти</Button>
+                        <Button type="submit" className="w-100" variant="outline-primary">{t('loginPage.logIn')}</Button>
                       </Form>
                     )}
                   </Formik>
+                </div>
+                <div className="card-footer p-4">
+                    <div className="text-center">
+                      <span>{t('loginPage.footer.text')}</span>
+                      <Link to={ROUTES.signup}>{t('loginPage.footer.link')}</Link>
                     </div>
-                        <div className="card-footer p-4">
-                            <div className="text-center">
-                                <span>Нет аккаунта?</span>
-                                <Link to={ROUTES.signup}>Регистрация</Link>
-
-                            </div>
-                        </div>
-              
+                </div>
             </Card>
           </div>
           </div>

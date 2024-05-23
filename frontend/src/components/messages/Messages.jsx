@@ -3,16 +3,16 @@ import { useSelector } from 'react-redux';
 import Col from 'react-bootstrap/esm/Col';
 import { Send } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
-// import { setMessages } from '../../slices/messagesSlice';
 import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
 import { Button, Form } from 'react-bootstrap';
-// import routes from '../../utils/routes';
 import * as filter from 'leo-profanity';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
 import socket from '../../socket';
+import { useTranslation } from 'react-i18next';
 
 const Messages = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data: messages = [], refetch } = useGetMessagesQuery();
   const username = useSelector((state) => state.app.username);
@@ -20,8 +20,6 @@ const Messages = () => {
   // console.log(currentChannelId); // 1
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filterMessages = messages.filter((message) => message.channelId === currentChannelId);
-
-  // console.log(filterMessages);
   const [addMessage] = useAddMessageMutation();
   const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
     const data = {};
@@ -57,9 +55,7 @@ const Messages = () => {
             </b>
           </p>
           <span className="text-muted">
-            {filterMessages.length}
-            {' '}
-            сообщений
+            {`${filterMessages.length} ${t('messages.messagesCounter.messages', { count: (filterMessages.length) })}`}
           </span>
         </div>
         <div id="message-box" className="chat-messages overflow-auto px-5">
@@ -79,7 +75,7 @@ const Messages = () => {
                   <Form.Label htmlFor="new-message" hidden>
                     {username}
                   </Form.Label>
-                  <Form.Control placeholder="Введите сообщение..." autoFocus id="new-message" aria-label="f" value={values.message} onChange={handleChange} type="text" name="message" />
+                  <Form.Control placeholder={t('messages.putYourMessages')} autoFocus id="new-message" aria-label="f" value={values.message} onChange={handleChange} type="text" name="message" />
                   <Button type="submit">
                     <Send />
                   </Button>

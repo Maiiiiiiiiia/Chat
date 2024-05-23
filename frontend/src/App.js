@@ -1,14 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { useNavigate } from 'react-router-dom';
-// import useAuth from './hooks/index.jsx';
-// import './App.css';
-import { 
-  BrowserRouter,
-  Route,
-  Routes, 
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { ROUTES } from './utils/router';
 import Login from './components/pages/Login'
 import Home from './components/pages/Home';

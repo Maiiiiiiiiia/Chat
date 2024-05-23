@@ -1,19 +1,16 @@
-import React, { 
-  useEffect, 
-  // useState
-  } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useGetChannelsQuery } from '../../slices/channelsSlice';
+import { useGetChannelsQuery, channelsApi } from '../../slices/channelsSlice';
 import { changeChannel, setChannelModal } from '../../slices/appSlice';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
-// import Modal from 'react-bootstrap/Modal';
 import { showModal } from '../../slices/modalSlice';
-// import getModal from '../../components/modal/index';
-// import modalReducer from '../../slices/index';
 import RenderModal from '../modal/RenderModal';
+import { useTranslation } from 'react-i18next';
+import socket from '../../socket';
 
   const Channels = () => {
+    const { t } = useTranslation();
     const { data: channels = [], refetch } = useGetChannelsQuery();
     const dispatch = useDispatch();
     const currentChannelId = useSelector((state) => state.app.currentChannelId);
@@ -36,11 +33,40 @@ import RenderModal from '../modal/RenderModal';
       refetch();
     }, [currentChannelId, refetch]);
 
+    useEffect(() => {
+      socket.on('renameChannel', (payload) => {
+        dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+          const channel = draft.find((ch) => ch.id === payload.id);
+          if (channel) {
+            channel.name = payload.name;
+          }
+        }));
+      });
+  
+      socket.on('newChannel', (payload) => {
+        dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+          draft.push(payload);
+        }));
+      });
+  
+      socket.on('removeChannel', (payload) => {
+        dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+          return draft.filter((ch) => ch.id !== payload.id);
+        }));
+      });
+  
+      return () => {
+        socket.off('renameChannel');
+        socket.off('newChannel');
+        socket.off('removeChannel');
+      };
+    }, [dispatch]);
+
 return (
   <>
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('channels.title')}</b>
             <Button size="sm" variant="outline-primary" onClick={() => setShowModal('adding')} >
               <Plus />
             </Button>
@@ -63,11 +89,11 @@ return (
               {index >= 2 && (
                   <Dropdown as={ButtonGroup}>
                   <Dropdown.Toggle split variant="bg-light" id={channel.id}>
-                    <span className="visually-hidden">Управление каналами</span>
+                    <span className="visually-hidden"></span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>Удалить</Dropdown.Item>
-                    <Dropdown.Item id={channel.id} name={channel.name} onClick={() => setShowModal('renaming', { id: channel.id, name: channel.name })}>Переименовать</Dropdown.Item>
+                    <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>{t('channels.button.delete')}</Dropdown.Item>
+                    <Dropdown.Item id={channel.id} name={channel.name} onClick={() => setShowModal('renaming', { id: channel.id, name: channel.name })}>{t('channels.button.rename')}</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               )}

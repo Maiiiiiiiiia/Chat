@@ -1,3 +1,4 @@
 import ru from './ru';
+const resources = { ru };
 
-export default ru;
+export default resources;

@@ -12,8 +12,10 @@ import { useUpdateChannelMutation } from '../../slices/channelsSlice';
 import { useGetChannelsQuery } from '../../slices/channelsSlice';
 import * as yup from 'yup';
 import { changeChannel } from '../../slices/appSlice';
+import { useTranslation } from 'react-i18next';
 
 const Rename = () => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const input = useRef();
     const [updateChannel] = useUpdateChannelMutation();
@@ -31,10 +33,10 @@ const Rename = () => {
 
     const validationSchema = yup.object().shape({
         channelName: yup.string().trim()
-        .min(3, 'Имя канала должно содержать от 3 до 20 символов')
-        .max(20, 'Имя канала должно содержать от 3 до 20 символов')
-        .required('Имя канала обязательно')
-        .notOneOf(channels.map((channel) => channel.name), 'Канал с таким именем уже существует')
+        .min(3, t('modals.numberCharacters'))
+        .max(20, t('modals.numberCharacters'))
+        .required(t('modals.obligatoryField'))
+        .notOneOf(channels.map((channel) => channel.name), t('modals.mustUnique'))
     })
 
 
@@ -50,16 +52,17 @@ const Rename = () => {
             await updateChannel(data).unwrap();
             handleCloseModal();
             dispatch(changeChannel({ id: channelId, name: channelName }));
+            // socket.emit('renameChannel', data); 
             // toast
         } catch (error) {
-            console.error('Ошибка при переименовании канала:', error);
+            console.error(t('modal.error.rename'), error);
         }
     }
 
     return (
         <Modal show={isOpened} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Переименовать канал</Modal.Title>
+            <Modal.Title>{t('modal.renameChannel')}</Modal.Title>
           </Modal.Header>
 
            <Modal.Body>
@@ -72,7 +75,7 @@ const Rename = () => {
                     values, handleChange, handleSubmit, errors,
                 }) => (
                     <Form onSubmit={handleSubmit}>
-                        <FormLabel htmlFor="ChannelName" visuallyHidden></FormLabel>
+                        <FormLabel htmlFor="ChannelName" visuallyHidden>{t('modal.channelManagement')}</FormLabel>
                         <FormControl 
                             name="channelName" 
                             id="name" 
@@ -83,8 +86,8 @@ const Rename = () => {
                             isInvalid={!!errors.channelName} />
                         <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
                             <div className="d-flex justify-content-end mt-2">
-                                <Button type="button" variant="secondary" onClick={handleCloseModal}>Отменить</Button>
-                                <Button type="submit" variant="primary">Отправить</Button>
+                                <Button type="button" variant="secondary" onClick={handleCloseModal}>{t('modal.cancel')}</Button>
+                                <Button type="submit" variant="primary">{t('modal.send')}</Button>
                             </div>
                     </Form>
                 )}

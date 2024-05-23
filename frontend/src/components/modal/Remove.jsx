@@ -8,8 +8,10 @@ import {
     // toast
  } from 'react-toastify';
 import { changeChannel } from '../../slices/appSlice';
+import { useTranslation } from 'react-i18next';
 
 const Remove = () => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const { isOpened } = useSelector((state) => state.modal);
     const [removeChannel] = useRemoveChannelMutation();
@@ -27,7 +29,7 @@ const Remove = () => {
             //   });
             handleCloseModal();
         } catch (error) {
-            console.error('Ошибка при удалении канала:', error);
+            console.error(t('modals.error.delete'), error);
             // toast.error('Ошибка при удалении канала!', {
             //     position: toast.POSITION.TOP_RIGHT
             // });
@@ -37,13 +39,13 @@ const Remove = () => {
   return (
     <Modal show={isOpened} >
       <Modal.Header closeButton onClick={handleCloseModal}>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modal.deleteChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <p>Уверены?</p>
+      <p>{t('modal.sure')}</p>
         <div className="d-flex justify-content-end mt-2">
-          <Button type="button" variant="secondary" onClick={handleCloseModal} >Отменить</Button>
-          <Button type="submit" variant="primary" onClick={deleteChannel}>Удалить</Button>
+          <Button type="button" variant="secondary" onClick={handleCloseModal} >{t('modal.cancel')}</Button>
+          <Button type="submit" variant="primary" onClick={deleteChannel}>{t('modal.delete')}</Button>
         </div>
       </Modal.Body>
       <ToastContainer />

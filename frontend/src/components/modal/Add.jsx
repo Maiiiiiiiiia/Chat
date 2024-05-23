@@ -1,15 +1,5 @@
-import React, { 
-    // useEffect, 
-    // useRef
- } from 'react';
-// import _ from 'lodash';
-// import { useFormik } from 'formik';
-import { 
-    // FormGroup,
-    Modal, 
-    FormLabel, 
-    FormControl
- } from 'react-bootstrap';
+import React from 'react';
+import { Modal, FormLabel, FormControl } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { Form } from 'formik';
@@ -18,34 +8,22 @@ import { closeModal } from '../../slices/modalSlice';
 import { useAddChannelMutation, useGetChannelsQuery} from '../../slices/channelsSlice';
 import * as yup from 'yup';
 import { changeChannel } from '../../slices/appSlice';
-
-// BEGIN (write your solution here)
-// const generateOnSubmit = ({ setItems, onHide }) => (values) => {
-//   const item = { id: _.uniqueId(), body: values.body };
-//   setItems((items) => {
-//     items.push(item);
-//   });
-//   onHide();
-// };
+import { useTranslation } from 'react-i18next';
 
 const Add = () => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const handleCloseModal = () => dispatch(closeModal());
     const { isOpened } = useSelector((state) => state.modal); // Подключаем состояние модального окна
     const { data: channels = [], refetch } = useGetChannelsQuery(); // allChannels
     const [addChannel] = useAddChannelMutation();
 
-    // const formik = useFormik({
-    //     // onSubmit: generateOnSubmit(),
-    //     const newChannel = { name: values.name, removable: true, author: user.username };
-
-    //   });
     const validationSchema = yup.object().shape({
         channelName: yup.string().trim()
-        .min(3, 'Имя канала должно содержать от 3 до 20 символов')
-        .max(20, 'Имя канала должно содержать от 3 до 20 символов')
-        .required('Имя канала обязательно')
-        .notOneOf(channels.map((channel) => channel.name), 'Канал с таким именем уже существует')
+        .min(3, t('modals.numberCharacters'))
+        .max(20, t('modals.numberCharacters'))
+        .required(t('modals.obligatoryField'))
+        .notOneOf(channels.map((channel) => channel.name), t('modals.mustUnique'))
     })
 
     // const inputRef = useRef();
@@ -57,16 +35,16 @@ const Add = () => {
             handleCloseModal();
             dispatch(changeChannel({ id: newChannel.id, name: newChannel.name })); 
         } catch (error) {
-            console.error("Ошибка при добавлении канала: ", error);
+            console.error(t('modals.error.add'), error);
         } finally {
             setSubmitting(false);
         }
-    }
+    };
 
   return (
-        <Modal show={isOpened} handleCloseModal={handleCloseModal}>
+        <Modal show={isOpened} onHide={handleCloseModal}>
             <Modal.Header closeButton>
-                <Modal.Title>Добавить канал</Modal.Title>
+                <Modal.Title>{t('modals.addChannel')}</Modal.Title>
             </Modal.Header>
             <Modal.Body> 
                 <Formik 
@@ -76,7 +54,7 @@ const Add = () => {
                     >
                      {({ handleSubmit, handleChange, values, isSubmitting, errors, touched }) => (
                     <Form onSubmit={handleSubmit}>
-                        <FormLabel htmlFor="channelName">Имя канала</FormLabel>
+                        <FormLabel htmlFor="channelName">{t('modals.channelName')}</FormLabel>
                         <FormControl 
                             id="channelName"
                             name="channelName"
@@ -88,8 +66,8 @@ const Add = () => {
                             />
                     <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
                     <div className="d-flex justify-content-end mt-2">
-                    <Button variant="secondary" onClick={handleCloseModal} disabled={isSubmitting}>Отменить</Button>
-                    <Button variant="primary" type="submit" disabled={isSubmitting}>Отправить</Button>
+                    <Button variant="secondary" onClick={handleCloseModal} disabled={isSubmitting}>{t('modals.cancel')}</Button>
+                    <Button variant="primary" type="submit" disabled={isSubmitting}>{t('modals.send')}</Button>
                     </div>
                     </Form>
                      )}
