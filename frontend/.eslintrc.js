@@ -18,5 +18,10 @@ module.exports = {
     ],
     "rules": {
         "react/prop-types": 0,
-    }
+    },
+    "settings": {
+        "react": {
+          "version": 'detect',  // автоматически определяет версию React
+        },
+      },
 }

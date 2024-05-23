@@ -15,6 +15,7 @@ import Home from './components/pages/Home';
 import NotFound from './components/pages/NotFound';
 import Signup from './components/pages/Signup';
 import { useSelector } from 'react-redux'; 
+import AuthProvider from '../src/components/AuthProvider';
 
 /* eslint-disable react/prop-types */
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <AuthProvider />
           <Routes>
             <Route path="/" element={<PrivateRoute element={<Home />} />} />
             <Route path={ROUTES.home} element={<PrivateRoute element={<Home />} />} />

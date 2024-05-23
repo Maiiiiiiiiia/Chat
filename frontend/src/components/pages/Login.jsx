@@ -13,7 +13,6 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
-
     // useEffect(() => {
     //   inputRef.current.focus();
     // }, []);
@@ -30,7 +29,6 @@ const Login = () => {
           dispatch(setUserData({ nickname, token: data.token }));
           localStorage.setItem('token', data.token);
           localStorage.setItem('nickname', nickname);
-
           // return navigate('/Home');
           return navigate(ROUTES.home);
         } if (error) {
@@ -85,16 +83,23 @@ const Login = () => {
   
   export default Login;
 
-          // switch (error.status) {
-          //   case 401: {
-          //     setErrors({ password: "неверный пароль"});
-          //     break;
-          //   }
-          //   case 'FETCH_ERROR': {
-          //     toast.error("ошибка");
-          //     break;
-          //   }
-          //   default: {
-          //     setErrors({ password: "неверн парол "});
-          //   }
-          // }
+
+  // const handleFormSubmit = async (values, { setErrors }) => {
+  //   const { nickname, password } = values;
+  //   const user = {
+  //     username: nickname,
+  //     password,
+  //   };
+  //   const { data, error } = await login(user);
+  //   // console.log(data);
+  //     if (data) {
+  //       dispatch(setUserData({ nickname, token: data.token }));
+  //       localStorage.setItem('token', data.token);
+  //       localStorage.setItem('nickname', nickname);
+
+  //       // return navigate('/Home');
+  //       return navigate(ROUTES.home);
+  //     } if (error) {
+  //     setErrors({ password: 'Неверные имя пользователя или пароль' });
+  //   }
+  // };
