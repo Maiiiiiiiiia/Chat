@@ -5,11 +5,12 @@ import { Send } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
 import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
 import { Button, Form } from 'react-bootstrap';
-import * as filter from 'leo-profanity';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
 import socket from '../../socket';
 import { useTranslation } from 'react-i18next';
+
+const filter = require('leo-profanity')
 
 const Messages = () => {
   const { t } = useTranslation();

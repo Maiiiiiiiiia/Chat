@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const filter = require('leo-profanity')
+
  const Add = () => {
     const { t } = useTranslation();
     const notify = () => toast.success(t('toast.success'));
@@ -32,7 +34,8 @@ import 'react-toastify/dist/ReactToastify.css';
     // const inputRef = useRef();
     const handleFormSubmit = async (values, {setSubmitting, resetForm}) => {
         try {
-            const newChannel = await addChannel({ name: values.channelName }).unwrap();
+            const cleanName = filter.clean(values.channelName);
+            const newChannel = await addChannel({ name: cleanName }).unwrap();
             refetch();  // Обновляем список каналов после добавления
             resetForm();
             handleCloseModal();
