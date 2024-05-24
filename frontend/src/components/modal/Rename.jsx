@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Rename = () => {
     const { t } = useTranslation();
     const notify = () => toast.success(t('toast.rename'));
+    const notifyErrorRename = () => toast.success(t('toast.errorRename'));
     const dispatch = useDispatch();
     const input = useRef();
     const [updateChannel] = useUpdateChannelMutation();
@@ -29,7 +30,6 @@ const Rename = () => {
     const modalChannelId = useSelector((state) => state.app.modalChannelId);
     console.log(modalChannelId);
     const modalChannelName = useSelector((state) => state.app.modalChannelName);
-    // console.log(modalChannelName);
 
     const handleCloseModal = () => dispatch(closeModal());
     
@@ -57,14 +57,15 @@ const Rename = () => {
             dispatch(changeChannel({ id: channelId, name: channelName }));
             notify();
         } catch (error) {
-            console.error(t('modal.error.rename'), error);
+            console.error(t('modals.error.rename'), error);
+            notifyErrorRename();
         }
     }
 
     return (
         <Modal show={isOpened} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>{t('modal.renameChannel')}</Modal.Title>
+            <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
           </Modal.Header>
 
            <Modal.Body>
@@ -77,7 +78,7 @@ const Rename = () => {
                     values, handleChange, handleSubmit, errors,
                 }) => (
                     <Form onSubmit={handleSubmit}>
-                        <FormLabel htmlFor="ChannelName" visuallyHidden>{t('modal.channelManagement')}</FormLabel>
+                        <FormLabel htmlFor="ChannelName" visuallyHidden>{t('modals.channelManagement')}</FormLabel>
                         <FormControl 
                             name="channelName" 
                             id="name" 
@@ -88,8 +89,8 @@ const Rename = () => {
                             isInvalid={!!errors.channelName} />
                         <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
                             <div className="d-flex justify-content-end mt-2">
-                                <Button type="button" variant="secondary" onClick={handleCloseModal}>{t('modal.cancel')}</Button>
-                                <Button type="submit" variant="primary">{t('modal.send')}</Button>
+                                <Button type="button" variant="secondary" onClick={handleCloseModal}>{t('modals.cancel')}</Button>
+                                <Button type="submit" variant="primary">{t('modals.send')}</Button>
                             </div>
                     </Form>
                 )}

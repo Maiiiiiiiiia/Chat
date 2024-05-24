@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from './slices';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { ROUTES } from './utils/router';
@@ -18,18 +20,19 @@ const App = () => {
   };
 
   return (
-    <BrowserRouter>
-      <AuthProvider />
-          <Routes>
-            <Route path="/" element={<PrivateRoute element={<Home />} />} />
-            <Route path={ROUTES.home} element={<PrivateRoute element={<Home />} />} />
-            <Route path={ROUTES.login} element={<Login />} />
-            <Route path={ROUTES.signup} element={<Signup />} />
-            <Route path={ROUTES.notfound}  element={<NotFound />} />
-          </Routes>
-        <ToastContainer /> 
-    </BrowserRouter>
-
+      <BrowserRouter>
+        <Provider store={store}>
+          <AuthProvider />
+            <Routes>
+              <Route path="/" element={<PrivateRoute element={<Home />} />} />
+              <Route path={ROUTES.home} element={<PrivateRoute element={<Home />} />} />
+              <Route path={ROUTES.login} element={<Login />} />
+              <Route path={ROUTES.signup} element={<Signup />} />
+              <Route path={ROUTES.notfound}  element={<NotFound />} />
+            </Routes>
+          <ToastContainer /> 
+        </Provider>
+      </BrowserRouter>
   )
 }
 
