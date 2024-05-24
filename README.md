@@ -1,8 +1,8 @@
-<h2>Hexlet tests and linter status:</h2>
+### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Maiiiiiiiiia/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Maiiiiiiiiia/frontend-project-12/actions)
 
-<p>Hexlet-Chat is real-time application that allows users to communicate with each other on React using Redux (@reduxjs/toolkit), Websockets, React Hooks, Bootstrap, Formik and other. Backend - Hexlet realization.
-For testing you can use test account: username: admin, password: admin</p>
+Hexlet-Chat is real-time application that allows users to communicate with each other on React using Redux (@reduxjs/toolkit), Websockets, React Hooks, Bootstrap, Formik and other. Backend - Hexlet realization.
+For testing you can use test account: username: admin, password: admin
 
 <h2>Deployed on Render</h2>
 
