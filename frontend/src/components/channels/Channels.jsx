@@ -69,6 +69,7 @@ return (
         <b>{t('channels.title')}</b>
             <Button size="sm" variant="outline-primary" onClick={() => setShowModal('adding')} >
               <Plus />
+              <span className="visually-hidden">{t('channels.button.plus')}</span>
             </Button>
       </div>
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">

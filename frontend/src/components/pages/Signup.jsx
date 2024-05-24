@@ -92,8 +92,6 @@ const Signup = () => {
                           </Form>
                         )}
                       </Formik>
-
-
                     </CardBody>
                 </Card>
               </div>

@@ -5,7 +5,7 @@ export default {
           goOut: 'Выйти',
         },
         loginPage: {
-          nickname: 'Никнейм',
+          nickname: 'Ваш ник',
           password: 'Пароль',
           errorNickname: 'Неверные имя пользователя или пароль',
           logIn: 'Войти',
@@ -24,16 +24,16 @@ export default {
             password: 'Неверные имя пользователя или пароль',
           },
           validationError: {
-            usernameMinMax: 'Имя должно содержать от 3 до 20 символов',
+            usernameMinMax: 'От 3 до 20 символов',
             requiredName: 'Имя обязательно',
-            min6: 'Минимум 6 символов',
+            min6: 'Не менее 6 символов',
             requiredPassword: 'Поле пароль обязательно',
             confirmPassword: 'Пароли должны совпадать',
             requiredConfirmPassword: 'Поле подтверждения пароля обязательно',
           },
           form: {
             registration: 'Регистрация',
-            nickname: 'Ваш ник',
+            nickname: 'Имя пользователя',
             password: 'Пароль',
             confirmPassword: 'Подтвердите пароль',
             login: 'Зарегистрироваться'
@@ -44,6 +44,7 @@ export default {
           button: {
             delete: 'Удалить',
             rename: 'Переименовать',
+            plus: '+',
           },
         },
         messages: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, CardBody } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/router';
 import { Formik } from 'formik';
@@ -56,7 +56,7 @@ const Login = () => {
           <div className="row justify-content-center align-content-center h-100">
           <div className="col-12 col-md-8 col-xxl-6">
             <Card className="shadow-sm">
-                <div className="card-body row p-5">
+            <CardBody className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
                   <Formik
                     initialValues={{ nickname: '', password: '' }}
                     onSubmit={handleFormSubmit}
@@ -79,7 +79,7 @@ const Login = () => {
                       </Form>
                     )}
                   </Formik>
-                </div>
+                  </CardBody>
                 <div className="card-footer p-4">
                     <div className="text-center">
                       <span>{t('loginPage.footer.text')}</span>
