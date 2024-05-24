@@ -9,9 +9,12 @@ import { useAddChannelMutation, useGetChannelsQuery} from '../../slices/channels
 import * as yup from 'yup';
 import { changeChannel } from '../../slices/appSlice';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Add = () => {
+ const Add = () => {
     const { t } = useTranslation();
+    const notify = () => toast.success(t('toast.success'));
     const dispatch = useDispatch();
     const handleCloseModal = () => dispatch(closeModal());
     const { isOpened } = useSelector((state) => state.modal); // Подключаем состояние модального окна
@@ -34,6 +37,7 @@ const Add = () => {
             resetForm();
             handleCloseModal();
             dispatch(changeChannel({ id: newChannel.id, name: newChannel.name })); 
+            notify();
         } catch (error) {
             console.error(t('modals.error.add'), error);
         } finally {
@@ -72,9 +76,8 @@ const Add = () => {
                     </Form>
                      )}
                 </Formik>
-            </Modal.Body>   
+            </Modal.Body>  
         </Modal>
-
   );
 };
 

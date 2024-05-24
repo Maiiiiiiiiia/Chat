@@ -13,9 +13,12 @@ import { useGetChannelsQuery } from '../../slices/channelsSlice';
 import * as yup from 'yup';
 import { changeChannel } from '../../slices/appSlice';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Rename = () => {
     const { t } = useTranslation();
+    const notify = () => toast.success(t('toast.rename'));
     const dispatch = useDispatch();
     const input = useRef();
     const [updateChannel] = useUpdateChannelMutation();
@@ -52,8 +55,7 @@ const Rename = () => {
             await updateChannel(data).unwrap();
             handleCloseModal();
             dispatch(changeChannel({ id: channelId, name: channelName }));
-            // socket.emit('renameChannel', data); 
-            // toast
+            notify();
         } catch (error) {
             console.error(t('modal.error.rename'), error);
         }

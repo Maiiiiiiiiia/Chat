@@ -8,9 +8,12 @@ import { Formik } from 'formik';
 import { useLoginMutation } from '../../slices/authSlice';
 import { setUserData } from '../../slices/appSlice';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const { t } = useTranslation();
+  const notifyErrorNetwork = () => toast.success(t('toast.errorNetwork'));
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
@@ -32,7 +35,19 @@ const Login = () => {
           // return navigate('/Home');
           return navigate(ROUTES.home);
         } if (error) {
-        setErrors({ password: t('loginPage.error') });
+            switch (error.status) {
+              case 401: {
+                setErrors({ password: t('loginPage.error') });
+                break;
+              }
+              case 'FETCH_ERROR': {
+                notifyErrorNetwork();
+                break;
+              }
+              default: {
+                setErrors({ password: t('loginPage.error') });
+              }
+            }
       }
     };
 

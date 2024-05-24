@@ -8,6 +8,7 @@ import NotFound from './components/pages/NotFound';
 import Signup from './components/pages/Signup';
 import { useSelector } from 'react-redux'; 
 import AuthProvider from '../src/components/AuthProvider';
+import { ToastContainer } from 'react-toastify';
 
 /* eslint-disable react/prop-types */
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
             <Route path={ROUTES.signup} element={<Signup />} />
             <Route path={ROUTES.notfound}  element={<NotFound />} />
           </Routes>
+        <ToastContainer /> 
     </BrowserRouter>
 
   )
