@@ -9,8 +9,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
 import socket from '../../socket';
 import { useTranslation } from 'react-i18next';
-
-const filter = require('leo-profanity')
+import * as filter from 'leo-profanity'
 
 const Messages = () => {
   const { t } = useTranslation();
@@ -18,7 +17,6 @@ const Messages = () => {
   const { data: messages = [], refetch } = useGetMessagesQuery();
   const username = useSelector((state) => state.app.username);
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
-  // console.log(currentChannelId); // 1
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filterMessages = messages.filter((message) => message.channelId === currentChannelId);
   const [addMessage] = useAddMessageMutation();

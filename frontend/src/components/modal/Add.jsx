@@ -11,8 +11,7 @@ import { changeChannel } from '../../slices/appSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const filter = require('leo-profanity')
+import * as filter from 'leo-profanity'
 
  const Add = () => {
     const { t } = useTranslation();
