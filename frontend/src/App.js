@@ -1,6 +1,6 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import store from './slices';
+// import { Provider } from 'react-redux';
+// import store from './slices';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { ROUTES } from './utils/router';
@@ -11,6 +11,9 @@ import Signup from './components/pages/Signup';
 import { useSelector } from 'react-redux'; 
 import AuthProvider from '../src/components/AuthProvider';
 import { ToastContainer } from 'react-toastify';
+import { Provider } from 'react-redux';
+import store from './slices';
+
 
 /* eslint-disable react/prop-types */
 const App = () => {
@@ -20,8 +23,8 @@ const App = () => {
   };
 
   return (
-      <BrowserRouter>
-        <Provider store={store}>
+    <Provider store={store}>
+        <BrowserRouter>
           <AuthProvider />
             <Routes>
               <Route path="/" element={<PrivateRoute element={<Home />} />} />
@@ -31,8 +34,8 @@ const App = () => {
               <Route path={ROUTES.notfound}  element={<NotFound />} />
             </Routes>
           <ToastContainer /> 
-        </Provider>
-      </BrowserRouter>
+        </BrowserRouter>
+    </Provider>
   )
 }
 
