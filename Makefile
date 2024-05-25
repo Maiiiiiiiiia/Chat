@@ -10,9 +10,9 @@ start-frontend:
 start-backend:
 	npx start-server
 
-start:
+start-frontend:
  	start-server -s ./frontend/build
-	
+
 run:
 	make start-backend & make start-frontend
 
