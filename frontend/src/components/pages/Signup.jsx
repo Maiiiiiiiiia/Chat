@@ -71,7 +71,7 @@ const Signup = () => {
                           <Form onSubmit={handleSubmit} className="form">
                             <h1 className="text-center mb-4">{t('signUp.form.registration')}</h1>
                             <Form.Group className="mb-3">
-                              <Form.Label htmlFor="nickname">{t('signUp.form.password')}</Form.Label>
+                              <Form.Label htmlFor="nickname">{t('signUp.form.nickname')}</Form.Label>
                               <Form.Control required id="nickname" value={values.nickname} onChange={handleChange} type="text" name="nickname" isInvalid={!!errors.nickname} ref={usernameRef} />
                               <Form.Control.Feedback type="invalid">{errors.nickname}</Form.Control.Feedback>
                             </Form.Group>
