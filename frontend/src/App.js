@@ -14,14 +14,13 @@ import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import store from './slices';
 
+const PrivateRoute = ({ element }) => {
+  const app = useSelector((state => state.app));
+  return app.token? element : <Navigate to="/login" />;
+};
 
 /* eslint-disable react/prop-types */
 const App = () => {
-  const PrivateRoute = ({ element }) => {
-    const app = useSelector((state => state.app));
-    return app.token? element : <Navigate to="/login" />;
-  };
-
   return (
     <Provider store={store}>
         <BrowserRouter>
