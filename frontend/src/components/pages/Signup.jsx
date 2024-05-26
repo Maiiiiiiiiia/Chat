@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import { setUserData } from '../../slices/appSlice';
 import { useSignupMutation } from '../../slices/authSlice';
-// import { ROUTES } from '../../utils/router';
+import { ROUTES } from '../../utils/router';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../../hooks/useAuth';
@@ -31,11 +31,14 @@ const Signup = () => {
             dispatch(setUserData({ nickname, token: data.token }));
             // localStorage.setItem('token', data.token);
             // localStorage.setItem('nickname', nickname);
-            navigate('/');
+            // navigate('/');
+            navigate(ROUTES.home);
         }          
         if (error) {
+          console.log(error)
           switch (error.status) {
             case 409: {
+              console.log(error.status)
               setErrors({ nickname: t('signUp.error.nickName') })
               break;
             }
