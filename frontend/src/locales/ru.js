@@ -7,7 +7,6 @@ export default {
         loginPage: {
           nickname: 'Ваш ник',
           password: 'Пароль',
-          errorNickname: 'Неверные имя пользователя или пароль',
           logIn: 'Войти',
           footer: {
             text: 'Нет аккаунта?',
@@ -16,20 +15,20 @@ export default {
           error: 'Неверные имя пользователя или пароль',
         },
         notFound: {
-          notFound: 'Page Not Found',
+          notFound: 'Страница не найдена',
         },
         signUp: {
           error: {
-            nickName: 'Пользователь с таким именем уже существует',
+            nickName: 'Такой пользователь уже существует',
             password: 'Неверные имя пользователя или пароль',
           },
           validationError: {
             usernameMinMax: 'От 3 до 20 символов',
-            requiredName: 'Имя обязательно',
+            requiredName: 'Обязательное поле',
             min6: 'Не менее 6 символов',
-            requiredPassword: 'Поле пароль обязательно',
+            requiredPassword: 'Обязательное поле',
             confirmPassword: 'Пароли должны совпадать',
-            requiredConfirmPassword: 'Поле подтверждения пароля обязательно',
+            requiredConfirmPassword: 'Обязательное поле',
           },
           form: {
             registration: 'Регистрация',

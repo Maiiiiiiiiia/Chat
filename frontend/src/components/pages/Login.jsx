@@ -18,9 +18,6 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
-    // useEffect(() => {
-    //   inputRef.current.focus();
-    // }, []);
 
     const handleFormSubmit = async (values, { setErrors }) => {
       const { nickname, password } = values;
@@ -74,7 +71,7 @@ const Login = () => {
                         <Form.Group className="mb-3 position-relative">
                           <Form.Label htmlFor="password">{t('loginPage.password')}</Form.Label>
                           <Form.Control id="password" required value={values.password} onChange={handleChange} type="password" name="password" isInvalid={!!errors.password} />
-                          <Form.Control.Feedback type="invalid">{t('loginPage.errorNickname')}</Form.Control.Feedback>
+                          <Form.Control.Feedback type="invalid">{t('loginPage.error')}</Form.Control.Feedback>
                         </Form.Group>
                         <Button type="submit" className="w-100" variant="outline-primary">{t('loginPage.logIn')}</Button>
                       </Form>

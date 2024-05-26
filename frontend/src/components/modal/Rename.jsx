@@ -1,12 +1,7 @@
 import { Formik } from 'formik';
-import React, {
-    //  useEffect, 
-    useRef
- } from 'react';
-// import { useFormik } from 'formik';
+import React, { useRef } from 'react';
 import { Button, Form, FormControl, Modal, FormLabel } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-// import { Form } from 'react-router-dom';
 import { closeModal } from '../../slices/modalSlice';
 import { useUpdateChannelMutation } from '../../slices/channelsSlice';
 import { useGetChannelsQuery } from '../../slices/channelsSlice';
@@ -24,16 +19,11 @@ const Rename = () => {
     const input = useRef();
     const [updateChannel] = useUpdateChannelMutation();
     const { data: channels = [] } = useGetChannelsQuery(); // allChannels
-    // const channelsNames = channels.map((channel) => channel.name);
-    // console.log(channelsNames);
     const { isOpened } = useSelector((state) => state.modal);
     const modalChannelId = useSelector((state) => state.app.modalChannelId);
-    console.log(modalChannelId);
     const modalChannelName = useSelector((state) => state.app.modalChannelName);
-
     const handleCloseModal = () => dispatch(closeModal());
     
-
     const validationSchema = yup.object().shape({
         channelName: yup.string().trim()
         .min(3, t('modals.numberCharacters'))
@@ -41,7 +31,6 @@ const Rename = () => {
         .required(t('modals.obligatoryField'))
         .notOneOf(channels.map((channel) => channel.name), t('modals.mustUnique'))
     })
-
 
     const onSubmit = async (values) => {
         try {
@@ -67,7 +56,6 @@ const Rename = () => {
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
           </Modal.Header>
-
            <Modal.Body>
             <Formik
                 initialValues={{ channelName: modalChannelName, channelId: modalChannelId }}
@@ -96,7 +84,6 @@ const Rename = () => {
                 )}
             </Formik>
            </Modal.Body>
-
         </Modal>
       );  
 };

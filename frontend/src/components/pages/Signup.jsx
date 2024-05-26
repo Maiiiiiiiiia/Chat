@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import { Button, CardBody, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
-// import { useLoginMutation } from '../../slices/authSlice';
 import { setUserData } from '../../slices/appSlice';
 import { useSignupMutation } from '../../slices/authSlice';
 // import { ROUTES } from '../../utils/router';
@@ -13,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import useAuth from '../../hooks/useAuth';
 
 const Signup = () => {
-    console.log('work1')
     const { t } = useTranslation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -22,7 +20,6 @@ const Signup = () => {
     const auth = useAuth();
 
     const handleFormSubmit = async (values, { setErrors }) => {
-      console.log('work2')
         const { nickname, password } = values;
         const user = {
           username: nickname,

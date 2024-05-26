@@ -1,8 +1,7 @@
 import React from 'react';
 import { Modal, FormLabel, FormControl } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { Formik } from 'formik';
-import { Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { Button } from 'react-bootstrap';
 import { closeModal } from '../../slices/modalSlice';
 import { useAddChannelMutation, useGetChannelsQuery} from '../../slices/channelsSlice';
@@ -35,7 +34,7 @@ import * as filter from 'leo-profanity'
         try {
             const cleanName = filter.clean(values.channelName);
             const newChannel = await addChannel({ name: cleanName }).unwrap();
-            refetch();  // Обновляем список каналов после добавления
+            refetch(); 
             resetForm();
             handleCloseModal();
             dispatch(changeChannel({ id: newChannel.id, name: newChannel.name })); 
