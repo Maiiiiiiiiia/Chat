@@ -7,42 +7,46 @@ import { Formik } from 'formik';
 // import { useLoginMutation } from '../../slices/authSlice';
 import { setUserData } from '../../slices/appSlice';
 import { useSignupMutation } from '../../slices/authSlice';
-import { ROUTES } from '../../utils/router';
+// import { ROUTES } from '../../utils/router';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import useAuth from '../../hooks/useAuth';
 
 const Signup = () => {
+    console.log('work1')
     const { t } = useTranslation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [signup] = useSignupMutation();
     const usernameRef = useRef(null);
+    const auth = useAuth();
 
     const handleFormSubmit = async (values, { setErrors }) => {
+      console.log('work2')
         const { nickname, password } = values;
         const user = {
           username: nickname,
           password,
         };
-        try {  
-            const { data } = await signup(user);
-            if (data) {
-                dispatch(setUserData({ nickname, token: data.token }));
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('nickname', nickname);
-                return navigate(ROUTES.home);
-            }          
-        } catch (error) {
-            if (error.status === 409) {
-                setErrors({ nickname: t('signUp.error.nickName') });
-              } else {
-                setErrors({ password: t('signUp.error.password') });
-              }
-            }
+        const { data, error } = await signup(user);
+        if (data) {
+            auth.logIn(data.token, nickname);
+            dispatch(setUserData({ nickname, token: data.token }));
+            // localStorage.setItem('token', data.token);
+            // localStorage.setItem('nickname', nickname);
+            navigate('/');
+        }          
+        if (error) {
+        if (error.status === "409") {
+            setErrors({ nickname: t('signUp.error.nickName') });
+          } else {
+            setErrors({ password: t('signUp.error.password') });
+          }
+        }
         };
 
     const validationSchema = yup.object().shape({
-        username: yup.string().trim()
+        nickname: yup.string().trim()
             .min(3, t('signUp.validationError.usernameMinMax') )
             .max(20, t('signUp.validationError.usernameMinMax'))
             .required(t('signUp.validationError.requiredName')),
@@ -50,7 +54,7 @@ const Signup = () => {
             .min(6, t('signUp.validationError.min6'))
             .required(t('signUp.validationError.requiredPassword')),
         confirmPassword: yup.string().trim()
-            .notOneOf([yup.ref('password'), null], t('signUp.validationError.confirmPassword'))
+            .oneOf([yup.ref('password'), null], t('signUp.validationError.confirmPassword'))
             .required(t('signUp.validationError.requiredConfirmPassword')),
     })
 
@@ -61,9 +65,10 @@ const Signup = () => {
                 <Card className="shadow-sm">
                     <CardBody className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
                         <Formik
-                            initialValues={{ nickname: '', password: '', passwordConfirm: '' }}
+                            initialValues={{ nickname: '', password: '', confirmPassword: '' }}
                             onSubmit={handleFormSubmit}
                             validationSchema={validationSchema}
+                            validateOnChange={false}
                         >
                         {({
                           handleSubmit, handleChange, values, errors,

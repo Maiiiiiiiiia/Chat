@@ -3,7 +3,11 @@ import App from './App'
 import i18next from 'i18next';
 import resources from './locales';
 import { I18nextProvider } from 'react-i18next';
-import { Provider, ErrorBoundary } from '@rollbar/react';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+// import AuthProvider from './components/AuthProvider';
+// import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
+import store from './slices';
 
 const rollbar = {
   accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
@@ -24,16 +28,21 @@ const Init = async () => {
   })
 
 return (
-    <Provider config={rollbar}>
+    <RollbarProvider config={rollbar}>
       <ErrorBoundary>
         <React.StrictMode>
           <I18nextProvider i18n={i18n}>
-            <App />      
+          <ReduxProvider store={store}>
+            {/* <AuthProvider> */}
+              <App />      
+            {/* </AuthProvider> */}
+            </ReduxProvider>
           </I18nextProvider>
         </React.StrictMode>
       </ErrorBoundary>
-    </Provider>
-)
+    </RollbarProvider>
+  );
 };
 
 export default Init;
+

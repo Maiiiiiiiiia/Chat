@@ -9,10 +9,11 @@ import Home from './components/pages/Home';
 import NotFound from './components/pages/NotFound';
 import Signup from './components/pages/Signup';
 import { useSelector } from 'react-redux'; 
-import AuthProvider from '../src/components/AuthProvider';
 import { ToastContainer } from 'react-toastify';
-import { Provider } from 'react-redux';
-import store from './slices';
+// import { Provider } from 'react-redux';
+// import store from './slices';
+import AuthButton from './components/AuthButton';
+import AuthProvider from './components/AuthProvider';
 
 const PrivateRoute = ({ element }) => {
   const app = useSelector((state => state.app));
@@ -22,20 +23,25 @@ const PrivateRoute = ({ element }) => {
 /* eslint-disable react/prop-types */
 const App = () => {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
         <BrowserRouter>
-          <AuthProvider />
+          
+          <AuthProvider>
+          <AuthButton />
             <Routes>
+            
               <Route path="/" element={<PrivateRoute element={<Home />} />} />
               <Route path={ROUTES.home} element={<PrivateRoute element={<Home />} />} />
               <Route path={ROUTES.login} element={<Login />} />
               <Route path={ROUTES.signup} element={<Signup />} />
               <Route path={ROUTES.notfound}  element={<NotFound />} />
+              
             </Routes>
+            </AuthProvider>
           <ToastContainer /> 
         </BrowserRouter>
-    </Provider>
+    // </Provider>
   )
-}
+};
 
 export default App;

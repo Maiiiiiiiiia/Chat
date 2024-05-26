@@ -9,11 +9,12 @@ import { useLoginMutation } from '../../slices/authSlice';
 import { setUserData } from '../../slices/appSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
   const { t } = useTranslation();
   const notifyErrorNetwork = () => toast.success(t('toast.errorNetwork'));
-
+  const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
@@ -29,10 +30,10 @@ const Login = () => {
       };
       const { data, error } = await login(user);
         if (data) {
+          auth.logIn(data.token, nickname);
           dispatch(setUserData({ nickname, token: data.token }));
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('nickname', nickname);
-          // return navigate('/Home');
+          // localStorage.setItem('token', data.token);
+          // localStorage.setItem('nickname', nickname);
           return navigate(ROUTES.home);
         } if (error) {
             switch (error.status) {
