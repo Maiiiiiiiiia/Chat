@@ -34,13 +34,17 @@ const Signup = () => {
             navigate('/');
         }          
         if (error) {
-        if (error.status === "409") {
-            setErrors({ nickname: t('signUp.error.nickName') });
-          } else {
-            setErrors({ password: t('signUp.error.password') });
+          switch (error.status) {
+            case 409: {
+              setErrors({ nickname: t('signUp.error.nickName') })
+              break;
+            }
+            default: {
+              setErrors({ nickname: t('signUp.error.nickName'), password: t('signUp.error.password'), confirmPassword: t('signUp.error.password') })
+            }
           }
         }
-        };
+      };
 
     const validationSchema = yup.object().shape({
         nickname: yup.string().trim()
