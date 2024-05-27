@@ -10,6 +10,7 @@ import { Formik } from 'formik';
 import socket from '../../socket';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity'
+import { useRef } from 'react';
 
 const Messages = () => {
   const { t } = useTranslation();
@@ -20,6 +21,15 @@ const Messages = () => {
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filterMessages = messages.filter((message) => message.channelId === currentChannelId);
   const [addMessage] = useAddMessageMutation();
+
+  const messageBox = useRef();
+
+  useEffect(() => {
+    if (messageBox.current) {
+      messageBox.current.scrollTop = messageBox.current.scrollHeight;
+    }
+  }, [filterMessages]);
+
   const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
     const data = {};
     const { message } = values;
@@ -57,7 +67,7 @@ const Messages = () => {
             {`${filterMessages.length} ${t('messages.messagesCounter.messages', { count: (filterMessages.length) })}`}
           </span>
         </div>
-        <div id="message-box" className="chat-messages overflow-auto px-5">
+        <div id="message-box" className="chat-messages overflow-auto px-5" ref={messageBox}>
           {filterMessages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b>

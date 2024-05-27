@@ -19,6 +19,19 @@ const Signup = () => {
     const usernameRef = useRef(null);
     const auth = useAuth();
 
+    const validationSchema = yup.object().shape({
+      nickname: yup.string().trim()
+          .min(3, t('signUp.validationError.usernameMinMax') )
+          .max(20, t('signUp.validationError.usernameMinMax'))
+          .required(t('signUp.validationError.requiredName')),
+      password: yup.string().trim()
+          .min(6, t('signUp.validationError.min6'))
+          .required(t('signUp.validationError.requiredPassword')),
+      confirmPassword: yup.string().trim()
+          .oneOf([yup.ref('password'), null], t('signUp.validationError.confirmPassword'))
+          .required(t('signUp.validationError.requiredConfirmPassword')),
+  })
+
     const handleFormSubmit = async (values, { setErrors }) => {
         const { nickname, password } = values;
         const user = {
@@ -31,14 +44,11 @@ const Signup = () => {
             dispatch(setUserData({ nickname, token: data.token }));
             // localStorage.setItem('token', data.token);
             // localStorage.setItem('nickname', nickname);
-            // navigate('/');
             navigate(ROUTES.home);
         }          
         if (error) {
-          console.log(error)
           switch (error.status) {
             case 409: {
-              console.log(error.status)
               setErrors({ nickname: t('signUp.error.nickName') })
               break;
             }
@@ -48,19 +58,6 @@ const Signup = () => {
           }
         }
       };
-
-    const validationSchema = yup.object().shape({
-        nickname: yup.string().trim()
-            .min(3, t('signUp.validationError.usernameMinMax') )
-            .max(20, t('signUp.validationError.usernameMinMax'))
-            .required(t('signUp.validationError.requiredName')),
-        password: yup.string().trim()
-            .min(6, t('signUp.validationError.min6'))
-            .required(t('signUp.validationError.requiredPassword')),
-        confirmPassword: yup.string().trim()
-            .oneOf([yup.ref('password'), null], t('signUp.validationError.confirmPassword'))
-            .required(t('signUp.validationError.requiredConfirmPassword')),
-    })
 
         return (
             <div className="container-fluid h-100">

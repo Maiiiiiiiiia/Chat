@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 // import { Provider } from 'react-redux';
 // import store from './slices';
-import AuthButton from './components/AuthButton';
+// import AuthButton from './components/AuthButton';
 import AuthProvider from './components/AuthProvider';
 
 const PrivateRoute = ({ element }) => {
@@ -26,7 +26,7 @@ const App = () => {
         <BrowserRouter>
           
           <AuthProvider>
-          <AuthButton />
+          {/* <AuthButton /> */}
             <Routes>
               <Route path="/" element={<PrivateRoute element={<Home />} />} />
               <Route path={ROUTES.home} element={<PrivateRoute element={<Home />} />} />
