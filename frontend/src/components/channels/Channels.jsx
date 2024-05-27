@@ -66,7 +66,7 @@ import Col from 'react-bootstrap/Col';
 
 return (
   <>
-    <Col xs="4" md="2" className="border-end px-0 bg-light flex-column h-100 d-flex">
+    <Col xs="4" md="2" className="border-end px-0 bg-light flex-column d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('channels.title')}</b>
             <Button size="sm" variant="outline-primary" onClick={() => setShowModal('adding')} >
@@ -74,10 +74,12 @@ return (
               <span className="visually-hidden">{t('channels.button.plus')}</span>
             </Button>
       </div>
-      <div className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block nav">
-      {/* <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"> */}
+
+      {/* <div className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block nav"> */}
+      <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+      
         {channels.map((channel, index) => (
-          <div className="nav-item" key={channel.id}>
+          <li className='nav-item w-100' key={channel.id}>
             <div role="group" className="d-flex dropdown btn-group">
               <button 
                   type="button" 
@@ -93,7 +95,7 @@ return (
               {index >= 2 && (
                   <Dropdown as={ButtonGroup}>
                   <Dropdown.Toggle split variant="bg-light" id={channel.id}>
-                    <span className="visually-hidden"></span>
+                    <span className="visually-hidden">{t('modals.channelManagement')}</span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>{t('channels.button.delete')}</Dropdown.Item>
@@ -101,12 +103,11 @@ return (
                   </Dropdown.Menu>
                 </Dropdown>
               )}
-            </div>
-
-          </div>
+              </div>
+          </li>
         ))}
-      {/* </ul> */}
-      </div>
+      </ul>
+      {/* </div> */}
     </Col>
     <RenderModal />
   </>
@@ -114,3 +115,37 @@ return (
 };
 
 export default Channels;
+
+
+{/* <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"> */}
+        
+{/* {channels.map((channel, index) => (
+  <div className="nav-item" key={channel.id}>
+    <div role="group" className="d-flex dropdown btn-group">
+      <button 
+          type="button" 
+          className={`w-100 rounded-0 text-start btn ${
+            channel.id === currentChannelId ? 'btn-secondary' : ''
+          }`}
+          onClick={() => switchChannel(channel)}
+        >
+          <span className='me-1'>#</span>
+          {' '}
+          {channel.name}
+      </button>
+      <button></button>
+      {index >= 2 && (
+          <Dropdown as={ButtonGroup}>
+          <Dropdown.Toggle split variant="bg-light" id={channel.id}>
+            <span className="visually-hidden"></span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>{t('channels.button.delete')}</Dropdown.Item>
+            <Dropdown.Item id={channel.id} name={channel.name} onClick={() => setShowModal('renaming', { id: channel.id, name: channel.name })}>{t('channels.button.rename')}</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
+    </div>
+
+  </div>
+))} */}
