@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
     const logIn = (token, nickname) => {
       localStorage.setItem('token', token);
       localStorage.setItem('nickname', nickname);
-      dispatch(setUserData({ nickname, token }));
+      dispatch(setUserData({ username: nickname, token }));
       setLoggedIn(true);
       console.log('logIn');
     };

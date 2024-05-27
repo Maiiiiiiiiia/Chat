@@ -21,7 +21,6 @@ const Messages = () => {
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filterMessages = messages.filter((message) => message.channelId === currentChannelId);
   const [addMessage] = useAddMessageMutation();
-
   const messageBox = useRef();
 
   useEffect(() => {
@@ -36,13 +35,12 @@ const Messages = () => {
     data.message = filter.clean(message);
     data.channelId = currentChannelId;
     data.username = username;
-    console.log(username);
     await addMessage(data);
     resetForm();
     setSubmitting(false);
   };
+
   useEffect(() => {
-    // refetch();
       socket.on('newMessage', (newMessage) => {
               dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
                 draft.push(newMessage);
@@ -53,6 +51,18 @@ const Messages = () => {
       socket.off('newMessage');
     };
   }, [currentChannelId, messages, refetch]);
+
+
+  // useEffect(() => {
+  //   if (messageBox.current) {
+  //     const windowHeight = window.innerHeight;
+  //     const maxHeight = windowHeight - 300;
+  //     // const windowWidth = window.innerWidth;
+  //     messageBox.current.style.maxHeight = `${maxHeight}px`;
+  //     // messageBox.current.style.maxWidth = `${windowWidth}px`;
+  //   }
+  // }, []); 
+  // style={{ overflowY: 'auto' }}
 
   return (
     <Col className="p-0 h-100">
@@ -67,7 +77,7 @@ const Messages = () => {
             {`${filterMessages.length} ${t('messages.messagesCounter.messages', { count: (filterMessages.length) })}`}
           </span>
         </div>
-        <div id="message-box" className="chat-messages overflow-auto px-5" ref={messageBox}>
+        <div id="message-box" className="chat-messages overflow-auto px-5" ref={messageBox} style={{ overflowY: 'auto', maxHeight: '300px' }} >
           {filterMessages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b>

@@ -21,16 +21,16 @@ const Login = () => {
 
     const handleFormSubmit = async (values, { setErrors }) => {
       const { nickname, password } = values;
+      // console.log(nickname);
       const user = {
         username: nickname,
         password,
       };
       const { data, error } = await login(user);
         if (data) {
+          console.log(nickname);
           auth.logIn(data.token, nickname);
           dispatch(setUserData({ nickname, token: data.token }));
-          // localStorage.setItem('token', data.token);
-          // localStorage.setItem('nickname', nickname);
           return navigate(ROUTES.home);
         } if (error) {
             switch (error.status) {
