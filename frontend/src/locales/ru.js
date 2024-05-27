@@ -54,6 +54,7 @@ export default {
             messages_many: ' сообщений',
           },
           putYourMessages: 'Введите сообщение...',
+          newMessages: 'Новое сообщение',
         },
 
         modals: {

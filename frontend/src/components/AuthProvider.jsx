@@ -5,6 +5,7 @@ import { setUserData } from '../slices/appSlice.js';
 import { ROUTES } from '../utils/router'
 import AuthContext from '../contexts/AuthContext.jsx';
 
+import { useEffect } from 'react';
 const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
@@ -26,6 +27,15 @@ const AuthProvider = ({ children }) => {
       setLoggedIn(false);
       console.log('logOut');
     };
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      const nickname = localStorage.getItem('nickname');
+      if (token && nickname) {
+        dispatch(setUserData({ username: nickname, token }));
+        setLoggedIn(true);
+      }
+    }, []);
 
     const context = useMemo(() => ({
       logIn,

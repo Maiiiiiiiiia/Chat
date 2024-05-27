@@ -94,7 +94,7 @@ const Messages = () => {
                   <Form.Label htmlFor="new-message" hidden>
                     {username}
                   </Form.Label>
-                  <Form.Control placeholder={t('messages.putYourMessages')} autoFocus id="new-message" aria-label="f" value={values.message} onChange={handleChange} type="text" name="message" />
+                  <Form.Control placeholder={t('messages.putYourMessages')} autoFocus id="new-message" aria-label={t('messages.newMessages')} value={values.message} onChange={handleChange} type="text" name="message" />
                   <Button type="submit">
                     <Send />
                   </Button>
