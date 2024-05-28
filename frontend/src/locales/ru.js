@@ -78,7 +78,7 @@ export default {
         },
         toast: {
             success: 'Канал создан',
-            remove: 'Канал удален',
+            remove: 'Канал удалён',
             rename: 'Канал переименован',
             errorNetwork: 'Ошибка соединения',
             errorDelete: 'Ошибка при удалении канала!',
