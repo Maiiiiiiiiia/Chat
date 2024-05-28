@@ -39,9 +39,9 @@ const Remove = () => {
       </Modal.Header>
       <Modal.Body>
       <p>{t('modals.sure')}</p>
-        <div className="d-flex justify-content-end mt-2">
+        <div className="d-flex justify-content-end">
           <Button type="button" variant="secondary" onClick={handleCloseModal} >{t('modals.cancel')}</Button>
-          <Button type="submit" variant="primary" onClick={deleteChannel}>{t('modals.delete')}</Button>
+          <Button type="submit" variant="danger" onClick={deleteChannel}>{t('modals.delete')}</Button>
         </div>
       </Modal.Body>
     </Modal>

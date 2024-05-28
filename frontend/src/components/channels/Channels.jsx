@@ -14,8 +14,10 @@ import Col from 'react-bootstrap/Col';
   const Channels = () => {
     const { t } = useTranslation();
     const { data: channels = [], refetch } = useGetChannelsQuery();
+    console.log
     const dispatch = useDispatch();
     const currentChannelId = useSelector((state) => state.app.currentChannelId);
+    // const variantOfButton = channel.id === currentChannelId ? 'secondary' : 'light';
 
     const switchChannel = ({ id, name }) => {
       if (id !== currentChannelId) {
@@ -78,7 +80,6 @@ return (
         {channels.map((channel, index) => (
           <li className='nav-item w-100' key={channel.id}>
             <Dropdown as={ButtonGroup} drop="down" className="w-100">
-            {/* <div role="group" className="d-flex dropdown btn-group"> */}
               <button 
                   type="button" 
                   className={`w-100 rounded-0 text-start btn ${
@@ -90,7 +91,12 @@ return (
                 </button>
                 {index >= 2 && (
                   <>
-                  <Dropdown.Toggle as={Button} className="text-end" split variant="bg-light" id={`dropdown-split-button${channel.id}`} >
+                  <Dropdown.Toggle 
+                  as={Button}
+                  className={`text-end ${channel.id === currentChannelId ? 'secondary' : 'light'}`}
+                  id={`dropdown-split-button${channel.id}`}
+                  variant={channel.id === currentChannelId ? 'secondary' : 'light'}
+                   >
                     <span className="visually-hidden">{t('modals.channelManagement')}</span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
