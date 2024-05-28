@@ -5,11 +5,11 @@ import { Navbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AuthContext from '../contexts/AuthContext';
-import { ROUTES } from '../utils/router';
+import ROUTES from '../utils/router';
 
 const AuthButton = () => {
   const { t } = useTranslation();
-  const app = useSelector((state => state.app));
+  const app = useSelector((state) => state.app);
   const { logOut } = useContext(AuthContext);
 
   return (
@@ -19,7 +19,7 @@ const AuthButton = () => {
           <Link className="text-decoration-none text-black" to={ROUTES.home}>{t('authProvider.mainHeader')}</Link>
         </Navbar.Brand>
         {app.token
-            ? <Button onClick={logOut} >{t('authProvider.goOut')}</Button>
+          ? <Button onClick={logOut}>{t('authProvider.goOut')}</Button>
           : null}
       </div>
     </nav>

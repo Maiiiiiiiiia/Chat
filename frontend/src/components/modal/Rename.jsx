@@ -70,26 +70,26 @@ const Rename = () => {
           onSubmit={onSubmit}
         >
           {({
-              values, handleChange, handleSubmit, errors,
-            }) => (
-              <Form onSubmit={handleSubmit}>
-                <FormControl
-                  name="channelName"
-                  id="channelName"
-                  onChange={handleChange}
-                  value={values.channelName}
-                  ref={nameChannel}
-                  autoFocus
-                  isInvalid={!!errors.channelName}
-                />
-                <FormLabel htmlFor="channelName" visuallyHidden>{t('modals.channelName')}</FormLabel>
-                <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
-                  <div className="d-flex justify-content-end mt-2">
-                    <Button type="button" variant="secondary" onClick={handleCloseModal}>{t('modals.cancel')}</Button>
-                    <Button type="submit" variant="primary">{t('modals.send')}</Button>
-                  </div>
-              </Form>
-            )}
+            values, handleChange, handleSubmit, errors,
+          }) => (
+            <Form onSubmit={handleSubmit}>
+              <FormControl
+                name="channelName"
+                id="channelName"
+                onChange={handleChange}
+                value={values.channelName}
+                ref={nameChannel}
+                autoFocus
+                isInvalid={!!errors.channelName}
+              />
+              <FormLabel htmlFor="channelName" visuallyHidden>{t('modals.channelName')}</FormLabel>
+              <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
+              <div className="d-flex justify-content-end mt-2">
+                <Button type="button" variant="secondary" onClick={handleCloseModal}>{t('modals.cancel')}</Button>
+                <Button type="submit" variant="primary">{t('modals.send')}</Button>
+              </div>
+            </Form>
+          )}
         </Formik>
       </Modal.Body>
     </Modal>

@@ -1,13 +1,13 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../slices/appSlice.js';
-import { ROUTES } from '../utils/router';
+// import ROUTES from '../utils/router';
 import AuthContext from '../contexts/AuthContext.jsx';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const logIn = useCallback((token, nickname) => {
     localStorage.setItem('token', token);
@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('nickname');
     dispatch(setUserData({ nickname: '', token: null }));
-    navigate(ROUTES.home);
+    // navigate(ROUTES.home);
     setLoggedIn(false);
     console.log('logOut');
   }, [dispatch]);

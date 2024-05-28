@@ -45,40 +45,38 @@ const Add = () => {
   };
 
   return (
-      <Modal show={isOpened} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{t('modals.addChannel')}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Formik
-            initialValues={{ channelName: '' }}
-            onSubmit={handleFormSubmit}
-            validationSchema={validationSchema}
-          >
-
-              {({ handleSubmit, handleChange, values, isSubmitting, errors, touched }) => (
-
-                <Form onSubmit={handleSubmit}>
+    <Modal show={isOpened} onHide={handleCloseModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>{t('modals.addChannel')}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Formik
+          initialValues={{ channelName: '' }}
+          onSubmit={handleFormSubmit}
+          validationSchema={validationSchema}
+        >
+          {({ handleSubmit, handleChange, values, isSubmitting, errors, touched }) => (
+            <Form onSubmit={handleSubmit}>
               <FormLabel htmlFor="channelName">{t('modals.channelName')}</FormLabel>
               <FormControl 
-                  id="channelName"
-                  name="channelName"
-                  type="text"
-                  value={values.channelName}
-                  onChange={handleChange}
-                  isInvalid={touched.channelName && !!errors.channelName}
-                  required
+                id="channelName"
+                name="channelName"
+                type="text"
+                value={values.channelName}
+                onChange={handleChange}
+                isInvalid={touched.channelName && !!errors.channelName}
+                required
               />
               <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
               <div className="d-flex justify-content-end mt-2">
-              <Button variant="secondary" onClick={handleCloseModal} disabled={isSubmitting}>{t('modals.cancel')}</Button>
-              <Button variant="primary" type="submit" disabled={isSubmitting}>{t('modals.send')}</Button>
-            </div>
+                <Button variant="secondary" onClick={handleCloseModal} disabled={isSubmitting}>{t('modals.cancel')}</Button>
+                <Button variant="primary" type="submit" disabled={isSubmitting}>{t('modals.send')}</Button>
+              </div>
             </Form>
-              )}
-          </Formik>
-        </Modal.Body>
-      </Modal>
+          )}
+        </Formik>
+      </Modal.Body>
+    </Modal>
   );
 };
 

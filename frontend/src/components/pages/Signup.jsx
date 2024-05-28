@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { setUserData } from '../../slices/appSlice';
 import { useSignupMutation } from '../../slices/authSlice';
-import { ROUTES } from '../../utils/router';
+import ROUTES from '../../utils/router';
 import useAuth from '../../hooks/useAuth';
 
 const Signup = () => {
@@ -21,7 +21,7 @@ const Signup = () => {
 
   const validationSchema = yup.object().shape({
     nickname: yup.string().trim()
-      .min(3, t('signUp.validationError.usernameMinMax') )
+      .min(3, t('signUp.validationError.usernameMinMax'))
       .max(20, t('signUp.validationError.usernameMinMax'))
       .required(t('signUp.validationError.requiredName')),
     password: yup.string().trim()
@@ -64,12 +64,12 @@ const Signup = () => {
           <Card className="shadow-sm">
             <CardBody className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <Formik
-                  initialValues={{ nickname: '', password: '', confirmPassword: '' }}
-                  onSubmit={handleFormSubmit}
-                  validationSchema={validationSchema}
-                  validateOnChange={false}
+                initialValues={{ nickname: '', password: '', confirmPassword: '' }}
+                onSubmit={handleFormSubmit}
+                validationSchema={validationSchema}
+                validateOnChange={false}
               >
-              {({
+                {({
                   handleSubmit, handleChange, values, errors,
                 }) => (
                   <Form onSubmit={handleSubmit} className="form">

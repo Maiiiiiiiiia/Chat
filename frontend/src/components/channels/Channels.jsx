@@ -3,17 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
+import Col from 'react-bootstrap/Col';
 import { useGetChannelsQuery, channelsApi } from '../../slices/channelsSlice';
 import { changeChannel, setChannelModal } from '../../slices/appSlice';
 import { showModal } from '../../slices/modalSlice';
 import RenderModal from '../modal/RenderModal';
 import socket from '../../socket';
-import Col from 'react-bootstrap/Col';
 
 const Channels = () => {
   const { t } = useTranslation();
   const { data: channels = [], refetch } = useGetChannelsQuery();
-  console.log
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
 
@@ -50,11 +49,10 @@ const Channels = () => {
       }));
     });
     socket.on('removeChannel', (payload) => {
-      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
-        return draft.filter((ch) => ch.id !== payload.id);
-      }));
+      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => 
+          draft.filter((ch) => ch.id !== payload.id)
+      ));
     });
-    // socket.on('removeChannel', (payload) => dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.filter((ch) => ch.id !== payload.id))));
 
     return () => {
       socket.off('renameChannel');
@@ -80,8 +78,8 @@ const Channels = () => {
               <button
                 type="button"
                 className={`w-100 rounded-0 text-start text-truncate btn ${
-                    channel.id === currentChannelId ? 'btn-secondary' : ''
-                  }`}
+                  channel.id === currentChannelId ? "btn-secondary" : ""
+                }`}
                 onClick={() => switchChannel(channel)}
               >
                 <span className='me-1'>
@@ -91,26 +89,25 @@ const Channels = () => {
                 </span>
               </button>
               {index >= 2 && (
-              <>
+                <>
                   <Dropdown.Toggle
-                  as={Button}
-                  className={`text-end ${channel.id === currentChannelId ? 'secondary' : 'light'}`}
-                  id={`dropdown-split-button${channel.id}`}
-                  variant={channel.id === currentChannelId ? 'secondary' : 'light'}
+                    as={Button}
+                    className={`text-end ${channel.id === currentChannelId ? 'secondary' : 'light'}`}
+                    id={`dropdown-split-button${channel.id}`}
+                    variant={channel.id === currentChannelId ? 'secondary' : 'light'}
                   >
-                  <span className="visually-hidden">{t('modals.channelManagement')}</span>
-                </Dropdown.Toggle>
+                    <span className="visually-hidden">{t('modals.channelManagement')}</span>
+                  </Dropdown.Toggle>
                   <Dropdown.Menu>
-                  <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>{t('channels.button.delete')}</Dropdown.Item>
-                  <Dropdown.Item id={channel.id} name={channel.name} onClick={() => setShowModal('renaming', { id: channel.id, name: channel.name })}>{t('channels.button.rename')}</Dropdown.Item>
-                </Dropdown.Menu>
+                    <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>{t('channels.button.delete')}</Dropdown.Item>
+                    <Dropdown.Item id={channel.id} name={channel.name} onClick={() => setShowModal('renaming', { id: channel.id, name: channel.name })}>{t('channels.button.rename')}</Dropdown.Item>
+                  </Dropdown.Menu>
                 </>
               )}
             </Dropdown>
           </li>
         ))}
       </ul>
-      {/* </div> */}
     </Col>
     <RenderModal />
   </>

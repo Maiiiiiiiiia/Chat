@@ -30,9 +30,9 @@ const Init = async () => {
       <ErrorBoundary>
         <React.StrictMode>
           <I18nextProvider i18n={i18n}>
-          <ReduxProvider store={store}>
-            <App />
-          </ReduxProvider>
+            <ReduxProvider store={store}>
+              <App />
+            </ReduxProvider>
           </I18nextProvider>
         </React.StrictMode>
       </ErrorBoundary>

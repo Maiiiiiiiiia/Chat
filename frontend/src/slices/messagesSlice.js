@@ -27,7 +27,7 @@ export const messagesApi = createApi({
   }),
 });
 
-export const { 
+export const {
   useGetMessagesQuery,
   useAddMessageMutation,
   useRemoveMessageMutation,
