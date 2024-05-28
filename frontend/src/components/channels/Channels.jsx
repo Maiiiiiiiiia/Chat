@@ -82,7 +82,7 @@ return (
             <Dropdown as={ButtonGroup} drop="down" className="w-100">
               <button 
                   type="button" 
-                  className={`w-100 rounded-0 text-start btn ${
+                  className={`w-100 rounded-0 text-start text-truncate btn ${
                     channel.id === currentChannelId ? 'btn-secondary' : ''
                   }`}
                   onClick={() => switchChannel(channel)}

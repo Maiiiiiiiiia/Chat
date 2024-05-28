@@ -9,17 +9,8 @@ import store from './slices';
 
 const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
-  // accessToken: '1dd6d719ec4e4f02b0985a5766f0077f',
   environment: 'production'
 };
-
-// RollbarProvider({rollbarConfig}).addEventHandler('error', function(err) {
-//   console.log('Rollbar error:', err);
-// });
-
-
-// rollbarConfig.error('Test error for Rollbar integration');
-console.log(rollbarConfig);
 
 const Init = async () => {
   const defaultLanguage = 'ru';
