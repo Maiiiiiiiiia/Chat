@@ -7,10 +7,19 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from './slices';
 
-const rollbar = {
-  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+const rollbarConfig = {
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+  // accessToken: '1dd6d719ec4e4f02b0985a5766f0077f',
   environment: 'production'
 };
+
+// RollbarProvider({rollbarConfig}).addEventHandler('error', function(err) {
+//   console.log('Rollbar error:', err);
+// });
+
+
+// rollbarConfig.error('Test error for Rollbar integration');
+console.log(rollbarConfig);
 
 const Init = async () => {
   const defaultLanguage = 'ru';
@@ -26,7 +35,7 @@ const Init = async () => {
   })
 
 return (
-    <RollbarProvider config={rollbar}>
+    <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <React.StrictMode>
           <I18nextProvider i18n={i18n}>

@@ -52,18 +52,6 @@ const Messages = () => {
     };
   }, [currentChannelId, messages, refetch]);
 
-
-  // useEffect(() => {
-  //   if (messageBox.current) {
-  //     const windowHeight = window.innerHeight;
-  //     const maxHeight = windowHeight - 300;
-  //     // const windowWidth = window.innerWidth;
-  //     messageBox.current.style.maxHeight = `${maxHeight}px`;
-  //     // messageBox.current.style.maxWidth = `${windowWidth}px`;
-  //   }
-  // }, []); 
-  // style={{ overflowY: 'auto' }}
-
   return (
     <Col className="p-0 h-100">
       <div className="d-flex flex-column h-100">
@@ -77,7 +65,7 @@ const Messages = () => {
             {`${filterMessages.length} ${t('messages.messagesCounter.messages', { count: (filterMessages.length) })}`}
           </span>
         </div>
-        <div id="message-box" className="chat-messages overflow-auto px-5" ref={messageBox} style={{ overflowY: 'auto', maxHeight: '300px' }} >
+        <div id="message-box" className="chat-messages overflow-auto px-5" ref={messageBox} style={{ overflowY: 'auto', height: '50vh' }} >
           {filterMessages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b>

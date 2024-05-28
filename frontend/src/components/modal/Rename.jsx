@@ -10,20 +10,21 @@ import { changeChannel } from '../../slices/appSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
 
 const Rename = () => {
     const { t } = useTranslation();
     const notify = () => toast.success(t('toast.rename'));
     const notifyErrorRename = () => toast.success(t('toast.errorRename'));
     const dispatch = useDispatch();
-    const input = useRef();
     const [updateChannel] = useUpdateChannelMutation();
     const { data: channels = [] } = useGetChannelsQuery(); // allChannels
     const { isOpened } = useSelector((state) => state.modal);
     const modalChannelId = useSelector((state) => state.app.modalChannelId);
     const modalChannelName = useSelector((state) => state.app.modalChannelName);
     const handleCloseModal = () => dispatch(closeModal());
-    
+    const nameChannel = useRef();
+
     const validationSchema = yup.object().shape({
         channelName: yup.string().trim()
         .min(3, t('modals.numberCharacters'))
@@ -50,6 +51,12 @@ const Rename = () => {
             notifyErrorRename();
         }
     }
+    useEffect(() => {
+        if (nameChannel.current) {
+            nameChannel.current.focus();
+            nameChannel.current.select();
+        }
+    }, []);
 
     return (
         <Modal show={isOpened} onHide={handleCloseModal}>
@@ -72,7 +79,7 @@ const Rename = () => {
                             id="name" 
                             onChange={handleChange} 
                             value={values.channelName} 
-                            ref={input} 
+                            ref={nameChannel} 
                             autoFocus 
                             isInvalid={!!errors.channelName} />
                         <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>

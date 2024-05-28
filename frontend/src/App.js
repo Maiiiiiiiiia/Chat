@@ -24,7 +24,6 @@ const PrivateRoute = ({ element }) => {
 const App = () => {
   return (
         <BrowserRouter>
-          
           <AuthProvider>
           <AuthButton />
             <Routes>
