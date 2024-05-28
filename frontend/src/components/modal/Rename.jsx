@@ -1,16 +1,16 @@
 import { Formik } from 'formik';
 import React, { useRef, useEffect } from 'react';
-import { 
-    Button, Form, FormControl, Modal, FormLabel
- } from 'react-bootstrap';
+import {
+  Button, Form, FormControl, Modal, FormLabel,
+} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { closeModal } from '../../slices/modalSlice';
 import { useUpdateChannelMutation, useGetChannelsQuery } from '../../slices/channelsSlice';
 import { changeChannel } from '../../slices/appSlice';
-import { toast } from 'react-toastify';
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -59,40 +59,40 @@ const Rename = () => {
   }, []);
 
   return (
-      <Modal show={isOpened} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-             <Formik
-              initialValues={{ channelName: modalChannelName, channelId: modalChannelId }}
-              validationSchema={validationSchema}
-              onSubmit={onSubmit}
-            >
-              {({
-                  values, handleChange, handleSubmit, errors,
-                }) => (
-                  <Form onSubmit={handleSubmit}>
-                      <FormControl 
-                        name="channelName" 
-                        id="channelName" 
-                        onChange={handleChange} 
-                        value={values.channelName} 
-                        ref={nameChannel} 
-                        autoFocus 
-                        isInvalid={!!errors.channelName} 
-                      />
-                      <FormLabel htmlFor="channelName" visuallyHidden>{t('modals.channelName')}</FormLabel>
-                      <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
-                      <div className="d-flex justify-content-end mt-2">
-                              <Button type="button" variant="secondary" onClick={handleCloseModal}>{t('modals.cancel')}</Button>
-                              <Button type="submit" variant="primary">{t('modals.send')}</Button>
-                            </div>
-                    </Form>
-                )}
-            </Formik>
-           </Modal.Body>
-        </Modal>
+    <Modal show={isOpened} onHide={handleCloseModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Formik
+          initialValues={{ channelName: modalChannelName, channelId: modalChannelId }}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({
+              values, handleChange, handleSubmit, errors,
+            }) => (
+              <Form onSubmit={handleSubmit}>
+                <FormControl
+                  name="channelName"
+                  id="channelName"
+                  onChange={handleChange}
+                  value={values.channelName}
+                  ref={nameChannel}
+                  autoFocus
+                  isInvalid={!!errors.channelName}
+                />
+                <FormLabel htmlFor="channelName" visuallyHidden>{t('modals.channelName')}</FormLabel>
+                <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
+                  <div className="d-flex justify-content-end mt-2">
+                    <Button type="button" variant="secondary" onClick={handleCloseModal}>{t('modals.cancel')}</Button>
+                    <Button type="submit" variant="primary">{t('modals.send')}</Button>
+                  </div>
+              </Form>
+            )}
+        </Formik>
+      </Modal.Body>
+    </Modal>
   );
 };
 

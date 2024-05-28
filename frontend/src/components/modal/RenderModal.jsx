@@ -1,6 +1,6 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import getModal from "./index";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import getModal from './index';
 
 const RenderModal = () => {
   const typeModal = useSelector((state) => state.modal.type);
@@ -8,7 +8,7 @@ const RenderModal = () => {
   if (typeModal === null) {
     return null;
   }
-  
+
   const Component = getModal(typeModal);
   return <Component item={itemModal} />;
 };

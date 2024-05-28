@@ -6,14 +6,14 @@ import Messages from '../messages/Messages';
 
 const Home = () => {
   return (
-      <div className="h-100 d-flex flex-column justify-content-between">
-          <Container className="h-100 my-4 overflow-hidden rounded shadow">
-              <Row className="bg-white flex-md-row h-100">
-                <Channels />
-                <Messages />
-              </Row>
-            </Container>
-        </div>
+    <div className="h-100 d-flex flex-column justify-content-between">
+      <Container className="h-100 my-4 overflow-hidden rounded shadow">
+        <Row className="bg-white flex-md-row h-100">
+          <Channels />
+          <Messages />
+        </Row>
+      </Container>
+    </div>
   );
 };
 

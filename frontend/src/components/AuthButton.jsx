@@ -13,16 +13,16 @@ const AuthButton = () => {
   const { logOut } = useContext(AuthContext);
 
   return (
-      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-              <div className="container">
-                <Navbar.Brand>
-                  <Link className="text-decoration-none text-black" to={ROUTES.home}>{t('authProvider.mainHeader')}</Link>
-                </Navbar.Brand>
-                {app.token
-                    ? <Button onClick={logOut} >{t('authProvider.goOut')}</Button>
-                  : null}
-              </div>
-            </nav>
+    <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+      <div className="container">
+        <Navbar.Brand>
+          <Link className="text-decoration-none text-black" to={ROUTES.home}>{t('authProvider.mainHeader')}</Link>
+        </Navbar.Brand>
+        {app.token
+            ? <Button onClick={logOut} >{t('authProvider.goOut')}</Button>
+          : null}
+      </div>
+    </nav>
   );
 };
 

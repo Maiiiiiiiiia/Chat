@@ -21,7 +21,7 @@ const Remove = () => {
   const deleteChannel = async () => {
     try {
       await removeChannel(modalChannelId).unwrap();
-      dispatch(changeChannel({ id: '1', name: 'general' }));  // Перемещаем пользователей в дефолтный канал
+      dispatch(changeChannel({ id: '1', name: 'general' }));
       handleCloseModal();
       notify();
     } catch (error) {

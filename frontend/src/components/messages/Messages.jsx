@@ -5,11 +5,10 @@ import { Send } from 'react-bootstrap-icons';
 import { Button, Form } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
-import socket from '../../socket';
 import { useTranslation } from 'react-i18next';
-import * as filter from 'leo-profanity'
+import * as filter from 'leo-profanity';
+import socket from '../../socket';
 import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
-
 
 const Messages = () => {
   const { t } = useTranslation();
@@ -49,7 +48,7 @@ const Messages = () => {
     return () => {
       socket.off('newMessage');
     };
-  }, [currentChannelId, messages, refetch]);
+  }, [currentChannelId, messages, refetch, dispatch]);
 
   return (
     <Col className="p-0 h-100">

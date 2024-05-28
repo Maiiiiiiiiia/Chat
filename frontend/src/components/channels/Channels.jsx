@@ -49,12 +49,12 @@ const Channels = () => {
         draft.push(payload);
       }));
     });
-
     socket.on('removeChannel', (payload) => {
       dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
         return draft.filter((ch) => ch.id !== payload.id);
       }));
     });
+    // socket.on('removeChannel', (payload) => dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.filter((ch) => ch.id !== payload.id))));
 
     return () => {
       socket.off('renameChannel');
@@ -64,14 +64,14 @@ const Channels = () => {
     }, [dispatch]);
 
   return (
-  <>
+    <>
     <Col xs="4" md="2" className="border-end px-0 bg-light flex-column d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('channels.title')}</b>
         <Button size="sm" variant="outline-primary" onClick={() => setShowModal('adding')}>
-              <Plus />
-              <span className="visually-hidden">{t('channels.button.plus')}</span>
-            </Button>
+          <Plus />
+          <span className="visually-hidden">{t('channels.button.plus')}</span>
+        </Button>
       </div>
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel, index) => (
@@ -84,27 +84,28 @@ const Channels = () => {
                   }`}
                 onClick={() => switchChannel(channel)}
               >
-                <span className='me-1'>#
-                {' '}
-                {channel.name}
+                <span className='me-1'>
+                  #
+                  {' '}
+                  {channel.name}
                 </span>
               </button>
               {index >= 2 && (
-                  <>
-                    <Dropdown.Toggle
-                    as={Button}
-                    className={`text-end ${channel.id === currentChannelId ? 'secondary' : 'light'}`}
-                    id={`dropdown-split-button${channel.id}`}
-                    variant={channel.id === currentChannelId ? 'secondary' : 'light'}
-                    >
-                    <span className="visually-hidden">{t('modals.channelManagement')}</span>
-                  </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                    <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>{t('channels.button.delete')}</Dropdown.Item>
-                    <Dropdown.Item id={channel.id} name={channel.name} onClick={() => setShowModal('renaming', { id: channel.id, name: channel.name })}>{t('channels.button.rename')}</Dropdown.Item>
-                  </Dropdown.Menu>
-                  </>
-                )}
+              <>
+                  <Dropdown.Toggle
+                  as={Button}
+                  className={`text-end ${channel.id === currentChannelId ? 'secondary' : 'light'}`}
+                  id={`dropdown-split-button${channel.id}`}
+                  variant={channel.id === currentChannelId ? 'secondary' : 'light'}
+                  >
+                  <span className="visually-hidden">{t('modals.channelManagement')}</span>
+                </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                  <Dropdown.Item id={channel.id} onClick={() => setShowModal('removing', { id: channel.id })}>{t('channels.button.delete')}</Dropdown.Item>
+                  <Dropdown.Item id={channel.id} name={channel.name} onClick={() => setShowModal('renaming', { id: channel.id, name: channel.name })}>{t('channels.button.rename')}</Dropdown.Item>
+                </Dropdown.Menu>
+                </>
+              )}
             </Dropdown>
           </li>
         ))}

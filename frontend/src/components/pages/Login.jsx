@@ -29,7 +29,7 @@ const Login = () => {
     if (data) {
       auth.logIn(data.token, nickname);
       dispatch(setUserData({ nickname, token: data.token }));
-      return navigate(ROUTES.home);
+      navigate(ROUTES.home);
     } if (error) {
       switch (error.status) {
         case 401: {
@@ -48,11 +48,11 @@ const Login = () => {
   };
 
   return (
-      <div className="container-fluid h-100">
-          <div className="row justify-content-center align-content-center h-100">
-            <div className="col-12 col-md-8 col-xxl-6">
+    <div className="container-fluid h-100">
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
             <Card className="shadow-sm">
-          <CardBody className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+            <CardBody className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <Formik
                 initialValues={{ nickname: '', password: '' }}
                 onSubmit={handleFormSubmit}
@@ -74,8 +74,8 @@ const Login = () => {
                         <Button type="submit" className="w-100" variant="outline-primary">{t('loginPage.logIn')}</Button>
                       </Form>
                     )}
-                  </Formik>
-              </CardBody>
+                </Formik>
+            </CardBody>
               <div className="card-footer p-4">
                   <div className="text-center">
                       <span>{t('loginPage.footer.text')}</span>
@@ -84,8 +84,8 @@ const Login = () => {
                 </div>
             </Card>
           </div>
-          </div>
         </div>
+      </div>
   );
 };
 

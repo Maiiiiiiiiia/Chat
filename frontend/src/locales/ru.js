@@ -1,5 +1,5 @@
 export default {
-    translation: {
+  translation: {
     authProvider: {
       mainHeader: 'Hexlet Chat',
       goOut: 'Выйти',
@@ -76,12 +76,12 @@ export default {
       },
     },
     toast: {
-        success: 'Канал создан',
-        remove: 'Канал удалён',
-        rename: 'Канал переименован',
-        errorNetwork: 'Ошибка соединения',
-        errorDelete: 'Ошибка при удалении канала!',
-        errorRename: 'Ошибка при переименовании канала!',
-      },
+      success: 'Канал создан',
+      remove: 'Канал удалён',
+      rename: 'Канал переименован',
+      errorNetwork: 'Ошибка соединения',
+      errorDelete: 'Ошибка при удалении канала!',
+      errorRename: 'Ошибка при переименовании канала!',
+    },
   },
 };

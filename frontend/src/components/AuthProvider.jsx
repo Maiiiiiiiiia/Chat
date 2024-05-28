@@ -9,14 +9,13 @@ const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-    
   const logIn = useCallback((token, nickname) => {
     localStorage.setItem('token', token);
     localStorage.setItem('nickname', nickname);
     dispatch(setUserData({ username: nickname, token }));
     setLoggedIn(true);
     console.log('logIn');
-  }, []);
+  }, [dispatch]);
 
   const logOut = useCallback(() => {
     localStorage.removeItem('token');
@@ -25,18 +24,18 @@ const AuthProvider = ({ children }) => {
     navigate(ROUTES.home);
     setLoggedIn(false);
     console.log('logOut');
-  }, []);
+  }, [dispatch]);
 
   const context = useMemo(() => ({
     logIn,
     logOut,
     loggedIn,
   }), [logIn, logOut, loggedIn]);
-  
+
   return (
-      <AuthContext.Provider value={context}>
-        {children}
-      </AuthContext.Provider>
+    <AuthContext.Provider value={context}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
