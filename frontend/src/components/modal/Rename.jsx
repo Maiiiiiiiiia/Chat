@@ -73,16 +73,9 @@ const Rename = () => {
                     values, handleChange, handleSubmit, errors,
                 }) => (
                     <Form onSubmit={handleSubmit}>
-                        <FormLabel htmlFor="ChannelName" visuallyHidden>{t('modals.channelName')}</FormLabel>
-
-                        <FormControl 
-                            name="channelName" 
-                            id="name" 
-                            onChange={handleChange} 
-                            value={values.channelName} 
-                            ref={nameChannel} 
-                            autoFocus 
-                            isInvalid={!!errors.channelName} />
+                        {/* <input name="name" id="name" className="mb-2 form-control" value={values.channelName}/> */}
+                        <FormControl name="name" id="name" onChange={handleChange} value={values.channelName} ref={nameChannel} autoFocus isInvalid={!!errors.channelName} />
+                        <FormLabel htmlFor="name" visuallyHidden>{t('modals.channelName')}</FormLabel>
                         <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
                             <div className="d-flex justify-content-end mt-2">
                                 <Button type="button" variant="secondary" onClick={handleCloseModal}>{t('modals.cancel')}</Button>
