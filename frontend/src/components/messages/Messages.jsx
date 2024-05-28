@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Col from 'react-bootstrap/esm/Col';
 import { Send } from 'react-bootstrap-icons';
-import { useDispatch } from 'react-redux';
-import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
 import { Button, Form } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
 import socket from '../../socket';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity'
-import { useRef } from 'react';
+import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
+
 
 const Messages = () => {
   const { t } = useTranslation();
@@ -41,11 +40,11 @@ const Messages = () => {
   };
 
   useEffect(() => {
-      socket.on('newMessage', (newMessage) => {
-              dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
-                draft.push(newMessage);
-        }));
-      });
+    socket.on('newMessage', (newMessage) => {
+      dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
+        draft.push(newMessage);
+      }));
+    });
 
     return () => {
       socket.off('newMessage');
@@ -65,7 +64,7 @@ const Messages = () => {
             {`${filterMessages.length} ${t('messages.messagesCounter.messages', { count: (filterMessages.length) })}`}
           </span>
         </div>
-        <div id="message-box" className="chat-messages overflow-auto px-5" ref={messageBox} style={{ overflowY: 'auto', height: '50vh' }} >
+        <div id="message-box" className="chat-messages overflow-auto px-5" ref={messageBox} style={{ overflowY: 'auto', height: '50vh' }}>
           {filterMessages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b>

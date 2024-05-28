@@ -1,43 +1,43 @@
-import React, { useState, useMemo }  from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../slices/appSlice.js';
-import { ROUTES } from '../utils/router'
+import { ROUTES } from '../utils/router';
 import AuthContext from '../contexts/AuthContext.jsx';
 
 const AuthProvider = ({ children }) => {
-    const [loggedIn, setLoggedIn] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
     
-    const logIn = (token, nickname) => {
-      localStorage.setItem('token', token);
-      localStorage.setItem('nickname', nickname);
-      dispatch(setUserData({ username: nickname, token }));
-      setLoggedIn(true);
-      console.log('logIn');
-    };
+  const logIn = useCallback((token, nickname) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('nickname', nickname);
+    dispatch(setUserData({ username: nickname, token }));
+    setLoggedIn(true);
+    console.log('logIn');
+  }, []);
 
-    const logOut = () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('nickname');
-      dispatch(setUserData({ nickname: '', token: null }));
-      navigate(ROUTES.home);
-      setLoggedIn(false);
-      console.log('logOut');
-    };
+  const logOut = useCallback(() => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('nickname');
+    dispatch(setUserData({ nickname: '', token: null }));
+    navigate(ROUTES.home);
+    setLoggedIn(false);
+    console.log('logOut');
+  }, []);
 
-    const context = useMemo(() => ({
-      logIn,
-      logOut,
-      loggedIn
-    }), [ logIn, logOut, loggedIn ]);
+  const context = useMemo(() => ({
+    logIn,
+    logOut,
+    loggedIn,
+  }), [logIn, logOut, loggedIn]);
   
-    return (
+  return (
       <AuthContext.Provider value={context}>
         {children}
       </AuthContext.Provider>
-    );
-  };
+  );
+};
 
-  export default AuthProvider;
+export default AuthProvider;

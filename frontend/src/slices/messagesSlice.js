@@ -5,8 +5,8 @@ import getAuthHeader from '../authorizationHeader';
 export const messagesApi = createApi({
   reducerPath: 'messages',
   baseQuery: fetchBaseQuery(
-    { baseUrl: routes.messagesPath(), prepareHeaders: getAuthHeader, tagTypes: ['Messages'] }
-    ),
+    { baseUrl: routes.messagesPath(), prepareHeaders: getAuthHeader, tagTypes: ['Messages'] },
+  ),
   endpoints: (builder) => ({
     getMessages: builder.query({
       query: () => '',
@@ -18,16 +18,16 @@ export const messagesApi = createApi({
       }),
       removeMessage: builder.mutation({
         query: (id) => ({
-            method: 'DELETE',
-            url: id,
-        })
-      })
+          method: 'DELETE',
+          url: id,
+        }),
+      }),
     }),
   }),
 });
 
 export const { 
-    useGetMessagesQuery, 
-    useAddMessageMutation,
-    useRemoveMessageMutation,
- } = messagesApi;
+  useGetMessagesQuery,
+  useAddMessageMutation,
+  useRemoveMessageMutation,
+} = messagesApi;
