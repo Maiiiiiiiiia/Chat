@@ -48,20 +48,14 @@ const Channels = () => {
         draft.push(payload);
       }));
     });
-    // socket.on('removeChannel', (payload) => {
-    //   dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) =>
-    //       draft.filter((ch) => ch.id !== payload.id),
-    //   ));
-    // });
+
     socket.on('removeChannel', (payload) => {
       dispatch(channelsApi.util.updateQueryData(
         'getChannels',
         undefined,
-        (draft) => draft.filter((ch) => ch.id !== payload.id)
+        (draft) => draft.filter((ch) => ch.id !== payload.id),
       ));
     });
-    
-    
 
     return () => {
       socket.off('renameChannel');

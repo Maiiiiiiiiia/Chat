@@ -23,13 +23,13 @@ const App = () => (
   <BrowserRouter>
     <AuthProvider>
       <AuthButton />
-        <Routes>
-          <Route path="/" element={<PrivateRoute element={<Home />} />} />
-          <Route path={ROUTES.home} element={<PrivateRoute element={<Home />} />} />
-          <Route path={ROUTES.login} element={<Login />} />
-          <Route path={ROUTES.signup} element={<Signup />} />
-          <Route path={ROUTES.notfound} element={<NotFound />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<PrivateRoute element={<Home />} />} />
+        <Route path={ROUTES.home} element={<PrivateRoute element={<Home />} />} />
+        <Route path={ROUTES.login} element={<Login />} />
+        <Route path={ROUTES.signup} element={<Signup />} />
+        <Route path={ROUTES.notfound} element={<NotFound />} />
+      </Routes>
     </AuthProvider>
     <ToastContainer />
   </BrowserRouter>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { 
-  Modal, FormLabel, FormControl, Button
+import {
+  Modal, FormLabel, FormControl, Button,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
@@ -57,8 +57,8 @@ const Add = () => {
           onSubmit={handleFormSubmit}
           validationSchema={validationSchema}
         >
-          {({ 
-            handleSubmit, handleChange, values, isSubmitting, errors, touched
+          {({
+            handleSubmit, handleChange, values, isSubmitting, errors, touched,
           }) => (
             <Form onSubmit={handleSubmit}>
               <FormLabel htmlFor="channelName">{t('modals.channelName')}</FormLabel>
