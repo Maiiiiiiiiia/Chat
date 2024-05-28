@@ -73,7 +73,8 @@ const Rename = () => {
                     values, handleChange, handleSubmit, errors,
                 }) => (
                     <Form onSubmit={handleSubmit}>
-                        <FormLabel htmlFor="ChannelName" visuallyHidden>{t('modals.channelManagement')}</FormLabel>
+                        <FormLabel htmlFor="ChannelName" visuallyHidden>{t('modals.channelName')}</FormLabel>
+
                         <FormControl 
                             name="channelName" 
                             id="name" 
