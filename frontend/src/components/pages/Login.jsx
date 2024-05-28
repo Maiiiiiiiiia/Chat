@@ -77,7 +77,7 @@ const Login = () => {
                     </Form.Group>
                     <Form.Group className="mb-3 position-relative">
                       <Form.Label htmlFor="password">{t('loginPage.password')}</Form.Label>
-                      <Form.Control 
+                      <Form.Control
                         id="password"
                         required
                         value={values.password}
@@ -93,12 +93,12 @@ const Login = () => {
                 )}
               </Formik>
             </CardBody>
-              <div className="card-footer p-4">
-                <div className="text-center">
-                  <span>{t('loginPage.footer.text')}</span>
-                  <Link to={ROUTES.signup}>{t('loginPage.footer.link')}</Link>
-                </div>
+            <div className="card-footer p-4">
+              <div className="text-center">
+                <span>{t('loginPage.footer.text')}</span>
+                <Link to={ROUTES.signup}>{t('loginPage.footer.link')}</Link>
               </div>
+            </div>
           </Card>
         </div>
       </div>
