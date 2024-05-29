@@ -5,6 +5,8 @@ import getModal from './index';
 const RenderModal = () => {
   const typeModal = useSelector((state) => state.modal.type);
   const itemModal = useSelector((state) => state.modal.item);
+  // const { typeModal, itemModal } = useSelector((state) => state.modal); // <---- так ошибка
+
   if (typeModal === null) {
     return null;
   }

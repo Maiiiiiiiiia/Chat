@@ -8,13 +8,19 @@ import { useGetChannelsQuery, channelsApi } from '../../slices/channelsSlice';
 import { changeChannel, setChannelModal } from '../../slices/appSlice';
 import { showModal } from '../../slices/modalSlice';
 import RenderModal from '../modal/RenderModal';
-import socket from '../../socket';
+import SocketContext from '../../contexts/SocketContext';
+import { useContext } from 'react';
+import { useGetMessagesQuery } from '../../slices/messagesSlice';
+import { useRemoveMessageMutation } from '../../slices/messagesSlice';
 
 const Channels = () => {
   const { t } = useTranslation();
-  const { data: channels = [], refetch } = useGetChannelsQuery();
+  const { data: channels = [] } = useGetChannelsQuery();
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
+  const socket = useContext(SocketContext);
+  const [removeMessage] = useRemoveMessageMutation();
+  const { data: messages = [] } = useGetMessagesQuery();
 
   const switchChannel = ({ id, name }) => {
     if (id !== currentChannelId) {
@@ -28,10 +34,6 @@ const Channels = () => {
     }
     dispatch(showModal({ type }));
   };
-
-  useEffect(() => {
-    refetch();
-  }, [currentChannelId, refetch]);
 
   useEffect(() => {
     socket.on('renameChannel', (payload) => {
@@ -49,12 +51,20 @@ const Channels = () => {
       }));
     });
 
-    socket.on('removeChannel', (payload) => {
+    socket.on('removeChannel', async (payload) => {
       dispatch(channelsApi.util.updateQueryData(
         'getChannels',
         undefined,
         (draft) => draft.filter((ch) => ch.id !== payload.id),
       ));
+
+      const channelMessages = messages.filter((message) => message.channelId === payload.id);
+      console.log(`Removing messages for channel ${payload.id}:`, channelMessages);
+      
+      for (const message of channelMessages) {
+        console.log(`Removing message with id ${message.id}`);
+        await removeMessage(message.id).unwrap();
+      }
     });
 
     return () => {
@@ -62,7 +72,7 @@ const Channels = () => {
       socket.off('newChannel');
       socket.off('removeChannel');
     };
-  }, [dispatch]);
+  }, [dispatch, messages, removeMessage, socket]);
 
   return (
     <>
@@ -75,7 +85,7 @@ const Channels = () => {
           </Button>
         </div>
         <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-          {channels.map((channel, index) => (
+          {channels.map((channel) => (
             <li className="nav-item w-100" key={channel.id}>
               <Dropdown as={ButtonGroup} drop="down" className="w-100">
                 <button
@@ -91,7 +101,7 @@ const Channels = () => {
                     {channel.name}
                   </span>
                 </button>
-                {index >= 2 && (
+                {channel.removable && (
                   <>
                     <Dropdown.Toggle
                       as={Button}

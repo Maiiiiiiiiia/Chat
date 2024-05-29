@@ -10,7 +10,6 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { closeModal } from '../../slices/modalSlice';
 import { useUpdateChannelMutation, useGetChannelsQuery } from '../../slices/channelsSlice';
-import { changeChannel } from '../../slices/appSlice';
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -19,7 +18,6 @@ const Rename = () => {
   const dispatch = useDispatch();
   const [updateChannel] = useUpdateChannelMutation();
   const { data: channels = [] } = useGetChannelsQuery(); // allChannels
-  const { isOpened } = useSelector((state) => state.modal);
   const modalChannelId = useSelector((state) => state.app.modalChannelId);
   const modalChannelName = useSelector((state) => state.app.modalChannelName);
   const handleCloseModal = () => dispatch(closeModal());
@@ -44,7 +42,6 @@ const Rename = () => {
 
       await updateChannel(data).unwrap();
       handleCloseModal();
-      dispatch(changeChannel({ id: channelId, name: channelName }));
       notify();
     } catch (error) {
       console.error(t('modals.error.rename'), error);
@@ -59,7 +56,7 @@ const Rename = () => {
   }, []);
 
   return (
-    <Modal show={isOpened} onHide={handleCloseModal}>
+    <Modal show onHide={handleCloseModal}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>

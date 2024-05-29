@@ -7,19 +7,24 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
-import socket from '../../socket';
+import SocketContext from '../../contexts/SocketContext';
 import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
+import { useContext } from 'react';
+import { toast } from 'react-toastify';
 
 const Messages = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { data: messages = [], refetch } = useGetMessagesQuery();
+  const notifyError = () => toast.error(t('toast.errorMessages'));
+  const { data: messages = [] } = useGetMessagesQuery();
   const username = useSelector((state) => state.app.username);
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filterMessages = messages.filter((message) => message.channelId === currentChannelId);
   const [addMessage] = useAddMessageMutation();
   const messageBox = useRef();
+  const socket = useContext(SocketContext);
+  // console.log(messages);
 
   useEffect(() => {
     if (messageBox.current) {
@@ -28,14 +33,22 @@ const Messages = () => {
   }, [filterMessages]);
 
   const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
-    const data = {};
-    const { message } = values;
-    data.message = filter.clean(message);
-    data.channelId = currentChannelId;
-    data.username = username;
-    await addMessage(data);
-    resetForm();
-    setSubmitting(false);
+    try {
+      const data = {
+        message: filter.clean(values.message),
+        channelId: currentChannelId,
+        username: username,
+      };
+      console.log('Sending message:', data); 
+      await addMessage(data);
+      resetForm();
+    } catch (error) {
+      console.error('Ошибка отправки сообщения:', error);
+      notifyError();
+    } finally {
+      setSubmitting(false);
+      messageBox.current.focus();
+    }
   };
 
   useEffect(() => {
@@ -48,7 +61,7 @@ const Messages = () => {
     return () => {
       socket.off('newMessage');
     };
-  }, [currentChannelId, messages, refetch, dispatch]);
+  }, [currentChannelId, messages, dispatch]);
 
   return (
     <Col className="p-0 h-100">

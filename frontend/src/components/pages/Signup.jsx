@@ -1,12 +1,10 @@
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import { Button, CardBody, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { setUserData } from '../../slices/appSlice';
 import { useSignupMutation } from '../../slices/authSlice';
 import ROUTES from '../../utils/router';
 import useAuth from '../../hooks/useAuth';
@@ -14,7 +12,6 @@ import useAuth from '../../hooks/useAuth';
 const Signup = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [signup] = useSignupMutation();
   const usernameRef = useRef(null);
   const auth = useAuth();
@@ -41,7 +38,6 @@ const Signup = () => {
     const { data, error } = await signup(user);
     if (data) {
       auth.logIn(data.token, nickname);
-      dispatch(setUserData({ nickname, token: data.token }));
       navigate(ROUTES.home);
     }
     if (error) {

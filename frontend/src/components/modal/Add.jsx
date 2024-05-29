@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   Modal, FormLabel, FormControl, Button,
 } from 'react-bootstrap';
@@ -16,11 +16,13 @@ import { useAddChannelMutation, useGetChannelsQuery } from '../../slices/channel
 const Add = () => {
   const { t } = useTranslation();
   const notify = () => toast.success(t('toast.success'));
+  const notifyErrorAdd = () => toast.success(t('modals.error.add'));
   const dispatch = useDispatch();
   const handleCloseModal = () => dispatch(closeModal());
   const { isOpened } = useSelector((state) => state.modal);
-  const { data: channels = [], refetch } = useGetChannelsQuery();
+  const { data: channels = [] } = useGetChannelsQuery();
   const [addChannel] = useAddChannelMutation();
+  const inputRef = useRef(null);
 
   const validationSchema = yup.object().shape({
     channelName: yup.string().trim()
@@ -34,20 +36,26 @@ const Add = () => {
     try {
       const cleanName = filter.clean(values.channelName);
       const newChannel = await addChannel({ name: cleanName }).unwrap();
-      refetch();
       resetForm();
       handleCloseModal();
       dispatch(changeChannel({ id: newChannel.id, name: newChannel.name }));
       notify();
     } catch (error) {
-      console.error(t('modals.error.add'), error);
+      notifyErrorAdd();
+      console.error(error);
     } finally {
       setSubmitting(false);
     }
   };
 
+  useEffect(() => {
+    if (isOpened) {
+      inputRef.current.focus();
+    }
+  }, [isOpened]);
+
   return (
-    <Modal show={isOpened} onHide={handleCloseModal}>
+    <Modal show onHide={handleCloseModal}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
@@ -70,6 +78,7 @@ const Add = () => {
                 onChange={handleChange}
                 isInvalid={touched.channelName && !!errors.channelName}
                 required
+                ref={inputRef}
               />
               <FormControl.Feedback type="invalid">{errors.channelName}</FormControl.Feedback>
               <div className="d-flex justify-content-end mt-2">

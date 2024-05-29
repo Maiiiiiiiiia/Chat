@@ -6,13 +6,16 @@ import { Provider as ReduxProvider } from 'react-redux';
 import resources from './locales';
 import App from './App';
 import store from './slices';
+import SocketContext from './contexts/SocketContext';
+import { io } from 'socket.io-client';
+import filter from 'leo-profanity';
 
 const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
   environment: 'production',
 };
 
-const Init = async () => {
+const init = async () => {
   const defaultLanguage = 'ru';
 
   const i18n = i18next.createInstance();
@@ -24,6 +27,10 @@ const Init = async () => {
       escapeValue: false,
     },
   });
+  filter.add(filter.getDictionary('ru'));
+
+  const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000';
+  const socket = io(URL);
 
   return (
     <RollbarProvider config={rollbarConfig}>
@@ -31,7 +38,9 @@ const Init = async () => {
         <React.StrictMode>
           <I18nextProvider i18n={i18n}>
             <ReduxProvider store={store}>
-              <App />
+              <SocketContext.Provider value={socket}>
+                <App />
+              </SocketContext.Provider>
             </ReduxProvider>
           </I18nextProvider>
         </React.StrictMode>
@@ -40,4 +49,4 @@ const Init = async () => {
   );
 };
 
-export default Init;
+export default init;

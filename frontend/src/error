@@ -1,0 +1,70 @@
+; https://github.com/Maiiiiiiiiia/frontend-project-12/tree/main/frontend/test-results 
+; эту папку можно удалить
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/index.js#L2 
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/Init.jsx#L15 
+; здесь инит не является компонентом, поэтому его название, импорт и файл нужно писать с маленькой буквы
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/main/frontend/src/App.js 
+; лучше сделать расширение jsx
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/App.js#L17 
+; лучше, если все компоненты, связанные с авторизацией, будут использовать хук useAuth и получать данные из него. 
+; Тогда при смене подхода достаточно будет внести изменения только в одном месте
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/App.js#L18 
+; /login лучше взять из константы - https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/App.js#L18
+
+https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/channels/Channels.jsx#L27-L29 
+экшен для модалок можно объединить в один
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/channels/Channels.jsx#L33 
+; это общий комментарий для всех подобных случаев - вместо refetch лучше использовать инвалидацию тегов - https://redux-toolkit.js.org/rtk-query/usage/automated-refetching
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/channels/Channels.jsx#L52 
+; при удалении канала нужно удалить связанные с ним сообщения
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/main/frontend/src/socket.js сокет также должен инициализироваться в init и пробрасываться через контекст
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/channels/Channels.jsx#L94 
+; здесь лучше проверять не по индексу, а по свойству removable
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/messages/Messages.jsx#L33-L35 
+; объект данных можно создавать сразу, без мутаций
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/messages/Messages.jsx#L9 
+; фильтр также нужно инициализировать в ините и добавить в него словари
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/messages/Messages.jsx#L36 
+; хорошо бы обработать ошибку отправки формы. Также после отправки нужно вернуть фокус в инпут
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/messages/Messages.jsx#L51 
+; refetch здесь лишняя зависимость
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/modal/RenderModal.jsx#L6-L7 
+; это можно объединить в одну строку const { typeModal, itemModal } = useSelector((state) => state.modal);
+
+https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/modal/Add.jsx#L20-L21 
+это можно вынести в родителя и прокидывать через пропсы, тогда уйдет дублирование кода
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/modal/Add.jsx#L43 
+; в случае ошибки лучше показать тост
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/modal/Add.jsx#L50 
+; здесь и в остальных модалках - show всегда будет true, потому что родитель должен проверять, показывать или нет модалку, и какую именно
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/modal/Add.jsx#L16 
+; при открытии модалки необходимо установить фокус в инпут
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/modal/Remove.jsx#L24 
+; при удалении мы должны сбрасывать текущий канал, только если он был выбран
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/modal/Rename.jsx#L47 
+; при переименовании нам не нужно переключать канал
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/pages/Login.jsx#L31 
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/components/pages/Signup.jsx#L44 
+; метод логина должен добавлять данные в хранилище
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/da345bfa6e475778a8ec070537f5734f32d89efe/frontend/src/authorizationHeader.js#L3 
+; если токена нет, то заголовок не нужно устанавливать

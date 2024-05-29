@@ -13,15 +13,17 @@ const Remove = () => {
   const notify = () => toast.success(t('toast.remove'));
   const notifyErrorDelete = () => toast.success(t('toast.errorDelete'));
   const dispatch = useDispatch();
-  const { isOpened } = useSelector((state) => state.modal);
   const [removeChannel] = useRemoveChannelMutation();
   const modalChannelId = useSelector((state) => state.app.modalChannelId);
   const handleCloseModal = () => dispatch(closeModal());
+  const currentChannelId = useSelector((state) => state.app.currentChannelId);
 
   const deleteChannel = async () => {
     try {
       await removeChannel(modalChannelId).unwrap();
-      dispatch(changeChannel({ id: '1', name: 'general' }));
+      if (currentChannelId === modalChannelId) {
+        dispatch(changeChannel({ id: '1', name: 'general' }));
+      }
       handleCloseModal();
       notify();
     } catch (error) {
@@ -31,7 +33,7 @@ const Remove = () => {
   };
 
   return (
-    <Modal show={isOpened}>
+    <Modal show>
       <Modal.Header closeButton onClick={handleCloseModal}>
         <Modal.Title>{t('modals.deleteChannel')}</Modal.Title>
       </Modal.Header>

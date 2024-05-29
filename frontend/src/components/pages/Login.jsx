@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import { Button, Form, CardBody } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import ROUTES from '../../utils/router';
 import { useLoginMutation } from '../../slices/authSlice';
-import { setUserData } from '../../slices/appSlice';
 import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
@@ -16,7 +14,6 @@ const Login = () => {
   const notifyErrorNetwork = () => toast.success(t('toast.errorNetwork'));
   const auth = useAuth();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [login] = useLoginMutation();
 
   const handleFormSubmit = async (values, { setErrors }) => {
@@ -28,7 +25,6 @@ const Login = () => {
     const { data, error } = await login(user);
     if (data) {
       auth.logIn(data.token, nickname);
-      dispatch(setUserData({ nickname, token: data.token }));
       navigate(ROUTES.home);
     } if (error) {
       switch (error.status) {

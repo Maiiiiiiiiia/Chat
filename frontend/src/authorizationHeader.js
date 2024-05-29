@@ -1,6 +1,8 @@
 const getAuthHeader = (headers) => {
   const token = localStorage.getItem('token');
-  headers.set('Authorization', `Bearer ${token}`);
+  if(token) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
   return headers;
 };
 

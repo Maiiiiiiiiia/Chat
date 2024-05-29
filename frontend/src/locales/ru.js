@@ -82,6 +82,7 @@ export default {
       errorNetwork: 'Ошибка соединения',
       errorDelete: 'Ошибка при удалении канала!',
       errorRename: 'Ошибка при переименовании канала!',
+      errorMessages: 'Ошибка при отправки сообщения!',
     },
   },
 };

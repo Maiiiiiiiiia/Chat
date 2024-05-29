@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useSelector } from 'react-redux';
 import { Navbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AuthContext from '../contexts/AuthContext';
 import ROUTES from '../utils/router';
+import useAuth from '../hooks/useAuth';
 
 const AuthButton = () => {
   const { t } = useTranslation();
-  const app = useSelector((state) => state.app);
+  const auth = useAuth();
   const { logOut } = useContext(AuthContext);
 
   return (
@@ -18,7 +18,7 @@ const AuthButton = () => {
         <Navbar.Brand>
           <Link className="text-decoration-none text-black" to={ROUTES.home}>{t('authProvider.mainHeader')}</Link>
         </Navbar.Brand>
-        {app.token
+        {auth.loggedIn
           ? <Button onClick={logOut}>{t('authProvider.goOut')}</Button>
           : null}
       </div>
