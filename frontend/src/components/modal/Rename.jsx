@@ -3,33 +3,20 @@ import React, { useRef, useEffect } from 'react';
 import {
   Button, Form, FormControl, Modal, FormLabel,
 } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
-import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import { closeModal } from '../../slices/modalSlice';
-import { useUpdateChannelMutation, useGetChannelsQuery } from '../../slices/channelsSlice';
+import { useUpdateChannelMutation } from '../../slices/channelsSlice';
 
-const Rename = () => {
-  const { t } = useTranslation();
+const Rename = (props) => {
+
+  const { handleCloseModal, validationSchema, t } = props;
   const notify = () => toast.success(t('toast.rename'));
   const notifyErrorRename = () => toast.success(t('toast.errorRename'));
-  const dispatch = useDispatch();
   const [updateChannel] = useUpdateChannelMutation();
-  const { data: channels = [] } = useGetChannelsQuery(); // allChannels
   const modalChannelId = useSelector((state) => state.app.modalChannelId);
   const modalChannelName = useSelector((state) => state.app.modalChannelName);
-  const handleCloseModal = () => dispatch(closeModal());
   const nameChannel = useRef();
-
-  const validationSchema = yup.object().shape({
-    channelName: yup.string().trim()
-      .min(3, t('modals.numberCharacters'))
-      .max(20, t('modals.numberCharacters'))
-      .required(t('modals.obligatoryField'))
-      .notOneOf(channels.map((channel) => channel.name), t('modals.mustUnique')),
-  });
 
   const onSubmit = async (values) => {
     try {

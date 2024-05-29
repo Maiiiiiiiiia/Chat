@@ -2,35 +2,22 @@ import React, { useRef, useEffect } from 'react';
 import {
   Modal, FormLabel, FormControl, Button,
 } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
-import * as yup from 'yup';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as filter from 'leo-profanity';
 import { changeChannel } from '../../slices/appSlice';
-import { closeModal } from '../../slices/modalSlice';
-import { useAddChannelMutation, useGetChannelsQuery } from '../../slices/channelsSlice';
+import { useAddChannelMutation } from '../../slices/channelsSlice';
 
-const Add = () => {
-  const { t } = useTranslation();
+const Add = (props) => {
+
+  const { handleCloseModal, validationSchema, dispatch, t } = props;
   const notify = () => toast.success(t('toast.success'));
   const notifyErrorAdd = () => toast.success(t('modals.error.add'));
-  const dispatch = useDispatch();
-  const handleCloseModal = () => dispatch(closeModal());
   const { isOpened } = useSelector((state) => state.modal);
-  const { data: channels = [] } = useGetChannelsQuery();
   const [addChannel] = useAddChannelMutation();
   const inputRef = useRef(null);
-
-  const validationSchema = yup.object().shape({
-    channelName: yup.string().trim()
-      .min(3, t('modals.numberCharacters'))
-      .max(20, t('modals.numberCharacters'))
-      .required(t('modals.obligatoryField'))
-      .notOneOf(channels.map((channel) => channel.name), t('modals.mustUnique')),
-  });
 
   const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
     try {

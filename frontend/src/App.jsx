@@ -12,11 +12,10 @@ import Signup from './components/pages/Signup';
 import AuthButton from './components/AuthButton';
 import AuthProvider from './components/AuthProvider';
 import useAuth from './hooks/useAuth';
-import ROUTER from './utils/router';
 
 const PrivateRoute = ({ element }) => {
   const auth = useAuth();
-  return auth.loggedIn ? element : <Navigate to={ROUTER.login} />;
+  return auth.loggedIn ? element : <Navigate to={ROUTES.login} />;
 };
 
 /* eslint-disable react/prop-types */

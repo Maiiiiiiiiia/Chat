@@ -3,12 +3,12 @@ import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider as ReduxProvider } from 'react-redux';
+import filter from 'leo-profanity';
+import { io } from 'socket.io-client';
 import resources from './locales';
 import App from './App';
 import store from './slices';
 import SocketContext from './contexts/SocketContext';
-import { io } from 'socket.io-client';
-import filter from 'leo-profanity';
 
 const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
@@ -16,7 +16,6 @@ const rollbarConfig = {
 };
 
 const init = async () => {
-
   const defaultLanguage = 'ru';
 
   const i18n = i18next.createInstance();

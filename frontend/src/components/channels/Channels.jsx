@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
@@ -9,9 +9,6 @@ import { changeChannel, setChannelModal } from '../../slices/appSlice';
 import { showModal } from '../../slices/modalSlice';
 import RenderModal from '../modal/RenderModal';
 import SocketContext from '../../contexts/SocketContext';
-import { useContext } from 'react';
-// import { useGetMessagesQuery } from '../../slices/messagesSlice';
-// import { useRemoveMessageMutation } from '../../slices/messagesSlice';
 import { messagesApi } from '../../slices/messagesSlice';
 
 const Channels = () => {
@@ -20,8 +17,6 @@ const Channels = () => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const socket = useContext(SocketContext);
-  // const [removeMessage] = useRemoveMessageMutation();
-  // const { data: messages = [] } = useGetMessagesQuery();
 
   const switchChannel = ({ id, name }) => {
     if (id !== currentChannelId) {

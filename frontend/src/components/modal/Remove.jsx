@@ -1,21 +1,18 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import { closeModal } from '../../slices/modalSlice';
 import { useRemoveChannelMutation } from '../../slices/channelsSlice';
 import { changeChannel } from '../../slices/appSlice';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Remove = () => {
-  const { t } = useTranslation();
+const Remove = (props) => {
+
+  const { handleCloseModal, dispatch, t } = props;
   const notify = () => toast.success(t('toast.remove'));
   const notifyErrorDelete = () => toast.success(t('toast.errorDelete'));
-  const dispatch = useDispatch();
   const [removeChannel] = useRemoveChannelMutation();
   const modalChannelId = useSelector((state) => state.app.modalChannelId);
-  const handleCloseModal = () => dispatch(closeModal());
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
 
   const deleteChannel = async () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Col from 'react-bootstrap/esm/Col';
 import { Send } from 'react-bootstrap-icons';
@@ -7,10 +7,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
+import { toast } from 'react-toastify';
 import SocketContext from '../../contexts/SocketContext';
 import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
-import { useContext } from 'react';
-import { toast } from 'react-toastify';
 
 const Messages = () => {
   const { t } = useTranslation();
@@ -37,7 +36,7 @@ const Messages = () => {
       const data = {
         message: filter.clean(values.message),
         channelId: currentChannelId,
-        username: username,
+        username,
       };
       await addMessage(data);
       resetForm();
@@ -60,7 +59,7 @@ const Messages = () => {
     return () => {
       socket.off('newMessage');
     };
-  }, [currentChannelId, messages, dispatch]);
+  }, [currentChannelId, messages, dispatch, socket]);
 
   return (
     <Col className="p-0 h-100">
