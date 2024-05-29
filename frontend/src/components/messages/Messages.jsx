@@ -24,7 +24,7 @@ const Messages = () => {
   const [addMessage] = useAddMessageMutation();
   const messageBox = useRef();
   const socket = useContext(SocketContext);
-  // console.log(messages);
+  console.log(messages);
 
   useEffect(() => {
     if (messageBox.current) {
@@ -39,7 +39,6 @@ const Messages = () => {
         channelId: currentChannelId,
         username: username,
       };
-      console.log('Sending message:', data); 
       await addMessage(data);
       resetForm();
     } catch (error) {

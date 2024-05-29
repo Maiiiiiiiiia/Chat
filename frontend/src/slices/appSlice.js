@@ -21,7 +21,7 @@ const appSlice = createSlice({
     },
     setUserData: (state, action) => {
       state.token = action.payload.token;
-      state.username = action.payload.nickname;
+      state.username = action.payload.username;
     },
     setChannelModal: (state, action) => {
       state.modalChannelId = action.payload.id;

@@ -7,12 +7,11 @@ const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const dispatch = useDispatch();
 
-  const logIn = useCallback((token, nickname) => {
+  const logIn = useCallback((token, username) => {
     localStorage.setItem('token', token);
-    localStorage.setItem('nickname', nickname);
-    dispatch(setUserData({ username: nickname, token }));
+    localStorage.setItem('nickname', username);
+    dispatch(setUserData({ username, token }));
     setLoggedIn(true);
-    console.log(nickname, 'logIn');
   }, [dispatch]);
 
   const logOut = useCallback(() => {

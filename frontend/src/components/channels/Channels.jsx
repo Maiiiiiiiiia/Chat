@@ -10,8 +10,9 @@ import { showModal } from '../../slices/modalSlice';
 import RenderModal from '../modal/RenderModal';
 import SocketContext from '../../contexts/SocketContext';
 import { useContext } from 'react';
-import { useGetMessagesQuery } from '../../slices/messagesSlice';
-import { useRemoveMessageMutation } from '../../slices/messagesSlice';
+// import { useGetMessagesQuery } from '../../slices/messagesSlice';
+// import { useRemoveMessageMutation } from '../../slices/messagesSlice';
+import { messagesApi } from '../../slices/messagesSlice';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -19,8 +20,8 @@ const Channels = () => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const socket = useContext(SocketContext);
-  const [removeMessage] = useRemoveMessageMutation();
-  const { data: messages = [] } = useGetMessagesQuery();
+  // const [removeMessage] = useRemoveMessageMutation();
+  // const { data: messages = [] } = useGetMessagesQuery();
 
   const switchChannel = ({ id, name }) => {
     if (id !== currentChannelId) {
@@ -57,14 +58,11 @@ const Channels = () => {
         undefined,
         (draft) => draft.filter((ch) => ch.id !== payload.id),
       ));
-
-      const channelMessages = messages.filter((message) => message.channelId === payload.id);
-      console.log(`Removing messages for channel ${payload.id}:`, channelMessages);
-      
-      for (const message of channelMessages) {
-        console.log(`Removing message with id ${message.id}`);
-        await removeMessage(message.id).unwrap();
-      }
+      dispatch(messagesApi.util.updateQueryData(
+        'getMessages',
+        undefined,
+        (draft) => draft.filter((message) => message.channelId !== payload.id),
+      ));
     });
 
     return () => {
@@ -72,7 +70,7 @@ const Channels = () => {
       socket.off('newChannel');
       socket.off('removeChannel');
     };
-  }, [dispatch, messages, removeMessage, socket]);
+  }, [dispatch, socket]);
 
   return (
     <>
