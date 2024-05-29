@@ -11,7 +11,9 @@ import { changeChannel } from '../../slices/appSlice';
 import { useAddChannelMutation } from '../../slices/channelsSlice';
 
 const Add = (props) => {
-  const { handleCloseModal, validationSchema, dispatch, t } = props;
+  const {
+    handleCloseModal, validationSchema, dispatch, t
+  } = props;
   const notify = () => toast.success(t('toast.success'));
   const notifyErrorAdd = () => toast.success(t('modals.error.add'));
   const { isOpened } = useSelector((state) => state.modal);
