@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import getModal from './index';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import getModal from './index';
 import { useGetChannelsQuery } from '../../slices/channelsSlice';
 import { closeModal } from '../../slices/modalSlice';
 
@@ -29,7 +29,15 @@ const RenderModal = () => {
   });
 
   const Component = getModal(typeModal);
-  return <Component item={itemModal} handleCloseModal={handleCloseModal} validationSchema={validationSchema} t={t} dispatch={dispatch}/>;
+  return (
+    <Component
+      item={itemModal}
+      handleCloseModal={handleCloseModal}
+      validationSchema={validationSchema}
+      t={t}
+      dispatch={dispatch}
+    />
+  );
 };
 
 export default RenderModal;

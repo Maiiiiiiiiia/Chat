@@ -9,7 +9,6 @@ import { toast } from 'react-toastify';
 import { useUpdateChannelMutation } from '../../slices/channelsSlice';
 
 const Rename = (props) => {
-
   const { handleCloseModal, validationSchema, t } = props;
   const notify = () => toast.success(t('toast.rename'));
   const notifyErrorRename = () => toast.success(t('toast.errorRename'));

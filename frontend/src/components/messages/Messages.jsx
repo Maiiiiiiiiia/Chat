@@ -23,7 +23,6 @@ const Messages = () => {
   const [addMessage] = useAddMessageMutation();
   const messageBox = useRef();
   const socket = useContext(SocketContext);
-  console.log(messages);
 
   useEffect(() => {
     if (messageBox.current) {

@@ -7,7 +7,6 @@ import { changeChannel } from '../../slices/appSlice';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Remove = (props) => {
-
   const { handleCloseModal, dispatch, t } = props;
   const notify = () => toast.success(t('toast.remove'));
   const notifyErrorDelete = () => toast.success(t('toast.errorDelete'));
