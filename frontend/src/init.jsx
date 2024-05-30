@@ -28,6 +28,7 @@ const init = async () => {
     },
   });
   filter.add(filter.getDictionary('ru'));
+  filter.add(filter.getDictionary('en'));
 
   const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000';
   const socket = io(URL);

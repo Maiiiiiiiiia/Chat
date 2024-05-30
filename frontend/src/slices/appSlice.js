@@ -5,7 +5,7 @@ const initialState = {
   token: localStorage.getItem('token') ?? null,
   username: '',
   currentChannelId: '1',
-  currentChannelName: '',
+  currentChannelName: 'general',
 };
 
 const appSlice = createSlice({

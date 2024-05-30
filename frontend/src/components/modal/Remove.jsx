@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useRemoveChannelMutation } from '../../slices/channelsSlice';
+import { useRemoveChannelMutation, useGetChannelsQuery } from '../../slices/channelsSlice';
 import { changeChannel } from '../../slices/appSlice';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,14 +11,16 @@ const Remove = (props) => {
   const notify = () => toast.success(t('toast.remove'));
   const notifyErrorDelete = () => toast.success(t('toast.errorDelete'));
   const [removeChannel] = useRemoveChannelMutation();
-  const modalChannelId = useSelector((state) => state.app.modalChannelId);
+  const modalChannelId = useSelector((state) => state.modal.modalChannelId);
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
+  const { data: channels = [] } = useGetChannelsQuery();
+  const firstChannel = channels[0];
 
   const deleteChannel = async () => {
     try {
       await removeChannel(modalChannelId).unwrap();
       if (currentChannelId === modalChannelId) {
-        dispatch(changeChannel({ id: '1', name: '' }));
+        dispatch(changeChannel({ id: '1', name: firstChannel.name }));
       }
       handleCloseModal();
       notify();

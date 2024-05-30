@@ -6,7 +6,7 @@ const initialState = {
   item: null,
   isOpened: false,
   modalChannelId: '',
-  modalChannelName: '',
+  modalChannelName: 'general',
 };
 
 const modalSlice = createSlice({
@@ -24,6 +24,8 @@ const modalSlice = createSlice({
       state.type = null;
       state.item = null;
       state.isOpened = false;
+      state.modalChannelId = '';
+      state.modalChannelName = '';
     },
   },
 });

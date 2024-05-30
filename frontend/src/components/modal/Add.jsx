@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import * as filter from 'leo-profanity';
+import filter from 'leo-profanity'
 import { changeChannel } from '../../slices/appSlice';
 import { useAddChannelMutation } from '../../slices/channelsSlice';
 

@@ -25,10 +25,8 @@ const Channels = () => {
   };
 
   const setShowModal = (type, item = null) => {
-    if (type === 'renaming' || type === 'removing') {
-      dispatch(showModal({ type, id: item.id, name: item.name }));
-    }
-  };
+    dispatch(showModal({ type, id: item?.id, name: item?.name }));
+};
 
   useEffect(() => {
     socket.on('renameChannel', (payload) => {

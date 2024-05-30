@@ -6,15 +6,13 @@ import { Button, Form } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import * as filter from 'leo-profanity';
-// import { toast } from 'react-toastify';
+import filter from 'leo-profanity'
 import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
 import useSocket from '../../hooks/useSocket';
 
 const Messages = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  // const notifyError = () => toast.error(t('toast.errorMessages'));
   const { data: messages = [] } = useGetMessagesQuery();
   const username = useSelector((state) => state.app.username);
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
@@ -41,7 +39,6 @@ const Messages = () => {
     setSubmitting(false);
     messageBox.current.focus();
   };
-
 
   useEffect(() => {
     socket.on('newMessage', (newMessage) => {

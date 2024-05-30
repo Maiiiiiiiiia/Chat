@@ -6,22 +6,23 @@ import {
 import { useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import { useUpdateChannelMutation } from '../../slices/channelsSlice';
 
 const Rename = (props) => {
   const { handleCloseModal, validationSchema, t } = props;
   const notify = () => toast.success(t('toast.rename'));
-  const notifyErrorRename = () => toast.success(t('toast.errorRename'));
+  const notifyErrorRename = () => toast.error(t('toast.errorRename'));
   const [updateChannel] = useUpdateChannelMutation();
-  const modalChannelId = useSelector((state) => state.app.modalChannelId);
-  const modalChannelName = useSelector((state) => state.app.modalChannelName);
+  const modalChannelId = useSelector((state) => state.modal.modalChannelId);
+  const modalChannelName = useSelector((state) => state.modal.modalChannelName);
   const nameChannel = useRef();
 
   const onSubmit = async (values) => {
     try {
       const { channelName, channelId } = values;
       const data = {
-        name: channelName,
+        name: filter.clean(channelName),
         removable: true,
         id: channelId,
       };
