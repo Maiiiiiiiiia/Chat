@@ -18,7 +18,6 @@ const PrivateRoute = ({ element }) => {
   return auth.loggedIn ? element : <Navigate to={ROUTES.login} />;
 };
 
-/* eslint-disable react/prop-types */
 const App = () => (
   <BrowserRouter>
     <AuthProvider>

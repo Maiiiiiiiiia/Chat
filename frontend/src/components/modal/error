@@ -1,0 +1,20 @@
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/15b1c1687ba167daa8f95306af465d6df896455a/frontend/src/App.jsx#L21 
+; это правило можно отключить на уровне конфига линтера
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/15b1c1687ba167daa8f95306af465d6df896455a/frontend/src/components/channels/Channels.jsx#L19 
+; чтобы не импортировать контекст, можно также сделать хук, из которого получать нужные данные
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/15b1c1687ba167daa8f95306af465d6df896455a/frontend/src/components/channels/Channels.jsx#L29 
+; это одна и та же модалка, поэтому лучше объединить оба экшена в один. Просто не все данные будут обязательными
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/15b1c1687ba167daa8f95306af465d6df896455a/frontend/src/components/messages/Messages.jsx#L40 
+; для обработки ошибки нужно либо использовать unwrap, либо добавить эффект, который будет ее отслеживать
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/15b1c1687ba167daa8f95306af465d6df896455a/frontend/src/components/messages/Messages.jsx#L61 
+; лишние зависимости в эффекте
+
+https://github.com/Maiiiiiiiiia/frontend-project-12/blob/15b1c1687ba167daa8f95306af465d6df896455a/frontend/src/components/modal/Remove.jsx#L21 
+у дефолтного канала необязательно будет имя general
+
+; https://github.com/Maiiiiiiiiia/frontend-project-12/blob/15b1c1687ba167daa8f95306af465d6df896455a/frontend/src/components/modal/RenderModal.jsx#L16 
+; так и будет ошибка, таких свойств нет. При деструктуризации их надо переименовать - const { type: typeModal, item: itemModal } = useSelector((state) => state.modal)

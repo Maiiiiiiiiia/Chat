@@ -18,7 +18,7 @@ const Remove = (props) => {
     try {
       await removeChannel(modalChannelId).unwrap();
       if (currentChannelId === modalChannelId) {
-        dispatch(changeChannel({ id: '1', name: 'general' }));
+        dispatch(changeChannel({ id: '1', name: '' }));
       }
       handleCloseModal();
       notify();

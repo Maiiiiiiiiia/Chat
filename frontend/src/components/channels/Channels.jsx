@@ -1,22 +1,22 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
 import Col from 'react-bootstrap/Col';
 import { useGetChannelsQuery, channelsApi } from '../../slices/channelsSlice';
-import { changeChannel, setChannelModal } from '../../slices/appSlice';
+import { changeChannel } from '../../slices/appSlice';
 import { showModal } from '../../slices/modalSlice';
 import RenderModal from '../modal/RenderModal';
-import SocketContext from '../../contexts/SocketContext';
 import { messagesApi } from '../../slices/messagesSlice';
+import useSocket from '../../hooks/useSocket';
 
 const Channels = () => {
   const { t } = useTranslation();
   const { data: channels = [] } = useGetChannelsQuery();
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
 
   const switchChannel = ({ id, name }) => {
     if (id !== currentChannelId) {
@@ -26,9 +26,8 @@ const Channels = () => {
 
   const setShowModal = (type, item = null) => {
     if (type === 'renaming' || type === 'removing') {
-      dispatch(setChannelModal({ id: item.id, name: item.name }));
+      dispatch(showModal({ type, id: item.id, name: item.name }));
     }
-    dispatch(showModal({ type }));
   };
 
   useEffect(() => {

@@ -5,9 +5,7 @@ const initialState = {
   token: localStorage.getItem('token') ?? null,
   username: '',
   currentChannelId: '1',
-  currentChannelName: 'general',
-  modalChannelId: '',
-  modalChannelName: '',
+  currentChannelName: '',
 };
 
 const appSlice = createSlice({
@@ -23,12 +21,8 @@ const appSlice = createSlice({
       state.token = action.payload.token;
       state.username = action.payload.username;
     },
-    setChannelModal: (state, action) => {
-      state.modalChannelId = action.payload.id;
-      state.modalChannelName = action.payload.name;
-    },
   },
 });
 
-export const { changeChannel, setUserData, setChannelModal } = appSlice.actions;
+export const { changeChannel, setUserData } = appSlice.actions;
 export default appSlice.reducer;

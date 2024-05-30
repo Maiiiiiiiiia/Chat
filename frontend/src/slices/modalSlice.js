@@ -5,6 +5,8 @@ const initialState = {
   type: null,
   item: null,
   isOpened: false,
+  modalChannelId: '',
+  modalChannelName: '',
 };
 
 const modalSlice = createSlice({
@@ -15,6 +17,8 @@ const modalSlice = createSlice({
       state.type = action.payload.type;
       state.item = action.payload.item;
       state.isOpened = true;
+      state.modalChannelId = action.payload.id;
+      state.modalChannelName = action.payload.name;
     },
     closeModal: (state) => {
       state.type = null;

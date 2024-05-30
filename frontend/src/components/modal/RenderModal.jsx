@@ -10,10 +10,7 @@ const RenderModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data: channels = [] } = useGetChannelsQuery();
-
-  const typeModal = useSelector((state) => state.modal.type);
-  const itemModal = useSelector((state) => state.modal.item);
-  // const { typeModal, itemModal } = useSelector((state) => state.modal); // <---- так ошибка
+  const { type: typeModal, item: itemModal } = useSelector((state) => state.modal)
 
   if (typeModal === null) {
     return null;
