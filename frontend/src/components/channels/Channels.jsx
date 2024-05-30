@@ -26,7 +26,7 @@ const Channels = () => {
 
   const setShowModal = (type, item = null) => {
     dispatch(showModal({ type, id: item?.id, name: item?.name }));
-};
+  };
 
   useEffect(() => {
     socket.on('renameChannel', (payload) => {

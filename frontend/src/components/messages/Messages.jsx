@@ -6,7 +6,7 @@ import { Button, Form } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import filter from 'leo-profanity'
+import filter from 'leo-profanity';
 import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../../slices/messagesSlice';
 import useSocket from '../../hooks/useSocket';
 
@@ -50,7 +50,7 @@ const Messages = () => {
     return () => {
       socket.off('newMessage');
     };
-  }, [currentChannelId, socket]);
+  }, [currentChannelId, socket, dispatch]);
 
   return (
     <Col className="p-0 h-100">
